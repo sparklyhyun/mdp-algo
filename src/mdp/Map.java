@@ -8,7 +8,6 @@ public class Map {
 	private final ArrayList<Coordinates> fullMap = new ArrayList<Coordinates>();
 	
 	public Map(){
-		
 		//initialize map
 		for(int i=1; i<= Constants.MAX_X; i++){
 			for(int j=1; j<=Constants.MAX_Y; j++ ){
@@ -16,5 +15,9 @@ public class Map {
 			fullMap.add(coordinates);
 			}
 		}
+	}
+	
+	public void setObstacles(){
+		
 	}
 }
