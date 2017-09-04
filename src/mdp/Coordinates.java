@@ -3,8 +3,8 @@ package mdp;
 public class Coordinates {
 	private final int x;
 	private final int y;
-	private boolean isObstacle;
-	private boolean isExplored;
+	private boolean isObstacle = false;
+	private boolean isExplored = false;
 	
 	public Coordinates(int x, int y){
 		this.x = x;
@@ -19,12 +19,20 @@ public class Coordinates {
 		return y;
 	}
 	
-	public void setObstacle(){
+	public void setObstacleTrue(){
 		isObstacle = true;
 	}
 	
-	public void setExplored(){
+	public void setExploredTrue(){
 		isExplored = true;
+	}
+	
+	public boolean getIsObstacle(){
+		return isObstacle;
+	}
+	
+	public boolean getIsExplored(){
+		return isExplored;
 	}
 		
 	
