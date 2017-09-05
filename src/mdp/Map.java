@@ -1,8 +1,6 @@
 package mdp;
 
-import mdp.Coordinates;
-import mdp.Constants;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Map {
 	private final ArrayList<Coordinates> fullMap = new ArrayList<Coordinates>();
@@ -20,4 +18,17 @@ public class Map {
 	public void setObstacles(){
 		
 	}
+	
+	public void generateMapDescriptor(){
+		final Formatter x;
+		
+		try{
+			x = new Formatter("testMap.txt");
+			//System.out.println("file created");
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
 }
