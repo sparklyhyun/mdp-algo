@@ -19,16 +19,6 @@ public class Map {
 		
 	}
 	
-	public void generateMapDescriptor(){
-		final Formatter x;
-		
-		try{
-			x = new Formatter("testMap.txt");
-			//System.out.println("file created");
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		
-	}
+	
 	
 }
