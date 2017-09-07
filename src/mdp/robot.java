@@ -7,5 +7,7 @@ public class robot {
 	int goalPos[] = Constants.GOAL;
 	int currPos[];
 	
+	int gn;
+	int hn;
 			
 }
