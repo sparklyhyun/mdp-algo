@@ -21,15 +21,12 @@ public class Map {
 	
 	public void setObstacles(){
 		//for now test
-
 		fullMap.get(38).setObstacleTrue();
-
 		fullMap.get(7).setObstacleTrue();
 		
 	}
 	
 	public void setVirtualWall(){
-<<<<<<< HEAD
 		//set boundary virtual wall
 		
 		for(int i = 0; i < fullMap.size(); i++){
@@ -40,16 +37,12 @@ public class Map {
 				fullMap.get(i).setVirtualWallTrue();
 					}
 		}
-}
-=======
+
 		//outer wall
 		for(int i = 0; i<fullMap.size(); i++){
 			if( fullMap.get(i).getX()<Constants.MAX_X && fullMap.get(i).getY() == 0){
-				fullMap.get(i).setIsVirtualWall();
+				fullMap.get(i).setVirtualWallTrue();
 			}
-			
-		
-			
 		
 		}
 	}
@@ -58,7 +51,5 @@ public class Map {
 		
 	}
 	
-	
-	
->>>>>>> origin/master
+
 }

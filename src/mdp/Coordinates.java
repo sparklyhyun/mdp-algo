@@ -27,12 +27,8 @@ public class Coordinates {
 	public void setExploredTrue(){
 		isExplored = true;
 	}
-	
-<<<<<<< HEAD
+
 	public void setVirtualWallTrue(){
-=======
-	public void setIsVirtualWall(){
->>>>>>> origin/master
 		isVirtualWall = true;
 	}
 	

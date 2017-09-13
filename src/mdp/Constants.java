@@ -7,12 +7,10 @@ public class Constants {
 	
 	public static final int ROBOT_WIDTH = 3;
 	public static final int ROBOT_SIZE = 9;
-<<<<<<< HEAD
+
 	public int[] START = {1,12}; //needs to change
 	public static final int[] GOAL = {14, 19};
-=======
-	public static final int[] START = {2,2};
-	public static final int[] GOAL = {2,2};
+
 	
->>>>>>> origin/master
+
 }
