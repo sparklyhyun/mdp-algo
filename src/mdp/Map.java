@@ -1,6 +1,8 @@
 package mdp;
 
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
 
 public class Map {
 	private final ArrayList<Coordinates> fullMap = new ArrayList<Coordinates>();
