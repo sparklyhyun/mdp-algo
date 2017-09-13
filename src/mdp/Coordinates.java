@@ -20,15 +20,15 @@ public class Coordinates {
 		return y;
 	}
 	
-	public void setObstacleTrue(){
+	public void setObstacle(){
 		isObstacle = true;
 	}
 	
-	public void setExploredTrue(){
+	public void setExplored(){
 		isExplored = true;
 	}
 
-	public void setVirtualWallTrue(){
+	public void setIsVirtualWall(){
 		isVirtualWall = true;
 	}
 	
@@ -43,6 +43,10 @@ public class Coordinates {
 	public boolean getIsVirtualWall(){
 		return isVirtualWall;
 	}
+
+
+
+
 		
 	
 }

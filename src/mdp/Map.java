@@ -56,7 +56,7 @@ public class Map extends JPanel{
 		for(int i=0; i < Constants.MAX_X; i++){
 			for(int j=0; j<Constants.MAX_Y; j++){
 				if(i==0 || j==0 || i==Constants.MAX_X-1|| j==Constants.MAX_Y-1){
-					coordinates[i][j].setVirtualWall();
+					coordinates[i][j].setIsVirtualWall();
 				}
 				
 			}
