@@ -1,10 +1,8 @@
 package mdp;
 
 import java.util.*;
-//import javax.swing.*;
+import javax.swing.*;
 import java.awt.*;
-//test
-
 
 public class Map extends JPanel{
 	//private final ArrayList<Coordinates> fullMap = new ArrayList<Coordinates>();

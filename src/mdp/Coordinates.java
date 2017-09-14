@@ -1,7 +1,5 @@
 package mdp;
-//test what
 
-import java.util.*;
 public class Coordinates {
 	private final int x;
 	private final int y;
