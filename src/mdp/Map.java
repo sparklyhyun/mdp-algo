@@ -91,14 +91,46 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void readMapDesc(){	//read text file 
-		//Scanner s = new Scanner(new File("testMap.txt"));
-		Scanner s;
+	public void readMapDesc(Coordinates[][] coordinates) throws IOException{	//read text file & put in coordinates array	
+		FileInputStream f = null; 
+		InputStreamReader isr = null;
+		int i;
+		int x = 0;	//x coordinate of map
+		int y = 0;	//y coordinate of map
+
 		
 		try{
+			f = new FileInputStream("testMap.txt");
+			isr = new InputStreamReader(f);
 			
+			//read till end of the file
+			while((i = isr.read())!= -1){
+				if(i == 1){
+					coordinates[x][y].setObstacle();
+				}
+				if(x<=Constants.MAX_X-1){
+					x++;
+				}
+				else{
+					x = 0;
+				}
+				if(y<=Constants.MAX_Y-1){
+					y++;
+				}
+				else{
+					break;
+				}
+			}
 		}catch(Exception e){
 			e.printStackTrace();
+		}finally{
+			if(f != null){
+				f.close();
+			}
+			if(isr != null){
+				isr.close();
+			}
+
 		}
 		
 	}
