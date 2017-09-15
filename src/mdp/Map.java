@@ -23,7 +23,6 @@ public class Map extends JPanel{
 		for(int i = 0; i<Constants.MAX_X; i++){
 			for(int j = 0; j<Constants.MAX_Y; j++){
 				coordinates[i][j] = new Coordinates(i,j);
-				//setObstacles();
 				setBoundary();
 			}
 		}
@@ -37,39 +36,53 @@ public class Map extends JPanel{
 		//set obstacle
 		coordinates[x][y].setObstacle();
 		
+		//check if within range
+		boolean withinX = false;
+		boolean withinY = false;
+		
+		if(x>=1 && x<=Constants.MAX_X-1){
+			withinX = true;
+		}
+		if(y>=1 && y<=Constants.MAX_Y-1){
+			withinY = true;
+		}
+		
+		
 		//set virtual wall around obstacle
 		
 		//middle row
-			if(!coordinates[x-1][y].getIsVirtualWall()){ //left
+		if(withinX){
+			if(!(coordinates[x-1][y].getIsVirtualWall() && coordinates[x-1][y].getIsObstacle())){ //left
 				coordinates[x-1][y].setIsVirtualWall();
 				}
-			if(!coordinates[x+1][y].getIsVirtualWall()){ //right
+			if(!(coordinates[x+1][y].getIsVirtualWall()&& coordinates[x+1][y].getIsObstacle())){ //right
 				coordinates[x+1][y].setIsVirtualWall();
 			}			
+		}
 		
 		//top row
-			if(!coordinates[x-1][y+1].getIsVirtualWall()){ //left
+		if(withinX && withinY){
+			if(!(coordinates[x-1][y+1].getIsVirtualWall()&& coordinates[x-1][y+1].getIsObstacle())){ //left
 				coordinates[x-1][y+1].setIsVirtualWall();
 			}
-			if(!coordinates[x][y+1].getIsVirtualWall()){ //middle
+			if(!(coordinates[x][y+1].getIsVirtualWall()&& coordinates[x][y+1].getIsObstacle())){ //middle
 				coordinates[x][y+1].setIsVirtualWall();
 			}
-			if(!coordinates[x+1][y+1].getIsVirtualWall()){ //right
+			if(!(coordinates[x+1][y+1].getIsVirtualWall()&& coordinates[x+1][y+1].getIsObstacle())){ //right
 				coordinates[x+1][y+1].setIsVirtualWall();
 			}
 			
 		//bottom row
-		if(!coordinates[x-1][y-1].getIsVirtualWall()){	//left
-			coordinates[x-1][y-1].setIsVirtualWall();
+			if(!(coordinates[x-1][y-1].getIsVirtualWall()&& coordinates[x-1][y-1].getIsObstacle())){	//left
+				coordinates[x-1][y-1].setIsVirtualWall();
+			}
+			if(!(coordinates[x][y-1].getIsVirtualWall()&& coordinates[x][y-1].getIsObstacle())){	//middle
+				coordinates[x][y-1].setIsVirtualWall();
+			}
+			if(!(coordinates[x+1][y-1].getIsVirtualWall()&& coordinates[x-1][y-1].getIsObstacle())){	//bottom
+				coordinates[x+1][y-1].setIsVirtualWall();
+			}
 		}
-		if(!coordinates[x][y-1].getIsVirtualWall()){	//middle
-			coordinates[x][y-1].setIsVirtualWall();
-		}
-		if(!coordinates[x+1][y-1].getIsVirtualWall()){	//bottom
-			coordinates[x+1][y-1].setIsVirtualWall();
-		}
-		
-		
 	}
 	
 	public void setBoundary(){
