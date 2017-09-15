@@ -92,12 +92,36 @@ public class Map extends JPanel{
 	
 	
 	public void genMapDescBefore(){	//map descriptor with all 0
+
+	}
+	
+	public void genMapDescAfter(){	//map descriptor after exploration
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		for(int i = 0; i<=Constants.MAX_X-1 ; i++){
+			for(int j =0; j<=Constants.MAX_Y; j++){
+				if(coordinates[i][j].getIsExplored()){
+					stringBuilder.append("1");
+				}else{
+					stringBuilder.append("0");
+				}
+			}
+		}
+		
+		
+		String s = stringBuilder.toString();
+		genDescFile(s);
+		genHexFile(s);
+	}
+	
+	public void genDescFile(String s){
 		
 	}
 	
-	public void genMapDescAfter(){	//map descriptor after exploration?
+	public void genHexFile(String s){
 		
 	}
+	
 	
 	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
 		FileInputStream f = null; 
@@ -144,9 +168,7 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void genHexFile(){
-		
-	}
+
 	
 
 }
