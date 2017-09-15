@@ -104,7 +104,7 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void readMapDesc(){
+	public void readMapDesc(){	//read text file 
 		
 	}
 	
