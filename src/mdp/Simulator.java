@@ -28,7 +28,7 @@ public class Simulator {
 
 
 	public static void main(String[] args) {
-	if (realExecution) comm.openConnection();   //connection funtion to be added!!!
+	if (realExecution) comm.openConnection();   //connection function to be added!!!
 
 	robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);
 
