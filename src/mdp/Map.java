@@ -92,7 +92,29 @@ public class Map extends JPanel{
 	
 	
 	public void genMapDescBefore(){	//map descriptor with all 0
-		
+		//********************************************************************
+			File file = new File("d.txt");
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			//apend 11 in front 
+			bw.write("11");
+			bw.newLine();
+			
+			for(int i = 0; i<=Constants.MAX_Y-1; i++){
+				for(int j = 0; j<=Constants.MAX_X-1; i++){
+					bw.write(s.charAt(count));
+					count++;
+				}
+				bw.newLine();
+			}
+			//append 11 at the back
+			bw.write("11");
+			bw.close();
+			
+		}
 	}
 	
 	public void genMapDescAfter() throws IOException{	//map descriptor after exploration
