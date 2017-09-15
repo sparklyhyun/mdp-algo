@@ -40,17 +40,14 @@ public class Map extends JPanel{
 		//set virtual wall around obstacle
 		
 		//middle row
-		if(x>=1){
 			if(!coordinates[x-1][y].getIsVirtualWall()){ //left
 				coordinates[x-1][y].setIsVirtualWall();
 				}
 			if(!coordinates[x+1][y].getIsVirtualWall()){ //right
 				coordinates[x+1][y].setIsVirtualWall();
 			}			
-		}
 		
 		//top row
-		if(y>=1){
 			if(!coordinates[x-1][y+1].getIsVirtualWall()){ //left
 				coordinates[x-1][y+1].setIsVirtualWall();
 			}
@@ -61,9 +58,16 @@ public class Map extends JPanel{
 				coordinates[x+1][y+1].setIsVirtualWall();
 			}
 			
+		//bottom row
+		if(!coordinates[x-1][y-1].getIsVirtualWall()){	//left
+			coordinates[x-1][y-1].setIsVirtualWall();
 		}
-		
-		if()
+		if(!coordinates[x][y-1].getIsVirtualWall()){	//middle
+			coordinates[x][y-1].setIsVirtualWall();
+		}
+		if(!coordinates[x+1][y-1].getIsVirtualWall()){	//bottom
+			coordinates[x+1][y-1].setIsVirtualWall();
+		}
 		
 		
 	}
