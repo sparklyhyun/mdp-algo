@@ -9,7 +9,7 @@ public class Map extends JPanel{
 	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_X][Constants.MAX_Y];
 	
 	
-	public Map(){
+	public Map() throws IOException{
 		
 		for(int i = 0; i<Constants.MAX_X; i++){
 			for(int j = 0; j<Constants.MAX_Y; j++){
@@ -17,6 +17,9 @@ public class Map extends JPanel{
 				setBoundary();
 			}
 		}
+		readMapDesc(coordinates); 	//set obstacles from the map description
+		
+		
 	}
 	
 	public void setObstacles(int x, int y, boolean obstacle){
@@ -91,6 +94,10 @@ public class Map extends JPanel{
 		
 	}
 	
+	public void genMapDescAfter(){	//map descriptor after exploration?
+		
+	}
+	
 	public void readMapDesc(Coordinates[][] coordinates) throws IOException{	//read text file & put in coordinates array	
 		FileInputStream f = null; 
 		InputStreamReader isr = null;
@@ -132,6 +139,7 @@ public class Map extends JPanel{
 			}
 
 		}
+		
 		
 	}
 	
