@@ -100,7 +100,11 @@ public class Map extends JPanel{
 	
 	
 	
-	public void genMapDescBefore(){
+	public void genMapDescBefore(){	//map descriptor with all 0
+		
+	}
+	
+	public void readMapDesc(){
 		
 	}
 	
