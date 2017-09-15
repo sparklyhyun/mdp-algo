@@ -14,15 +14,16 @@ public class Map extends JPanel{
 		for(int i = 0; i<Constants.MAX_X; i++){
 			for(int j = 0; j<Constants.MAX_Y; j++){
 				coordinates[i][j] = new Coordinates(i,j);
-				setBoundary();
+				
 			}
 		}
-		readMapDesc(coordinates); 	//set obstacles from the map descriptor
+		setBoundary();
+		readMapDesc(); 	//set obstacles from the map descriptor
 		
 		
 	}
 	
-	public void setObstacles(int x, int y, boolean obstacle){
+	public void setObstacles(int x, int y){
 		//set obstacle
 		coordinates[x][y].setObstacle();
 		
@@ -98,7 +99,7 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void readMapDesc(Coordinates[][] coordinates) throws IOException{	//read text file & put in coordinates array	
+	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
 		FileInputStream f = null; 
 		InputStreamReader isr = null;
 		int i;
@@ -113,7 +114,7 @@ public class Map extends JPanel{
 			//read till end of the file
 			while((i = isr.read())!= -1){
 				if(i == 1){
-					coordinates[x][y].setObstacle();
+					setObstacles(x,y);
 				}
 				if(x<=Constants.MAX_X-1){
 					x++;
@@ -140,6 +141,10 @@ public class Map extends JPanel{
 
 		}
 		
+		
+	}
+	
+	public void genHexFile(){
 		
 	}
 	
