@@ -153,9 +153,90 @@ public class Map extends JPanel{
 	}
 	
 	public void genHexFile(String s){
+		StringBuilder convert = new StringBuilder();
+		StringBuilder converted = new StringBuilder();
+		int i=0;
 		
+		//padding bits at the back (if needed) 
+		if(s.length()%4 != 0){
+			int remainder = s.length()%4;
+			for(int k = 0; k<= remainder-1; k++){
+				
+			}
+			
+		}
+		//convert string to hex
+		while(i<s.length()){
+			for(int j = 0; j <= 4; j++){
+				
+			}
+			convert.append(s.charAt(i));
+			converted.append(convertToHex(convert));
+			i++;
+		}
+		
+		try{
+			//file creation
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			
 	}
 	
+	public String convertToHex(StringBuilder s){
+		String returnString = "";
+		
+		if(s.equals("0000")){
+			returnString = "0";
+		}
+		if(s.equals("0001")){
+			returnString = "1";
+		}
+		if(s.equals("0010")){
+			returnString = "2";
+		}
+		if(s.equals("0011")){
+			returnString = "3";
+		}
+		if(s.equals("0100")){
+			returnString = "4";
+		}
+		if(s.equals("0101")){
+			returnString = "5";
+		}
+		if(s.equals("0110")){
+			returnString = "6";
+		}
+		if(s.equals("0111")){
+			returnString = "7";
+		}
+		if(s.equals("1000")){
+			returnString = "8";
+		}
+		if(s.equals("1001")){
+			returnString = "9";
+		}
+		if(s.equals("1010")){
+			returnString = "A";
+		}
+		if(s.equals("1011")){
+			returnString = "B";
+		}
+		if(s.equals("1100")){
+			returnString = "C";
+		}
+		if(s.equals("1101")){
+			returnString = "D";
+		}
+		if(s.equals("1110")){
+			returnString = "E";
+		}
+		if(s.equals("1111")){
+			returnString = "F";
+		}
+
+		return returnString;
+	}
 	
 	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
 		//FileInputStream f = null; 
