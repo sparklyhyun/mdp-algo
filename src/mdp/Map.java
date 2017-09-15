@@ -92,30 +92,64 @@ public class Map extends JPanel{
 	
 	
 	public void genMapDescBefore(){	//map descriptor with all 0
-
+		
 	}
 	
-	public void genMapDescAfter(){	//map descriptor after exploration
-		StringBuilder stringBuilder = new StringBuilder();
+	public void genMapDescAfter() throws IOException{	//map descriptor after exploration
+		StringBuilder explored = new StringBuilder();
+		StringBuilder obstacle = new StringBuilder();
+		
+		//apend 11 in front 
+		explored.append("11");
 		
 		for(int i = 0; i<=Constants.MAX_X-1 ; i++){
-			for(int j =0; j<=Constants.MAX_Y; j++){
+			for(int j =0; j<=Constants.MAX_Y-1; j++){
 				if(coordinates[i][j].getIsExplored()){
-					stringBuilder.append("1");
+					explored.append("1");
+					if(coordinates[i][j].getIsObstacle()){
+						obstacle.append("1");
+					}else{
+						obstacle.append("0");
+					}
 				}else{
-					stringBuilder.append("0");
+					explored.append("0");
 				}
 			}
 		}
 		
+		//append 11 at the back
+		explored.append("11");
 		
-		String s = stringBuilder.toString();
-		genDescFile(s);
-		genHexFile(s);
+		String exploredMap = explored.toString();
+		genDescFile(exploredMap, true);
+		genHexFile(exploredMap);
+		
+		String obstacleMap = obstacle.toString();
+		genDescFile(obstacleMap, false);
+		genHexFile(obstacleMap);
 	}
 	
-	public void genDescFile(String s){
+	public void genDescFile(String s, boolean exp) throws IOException{
+		FileOutputStream fop = null;
+		File file;
 		
+		if(exp == true){	//explored file
+			file = new File("exploredMap.txt");
+			fop = new FileOutputStream(file);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			
+		}
+		
+		if(exp = false){	//obstacle file
+			file = new File("obstacleMap.txt");
+			fop = new FileOutputStream(file);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			
+		}
 	}
 	
 	public void genHexFile(String s){
@@ -124,14 +158,16 @@ public class Map extends JPanel{
 	
 	
 	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
-		FileInputStream f = null; 
-		InputStreamReader isr = null;
-		int i;
+		//FileInputStream f = null; 
+		//InputStreamReader isr = null;
+		//int i;
+		
 		int x = 0;	//x coordinate of map
 		int y = 0;	//y coordinate of map
 
 		
 		try{
+			/*
 			f = new FileInputStream("testMap.txt");
 			isr = new InputStreamReader(f);
 			
@@ -146,24 +182,40 @@ public class Map extends JPanel{
 				else{
 					x = 0;
 				}
-				if(y<=Constants.MAX_Y-1){
+				if(y<=Constants.MAX_Y-1 && x == Constants.MAX_X-1){
 					y++;
 				}
+				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
+					break;
+				}
+				*/
+			File file = new File("testMap.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			
+			while((line = br.readLine())!= null){
+				if(line == "1"){
+					setObstacles(x,y);
+				}
+				if(x<=Constants.MAX_X-1){
+					x++;
+				}
 				else{
+					x = 0;
+				}
+				if(y<=Constants.MAX_Y-1 && x == Constants.MAX_X-1){
+					y++;
+				}
+				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
 					break;
 				}
 			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
-		}finally{
-			if(f != null){
-				f.close();
-			}
-			if(isr != null){
-				isr.close();
-			}
-
 		}
+
 		
 		
 	}
