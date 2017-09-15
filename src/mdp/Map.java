@@ -33,10 +33,38 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void setObstacles(){
-		//for now test
-		//fullMap.get(38).setObstacleTrue();
-		//fullMap.get(7).setObstacleTrue();
+	public void setObstacles(int x, int y, boolean obstacle){
+		//set obstacle
+		coordinates[x][y].setObstacle();
+		
+		//set virtual wall around obstacle
+		
+		//middle row
+		if(x>=1){
+			if(!coordinates[x-1][y].getIsVirtualWall()){ //left
+				coordinates[x-1][y].setIsVirtualWall();
+				}
+			if(!coordinates[x+1][y].getIsVirtualWall()){ //right
+				coordinates[x+1][y].setIsVirtualWall();
+			}			
+		}
+		
+		//top row
+		if(y>=1){
+			if(!coordinates[x-1][y+1].getIsVirtualWall()){ //left
+				coordinates[x-1][y+1].setIsVirtualWall();
+			}
+			if(!coordinates[x][y+1].getIsVirtualWall()){ //middle
+				coordinates[x][y+1].setIsVirtualWall();
+			}
+			if(!coordinates[x+1][y+1].getIsVirtualWall()){ //right
+				coordinates[x+1][y+1].setIsVirtualWall();
+			}
+			
+		}
+		
+		if()
+		
 		
 	}
 	
