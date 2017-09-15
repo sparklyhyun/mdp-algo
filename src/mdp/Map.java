@@ -1,6 +1,7 @@
 package mdp;
 
 import java.util.*;
+import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -91,6 +92,14 @@ public class Map extends JPanel{
 	}
 	
 	public void readMapDesc(){	//read text file 
+		//Scanner s = new Scanner(new File("testMap.txt"));
+		Scanner s;
+		
+		try{
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	
