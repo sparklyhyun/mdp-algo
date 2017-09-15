@@ -1,24 +1,15 @@
 package mdp;
 
 import java.util.*;
+import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 
 public class Map extends JPanel{
-	//private final ArrayList<Coordinates> fullMap = new ArrayList<Coordinates>();
 	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_X][Constants.MAX_Y];
 	
 	
 	public Map(){
-		//initialize map
-		/*
-		for(int i=0; i< Constants.MAX_X; i++){
-			for(int j=0; j< Constants.MAX_Y; j++ ){
-			mdp.Coordinates coordinates = new Coordinates(i,j);
-			fullMap.add(coordinates);
-			}
-		}
-		*/
 		
 		for(int i = 0; i<Constants.MAX_X; i++){
 			for(int j = 0; j<Constants.MAX_Y; j++){
@@ -26,10 +17,6 @@ public class Map extends JPanel{
 				setBoundary();
 			}
 		}
-		
-		
-		
-		
 	}
 	
 	public void setObstacles(int x, int y, boolean obstacle){
@@ -105,6 +92,14 @@ public class Map extends JPanel{
 	}
 	
 	public void readMapDesc(){	//read text file 
+		//Scanner s = new Scanner(new File("testMap.txt"));
+		Scanner s;
+		
+		try{
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	

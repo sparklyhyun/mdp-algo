@@ -12,8 +12,8 @@ public class robot {
 	private boolean reachedGoal;	
 	private final boolean realRobot;  //use when connected to the robot
 	
-}
-    public Robot(int x, int y, boolean realRobot) {
+
+    public robot(int x, int y, boolean realRobot) {
         robotPos_X = x;
         robotPos_Y = y;
         this.realRobot = realRobot;
@@ -41,4 +41,5 @@ public class robot {
     private void updateReachedGoal() {
         if (this.getRobotPosX() == Constants.GOAL_X && this.getRobotPosY() == Constants.GOAL_Y)
             this.reachedGoal = true;
+    }
     }
