@@ -99,8 +99,7 @@ public class Map extends JPanel{
 		StringBuilder explored = new StringBuilder();
 		StringBuilder obstacle = new StringBuilder();
 		
-		//apend 11 in front 
-		explored.append("11");
+
 		
 		for(int i = 0; i<=Constants.MAX_X-1 ; i++){
 			for(int j =0; j<=Constants.MAX_Y-1; j++){
@@ -117,8 +116,7 @@ public class Map extends JPanel{
 			}
 		}
 		
-		//append 11 at the back
-		explored.append("11");
+
 		
 		String exploredMap = explored.toString();
 		genDescFile(exploredMap, true);
@@ -130,25 +128,43 @@ public class Map extends JPanel{
 	}
 	
 	public void genDescFile(String s, boolean exp) throws IOException{
-		FileOutputStream fop = null;
-		File file;
+		//FileOutputStream fop = null;
+	      File file;
+	      int count = 0;
 		
 		if(exp == true){	//explored file
 			file = new File("exploredMap.txt");
-			fop = new FileOutputStream(file);
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
+			//apend 11 in front 
+			bw.write("11");
+			bw.newLine();
+			
+			for(int i = 0; i<=Constants.MAX_Y-1; i++){
+				for(int j = 0; j<=Constants.MAX_X-1; i++){
+					bw.write(s.charAt(count));
+					count++;
+				}
+				bw.newLine();
+			}
+			//append 11 at the back
+			bw.write("11");
+			bw.close();
 			
 		}
 		
 		if(exp = false){	//obstacle file
 			file = new File("obstacleMap.txt");
-			fop = new FileOutputStream(file);
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
-			
+			bw.write(s);
+			bw.close();
 		}
 	}
 	
@@ -156,6 +172,7 @@ public class Map extends JPanel{
 		StringBuilder convert = new StringBuilder();
 		StringBuilder converted = new StringBuilder();
 		int i=0;
+		File file;
 		
 		//padding bits at the back (if needed) 
 		if(s.length()%4 != 0){
@@ -176,7 +193,15 @@ public class Map extends JPanel{
 		}
 		
 		try{
-			//file creation
+			
+			file = new File("HexMap.txt");
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			bw.write(converted.toString());
+			bw.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -292,16 +317,10 @@ public class Map extends JPanel{
 					break;
 				}
 			}
+			br.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
-		
-		
 	}
-	
-
-	
-
 }
