@@ -24,7 +24,7 @@ public class Map extends JPanel{
 			for(int j = 0; j<Constants.MAX_Y; j++){
 				coordinates[i][j] = new Coordinates(i,j);
 				//setObstacles();
-				setVirtualWall();
+				setBoundary();
 			}
 		}
 		
@@ -40,19 +40,8 @@ public class Map extends JPanel{
 		
 	}
 	
-	public void setVirtualWall(){
-		//set boundary virtual wall
-		/*
-		for(int i = 0; i < fullMap.size(); i++){
-			if((fullMap.get(i).getX() > 0 && fullMap.get(i).getX() < Constants.MAX_X) && (fullMap.get(i).getY() == 1 || fullMap.get(i).getY() == 18 )){
-				fullMap.get(i).setVirtualWallTrue();
-					}
-			if((fullMap.get(i).getY() > 0 && fullMap.get(i).getY() < Constants.MAX_Y) && (fullMap.get(i).getX() == 1 || fullMap.get(i).getX() == 13 ) ){
-				fullMap.get(i).setVirtualWallTrue();
-					}
-		}
-		*/
-		
+	public void setBoundary(){
+		//sets boundary virtual wall
 		for(int i=0; i < Constants.MAX_X; i++){
 			for(int j=0; j<Constants.MAX_Y; j++){
 				if(i==0 || j==0 || i==Constants.MAX_X-1|| j==Constants.MAX_Y-1){
@@ -61,14 +50,6 @@ public class Map extends JPanel{
 				
 			}
 		}
-		
-		//outer wall
-		/*
-		for(int i = 0; i<fullMap.size(); i++){
-			if( fullMap.get(i).getX()<Constants.MAX_X && fullMap.get(i).getY() == 0){
-				fullMap.get(i).setVirtualWallTrue();
-			}
-		*/
 		}
 	
 	
