@@ -8,9 +8,10 @@ public class Constants {
 	public static final int ROBOT_WIDTH = 3;
 	public static final int ROBOT_SIZE = 9;
 
-	public int[] START = {1,12}; //needs to change
-	public static final int[] GOAL = {14, 19};
-
+	public int START_X = 1; 
+	public int GOAL_Y = 1;
+	public static final int GOAL_X = 14;
+	public static final int GOAL_Y = 19;
 	
 
 }
