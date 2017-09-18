@@ -88,34 +88,28 @@ public class Map extends JPanel{
 		}
 		}
 	
+	public boolean checkWithinRange(int x, int y){
+		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
+	}
 	
 	
-	
-	public void genMapDescBefore(){	//map descriptor with all 0
-		//********************************************************************
-			File file = new File("d.txt");
+	public void genMapDescBefore() throws IOException{	//map descriptor with all 0
+			File file = new File("beforeMap.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
-			//apend 11 in front 
-			bw.write("11");
-			bw.newLine();
-			
+
 			for(int i = 0; i<=Constants.MAX_Y-1; i++){
 				for(int j = 0; j<=Constants.MAX_X-1; i++){
-					bw.write(s.charAt(count));
-					count++;
+					bw.write("0");
 				}
 				bw.newLine();
 			}
-			//append 11 at the back
-			bw.write("11");
 			bw.close();
-			
 		}
-	}
+	
 	
 	public void genMapDescAfter() throws IOException{	//map descriptor after exploration
 		StringBuilder explored = new StringBuilder();
@@ -148,9 +142,8 @@ public class Map extends JPanel{
 		genDescFile(obstacleMap, false);
 		genHexFile(obstacleMap);
 	}
-	
+		
 	public void genDescFile(String s, boolean exp) throws IOException{
-		//FileOutputStream fop = null;
 	      File file;
 	      int count = 0;
 		
@@ -200,17 +193,17 @@ public class Map extends JPanel{
 		if(s.length()%4 != 0){
 			int remainder = s.length()%4;
 			for(int k = 0; k<= remainder-1; k++){
-				
+				s.concat("0"); 
 			}
 			
 		}
 		//convert string to hex
 		while(i<s.length()){
 			for(int j = 0; j <= 4; j++){
-				
+				convert.append(s.charAt(i));
 			}
-			convert.append(s.charAt(i));
 			converted.append(convertToHex(convert));
+			convert.setLength(0);		//empty string builder 
 			i++;
 		}
 		
