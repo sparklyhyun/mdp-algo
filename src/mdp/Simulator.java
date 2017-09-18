@@ -107,7 +107,7 @@ public class Simulator {
 		    LoadMap_btn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 			    JDialog loadMapDialog = new JDialog(_mapFrame, "Load Map", true);
-			    loadMapDialog.setSize(350, 50);
+			    loadMapDialog.setSize(200, 30);
 			    loadMapDialog.setLayout(new FlowLayout());
 
 			    final JTextField loadText = new JTextField(13);
@@ -131,8 +131,82 @@ public class Simulator {
 		    });
 		    _buttons.add(LoadMap_btn);
 	}
-	
+        // FastestPath Class
+        class FastestPath extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+                robot.setRobotPos(Constants.START_X, Constants.START_Y);
+                exploredMap.repaint();
 
-	
+                if (realExecution) {
+                    while (true) {
+                        System.out.println("Waiting for FP_START...");
+                        String msg = comm.recvMsg();
+                        if (msg.equals(CommMgr.FP_START)) break;
+                    }
+                }
+
+                FastestPathAlgo fastestPath;
+                fastestPath = new FastestPathAlgo(exploredMap, robot);
+
+                fastestPath.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
+
+                return 222;
+            }
+        }	
+		
+        // Fastest Path Button
+        JButton FastestPath_btn = new JButton("Fastest Path");
+        formatButton(FastestPath_btn);
+        FastestPath_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                BoxLayout bl = ((BoxLayout) _mapBox.getLayout());
+                bl.show(_mapBox, "EXPLORATION");
+                new FastestPath().execute();
+            }
+        });
+        _buttons.add(FastestPath_btn);	
+		
+		
+        // Exploration Class
+        class Exploration extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+                int x, y;
+
+                x = Constants.START_X;
+                y = Constants.START_Y;
+
+                robot.setRobotPos(x, y);
+                exploredMap.repaint();
+
+                ExplorationAlgo exploration;
+                exploration = new ExplorationAlgo(exploredMap, realMap, robot, coverageLimit, timeLimit);
+
+                if (realRun) {
+                    CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);
+                }
+
+                exploration.runExploration();
+                generateMapDescriptor(exploredMap);
+
+                if (realExecution) {
+                    new FastestPath().execute();
+                }
+
+                return 111;
+            }
+        }
+		
+        // Exploration Button
+        JButton Exploration_btn = new JButton("Exploration");
+        formatButton(Exploration_btn);
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                BoxLayout bl = ((BoxLayout) _mapBox.getLayout());
+                bl.show(_mapBox, "EXPLORATION");
+                new Exploration().execute();
+            }
+        });
+        _buttons.add(Exploration_btn);
+
 
 }
