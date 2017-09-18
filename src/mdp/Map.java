@@ -21,6 +21,7 @@ public class Map extends JPanel{
 		readMapDesc(); 	//set obstacles from the map descriptor
 		
 		
+		
 	}
 	
 	public void setObstacles(int x, int y){
@@ -33,9 +34,14 @@ public class Map extends JPanel{
 		
 		if(x>=1 && x<=Constants.MAX_X-1){
 			withinX = true;
+		}else{
+			return;
 		}
+		
 		if(y>=1 && y<=Constants.MAX_Y-1){
 			withinY = true;
+		}else{
+			return;
 		}
 		
 		
@@ -281,11 +287,13 @@ public class Map extends JPanel{
 	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
 		//FileInputStream f = null; 
 		//InputStreamReader isr = null;
-		//int i;
 		
+		int i = 0;
 		int x = 0;	//x coordinate of map
 		int y = 0;	//y coordinate of map
 
+		String ss = "1";
+		char c = ss.charAt(0);	//cast string to char
 		
 		try{
 			/*
@@ -313,10 +321,10 @@ public class Map extends JPanel{
 			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			String line;
+			String s;
 			
-			while((line = br.readLine())!= null){
-				if(line == "1"){
+			while((s = br.readLine())!= null){
+				if(s.charAt(i) == c){
 					setObstacles(x,y);
 				}
 				if(x<=Constants.MAX_X-1){
@@ -331,6 +339,7 @@ public class Map extends JPanel{
 				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
 					break;
 				}
+				i++;
 			}
 			br.close();
 			
