@@ -9,6 +9,7 @@ public class robot {
 	int goalPos_Y = Constants.GOAL_Y;
 	int robotPos_X;
 	int robotPos_Y;
+	
 	private boolean reachedGoal;	
 	private final boolean realRobot;  //use when connected to the robot
 	
