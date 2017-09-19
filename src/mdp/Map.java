@@ -112,6 +112,9 @@ public class Map extends JPanel{
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}
 	
+	public Coordinates getCoordinate(int x, int y){
+		return coordinates[x][y];
+	}
 	
 	public void genMapDescBefore() throws IOException{	//map descriptor with all 0
 			File file = new File("beforeMap.txt");

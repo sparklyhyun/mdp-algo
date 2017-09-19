@@ -24,13 +24,28 @@ public class Exploration {
     	
     }
     
-    private void explore(){
+    private void explore(int x, int y){
+    	//loop unless robot is back to its original position || area explored > coverage limit
+    	// || System.currentTimeMills() > endTime
+    	while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
+    		moveNext();
+    		
+    		areaExplored = getAreaExplored();
+    		
+    		//??????????????
+    		if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
+    			if(areaExplored >= 100){
+    				break;
+    			}
+    		}
+    	}
     	
+    	returnToStartPos();
     	
     }
     
     //THE MAIN PART****************************************************************************
-    private void nextMove(){	//determine next move for the robot
+    private void moveNext(){	//determine next move for the robot
     	if(rightFree()){
     		//move right
     		if(frontFree()){
@@ -115,8 +130,20 @@ public class Exploration {
 		return false;
     }
     
+    private int getAreaExplored(){
+    	int total = 0;
+    	for(int i=0; i<Constants.MAX_X ; i++){
+    		for(int j=0; j<Constants.MAX_Y; j++ ){
+    			if(map.getCoordinate(i, j).getIsExplored()){
+    				total++;
+    			}
+    		}
+    	}
+    	return total;
+    }
+    
     private void returnToStartPos(){
-    	
+    	//need fastest path algo!!
     }
 
     
