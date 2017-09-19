@@ -94,6 +94,20 @@ public class Map extends JPanel{
 		}
 		}
 	
+	
+	public boolean isObstacle(int x, int y){
+		return (coordinates[x][y].getIsObstacle());
+
+	}
+	
+	public boolean isExplored(int x, int y){
+		return (coordinates[x][y].getIsExplored());
+	}
+	
+	public boolean isVirtualWall(int x, int y){
+		return (coordinates[x][y].getIsVirtualWall());
+	}
+	
 	public boolean checkWithinRange(int x, int y){
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}

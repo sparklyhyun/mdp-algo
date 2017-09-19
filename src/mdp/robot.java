@@ -1,5 +1,7 @@
 package mdp;
 
+import mdp.Sensor.DIRECTION;
+
 public class Robot {
 	int size = Constants.ROBOT_SIZE;	
 	int width = Constants.ROBOT_WIDTH;
@@ -8,7 +10,8 @@ public class Robot {
 	int goalPos_X = Constants.GOAL_X;
 	int goalPos_Y = Constants.GOAL_Y;
 	int robotPos_X;
-	int robotPos_Y;
+	int robotPos_Y;	
+	private DIRECTION botDir = DIRECTION.N;	// can change later
 	
 	private boolean reachedGoal;	
 	private final boolean realRobot;  //use when connected to the robot
@@ -25,12 +28,20 @@ public class Robot {
         robotPos_Y = y;
     }
 
+    public void setDirection(DIRECTION dir){
+    	this.botDir = dir;
+    }
+    
     public int getRobotPosX() {
         return robotPos_X;
     }
 
     public int getRobotPosY() {
         return robotPos_Y;
+    }
+    
+    public DIRECTION getRobotDir(){
+    	return botDir;
     }
 
     public boolean getRealRobot() {
