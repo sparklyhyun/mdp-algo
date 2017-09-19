@@ -24,6 +24,11 @@ public class Exploration {
     	
     }
     
+    private void explore(){
+    	
+    	
+    }
+    
     //THE MAIN PART****************************************************************************
     private void nextMove(){	//determine next move for the robot
     	if(rightFree()){
@@ -110,6 +115,9 @@ public class Exploration {
 		return false;
     }
     
+    private void returnToStartPos(){
+    	
+    }
 
     
 }
