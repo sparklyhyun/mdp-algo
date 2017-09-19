@@ -142,6 +142,8 @@ public class Exploration {
     	return total;
     }
     
+    
+    
     private void returnToStartPos(){
     	//need fastest path algo!!
     }
