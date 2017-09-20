@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 public class Simulator {
 	private static JFrame _mapFrame = null;          // JFrame to display Map
 
-	private static JPanel _mapBox = null;           // JPanel for map Box
+	private static JPanel _mapTiles = null;           // JPanel for map Tiles
 	private static JPanel _mapButtons = null;        // JPanel for map buttons
 
 	private static Robot robot;
@@ -53,15 +53,15 @@ public class Simulator {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
-		// Create the BoxLayout for storing the different maps
-		_mapBox = new JPanel(new BoxLayout());
+		// Create the CardLayout for storing the different maps
+		_mapTiles = new JPanel(new CardLayout());
 
 		// Create the JPanel for the buttons
 		_mapButtons = new JPanel();
 
-		// Add _mapBox & _mapButtons to the main frame's content pane
+		// Add _mapTiles & _mapButtons to the main frame's content pane
 		Container contentPane = _mapFrame.getContentPane();
-		contentPane.add(_mapBox, BorderLayout.CENTER);
+		contentPane.add(_mapTiles, BorderLayout.CENTER);
 		contentPane.add(_mapButtons, BorderLayout.PAGE_END);
 
 		// Initialize the main map layout
@@ -77,15 +77,15 @@ public class Simulator {
 	
 	private static void initMainLayout() {
 		if (!realExecution) {
-		    _mapBox.add(realMap, "REAL_MAP");
+		    _mapTiles.add(realMap, "REAL_MAP");
 		}
-		_mapBox.add(exploredMap, "EXPLORATION");
+		_mapTiles.add(exploredMap, "EXPLORATION");
 
-		BoxLayout b = ((BoxLayout) _mapBox.getLayout());
+		CardLayout c = ((CardLayout) _mapTiles.getLayout());
 		if (!realExecution) {
-		    blshow(_mapBox, "REAL_MAP");
+		    clshow(_mapTiles, "REAL_MAP");
 		} else {
-		    blshow(_mapBox, "EXPLORATION");
+		    clshow(_mapTiles, "EXPLORATION");
 		}
 	}
 	
@@ -117,8 +117,8 @@ public class Simulator {
 				public void mouseClicked(MouseEvent e) {
 				    loadMapDialog.setVisible(false);
 				    loadMapFromDisk(realMap, loadText.getText());
-				    BoxLayout bl = ((BoxLayout) _mapBox.getLayout());
-				    bl.show(_mapBox, "REAL_MAP");
+				    CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+				    cl.show(__mapTiles, "REAL_MAP");
 				    realMap.repaint();
 				}
 			    });
@@ -159,8 +159,8 @@ public class Simulator {
         formatButton(FastestPath_btn);
         FastestPath_btn.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                BoxLayout bl = ((BoxLayout) _mapBox.getLayout());
-                bl.show(_mapBox, "EXPLORATION");
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "EXPLORATION");
                 new FastestPath().execute();
             }
         });
@@ -201,8 +201,8 @@ public class Simulator {
         formatButton(Exploration_btn);
         Exploration_btn.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                BoxLayout bl = ((BoxLayout) _mapBox.getLayout());
-                bl.show(_mapBox, "EXPLORATION");
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "EXPLORATION");
                 new Exploration().execute();
             }
         });
