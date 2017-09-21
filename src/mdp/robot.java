@@ -11,7 +11,10 @@ public class Robot {
 	int goalPos_Y = Constants.GOAL_Y;
 	int robotPos_X;
 	int robotPos_Y;	
-	private DIRECTION botDir = DIRECTION.N;	// can change later
+	private DIRECTION robotDir = DIRECTION.N;	// can change later
+	public static final int INFINITE_COST = 9999;
+	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
+	public static final int TURN_COST = 20;                         // cost of RIGHT, LEFT movement
 	
 	private boolean reachedGoal;	
 	private final boolean realRobot;  //use when connected to the robot
