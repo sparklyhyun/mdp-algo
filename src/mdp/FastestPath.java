@@ -42,13 +42,13 @@ public class FastestPath {
         this.visited = new ArrayList<>();
         this.parents = new HashMap<>();
         this.neighbors = new Coordinates[4];
-        this.current = getCoordinates(robot.getRobotPosRow(), robot.getRobotPosCol()); ///to be changed
-        this.curDir = robot.getRobotCurDir();
-        this.gCosts = new double[Constants.MAP_X][Constants.MAP_Y];
+        this.current = getCoordinates(robot.getRobotPosX(), robot.getRobotPosY()); 
+        this.curDir = robot.getRobotDir();
+        this.gCosts = new double[Constants.MAX_X][Constants.MAX_Y];
 
         // Initialise gCosts array
-        for (int i = 0; i < Constants.MAP_X; i++) {
-            for (int j = 0; j < Constants.MAP_Y; j++) {
+        for (int i = 0; i < Constants.MAX_X; i++) {
+            for (int j = 0; j < Constants.MAX_Y; j++) {
                 Coordinates coordinates = getCoordinates(i, j);
                 if (!canBeVisited(coordinates)) {
                     gCosts[i][j] = Constants.INFINITE_COST; // TO BE ADDED INTO THE CONSTANTS
@@ -60,7 +60,7 @@ public class FastestPath {
         nextVisit.add(current);
 
         // Initialise starting point
-        gCosts[robot.getRobotPosX()][robot.getRobotPosY()] = 0; //TO BE ADDED IN THE Coordinates
+        gCosts[robot.getRobotPosX()][robot.getRobotPosY()] = 0; 
         this.loopCount = 0;
     }  
 }
