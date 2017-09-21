@@ -67,7 +67,11 @@ public class FastestPath {
      * Returns true if the cell can be visited.
      */
     private boolean canBeVisited(Coordinates c) {
-        return c.getIsExplored() && !c.getIsObstacle() && !c.getIsVirtualWall();
+        boolean checkIsExplored = c.getIsExplored();
+        boolean checkIsObstacle = c.getIsObstacle()
+        boolean checkIsVirtualWall = c.getIsVirtualWall();
+        boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle && !checkIsVirtualWall
+        return canBeVisitedCheck;
     }
 
     /**
