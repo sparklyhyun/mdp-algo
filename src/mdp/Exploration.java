@@ -1,4 +1,9 @@
 package mdp;
+import Coordinates;
+import Map;
+import Constants;
+import robot;
+import CommMgr;
 
 public class Exploration {
 	private final Map map;	// for exploration
