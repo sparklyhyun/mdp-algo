@@ -108,6 +108,7 @@ public class Map extends JPanel{
 		return (coordinates[x][y].getIsVirtualWall());
 	}
 	
+	
 	public boolean checkWithinRange(int x, int y){
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}

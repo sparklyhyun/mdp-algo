@@ -121,8 +121,8 @@ public class Robot {
     		case W: robotPos_X += count; break;
     		default: break;
     		}break;
-    	case L: robotDir = rotate(m); break;
-    	case R: robotDir = rotate(m); break;
+    	case L: robotDir = dirToRotate(m); break;
+    	case R: robotDir = dirToRotate(m); break;
     	case CALIBRATE: break;
     	case ERROR: break;	//print error message? 
     	}
@@ -132,7 +132,7 @@ public class Robot {
     	updateReachedGoal();
     }
     
-    private DIRECTION rotate(MOVEMENT m){ //if move right, rotate right, if left roatate left
+    private DIRECTION dirToRotate(MOVEMENT m){ //if move right, rotate right, if left roatate left
     	if(m == MOVEMENT.R){
     		return DIRECTION.next(robotDir);	//directions in clockwise order	, rotate right
     	}else{
