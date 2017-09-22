@@ -34,12 +34,12 @@ public class Simulator {
 		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);
 
 		if (!realExecution) {
-		    realMap = new Map(robot);
-		    realMap.setAllUnexplored();
+		    realMap = new Map();
+		    //realMap.setAllUnexplored();
 		}
 
-		exploredMap = new Map(robot);
-		exploredMap.setAllUnexplored();
+		exploredMap = new Map();
+		//exploredMap.setAllUnexplored();
 
 		viewFullMap();
 	}	

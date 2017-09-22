@@ -70,10 +70,10 @@ public class Exploration {
     
     private boolean rightFree(){	//look right
     	switch(robot.getRobotDir()){
-    	case N: return isEastFree();
-    	case E: return isSouthFree();
-    	case S: return isWestFree();
-    	case W: return isNorthFree();
+    	case N: return isEastFree(); 
+    	case E: return isSouthFree(); 
+    	case S: return isWestFree(); 
+    	case W: return isNorthFree(); 
     	default: return false;
     	}
     }
