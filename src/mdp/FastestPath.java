@@ -42,7 +42,7 @@ public class FastestPath {
         this.curDir = robot.getRobotDir();
         this.gCosts = new double[Constants.MAX_X][Constants.MAX_Y];
 
-        // Initialise gCosts array
+        // Initialize gCosts array
         for (int i = 0; i < Constants.MAX_X; i++) {
             for (int j = 0; j < Constants.MAX_Y; j++) {
                 Coordinates coordinates = map.getCoordinate(i, j);
@@ -112,6 +112,7 @@ public class FastestPath {
      * Returns the target direction of the robot from [robotR, robotC] to target Coordinates.
      */
     private DIRECTION getTargetDir(int robotR, int robotC, DIRECTION robotDir, Coordinates target) {
+    	//need to change 
         if (robotC - target.getY() > 0) {
             return DIRECTION.W;
         } else if (target.getY() - robotC > 0) {

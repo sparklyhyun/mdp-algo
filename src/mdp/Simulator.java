@@ -19,24 +19,21 @@ public class Simulator {
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
 	
-	private static final CommMgr comm = CommMgr.getCommMgr();
+	//private static final CommMgr comm = CommMgr.getCommMgr();
 
 	private static final boolean realExecution = true;
 
 
 	public static void main(String[] args) {
-		if (realExecution) comm.openConnection();   //connection function to be added!!!
+		//if (realExecution) comm.openConnection();   //connection function to be added!!!
 
 		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);
 
 		if (!realExecution) {
-		    realMap = new Map();
-		    //realMap.setAllUnexplored();
+		    realMap = new Map(); 
 		}
 
 		exploredMap = new Map();
-		//exploredMap.setAllUnexplored();
-
 		viewFullMap();
 	}	
 	
@@ -79,14 +76,14 @@ public class Simulator {
 
 		CardLayout c = ((CardLayout) _mapTiles.getLayout());
 		if (!realExecution) {
-		    clshow(_mapTiles, "REAL_MAP");
+		    c.show(_mapTiles, "REAL_MAP");
 		} else {
-		    clshow(_mapTiles, "EXPLORATION");
+		    c.show(_mapTiles, "EXPLORATION");
 		}
 	}
 	
 	private static void initButtonsLayout() {
-		_buttons.setLayout(new GridLayout());
+		_mapButtons.setLayout(new GridLayout());
 		addLoadMapButton();
 	}
 	
@@ -112,9 +109,10 @@ public class Simulator {
 			    loadMapButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 				    loadMapDialog.setVisible(false);
-				    loadMapFromDisk(realMap, loadText.getText());
+				    //loadMapFromDisk(realMap, loadText.getText());
+				    exploredMap.readMapDesc();
 				    CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-				    cl.show(__mapTiles, "REAL_MAP");
+				    cl.show(_mapTiles, "REAL_MAP");
 				    realMap.repaint();
 				}
 			    });
@@ -125,7 +123,7 @@ public class Simulator {
 			    loadMapDialog.setVisible(true);
 			}
 		    });
-		    _buttons.add(LoadMap_btn);
+		    _mapButtons.add(LoadMap_btn);
 	}
         // FastestPath Class
         class FastestPath extends SwingWorker<Integer, String> {
@@ -136,15 +134,14 @@ public class Simulator {
                 if (realExecution) {
                     while (true) {
                         System.out.println("Waiting for FP_START...");
-                        String msg = comm.recvMsg();
-                        if (msg.equals(CommMgr.FP_START)) break;
-                    }
+                       // String msg = comm.recvMsg();
+                       // if (msg.equals(CommMgr.FP_START)) break;
+                   // }
                 }
 
-                FastestPathAlgo fastestPath;
-                fastestPath = new FastestPathAlgo(exploredMap, robot);
+                FastestPath fastestPath = new FastestPath(exploredMap, robot);
 
-                fastestPath.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
+                //fastestPath.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
 
                 return 222;
             }
@@ -174,11 +171,11 @@ public class Simulator {
                 robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                ExplorationAlgo exploration;
-                exploration = new ExplorationAlgo(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                Exploration exploration;
+                exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
 
                 if (realRun) {
-                    CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);
+                    //CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);
                 }
 
                 exploration.runExploration();
