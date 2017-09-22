@@ -1,6 +1,8 @@
 package mdp;
 import java.util.*;
 
+import mdp.Constants.*;
+
 public class Exploration {
 	private final Map map;	// for exploration
 	private final Map realMap;	//real map 
@@ -10,7 +12,7 @@ public class Exploration {
     private int areaExplored;
     private long startTime;
     private long endTime;
-    private int lastCalibrate;	//??
+    private int lastCalibrate;	//no of steps before calibration
     private boolean calibrationMode;	//??
 	
     public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
@@ -46,7 +48,7 @@ public class Exploration {
     }
     
     //THE MAIN PART****************************************************************************
-    private void moveNext(){	//determine next move for the robot
+    private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
     	if(rightFree()){
     		//move right
     		if(frontFree()){
@@ -62,6 +64,103 @@ public class Exploration {
     		//move right
     		//move right??
     	}
+    }
+    
+    private void robotMove(MOVEMENT m, int count, boolean toAndroid){
+    	robot.move(m, count, toAndroid);
+    	/*
+    	 * update gui
+    	 * 
+    	 */
+    	
+    	if(robot.getRealRobot() && !calibrationMode){
+    		calibrationMode = true;
+    		if(canCalibrate(robot.getRobotDir())){
+    			lastCalibrate = 0;
+    			robotMove(MOVEMENT.CALIBRATE,count, toAndroid);		//count doesn't matter here
+    		}else{
+    			lastCalibrate++;
+                if (lastCalibrate >= 5) {
+                    DIRECTION targetDir = calibrateTargetDirection();
+                    if (targetDir != null) {
+                        lastCalibrate = 0;
+                        calibrateBot(targetDir);
+                    	}
+                }
+    		}
+    		calibrationMode = false; //calibrated
+    	}
+    }
+    
+    private void calibrateBot(DIRECTION targetDir) {
+		DIRECTION dir = robot.getRobotDir();
+		rotateRobot(targetDir);
+		robotMove(MOVEMENT.CALIBRATE, 1, false);		//see if i need to change boolean
+		rotateRobot(dir); //????????????
+		
+	}
+
+	private void rotateRobot(DIRECTION targetDir) {
+		int turns = Math.abs(robot.getRobotDir().ordinal()-targetDir.ordinal());
+		if(turns>2){	//if multiple turns, decide whether to rotate left or right 
+			turns = turns %2;
+		}else if(turns == 2){	//rotate right twice (direction in clockwise)
+			robotMove(MOVEMENT.R, 1, false);
+			robotMove(MOVEMENT.R, 1, false);
+		}
+		
+		if(turns == 1){	//after modulus
+			if(DIRECTION.next(robot.getRobotDir()) == targetDir){	//if clockwise
+				robotMove(MOVEMENT.R, 1, false);
+			}else{
+				robotMove(MOVEMENT.L, 1, false);
+			}
+		}else if(turns == 2){	//if turns 2, left 2 turns and right 2 turns are the same
+			robotMove(MOVEMENT.R, 1, false);
+			robotMove(MOVEMENT.R, 1, false);
+		}
+	
+		
+	}
+
+	private DIRECTION calibrateTargetDirection() {	//generate target direction
+		DIRECTION dir = robot.getRobotDir();
+		DIRECTION newDir;
+		
+		newDir = DIRECTION.next(dir);
+		if(canCalibrate(dir)){	//turn clockwise
+			return newDir;
+		}
+		
+		newDir = DIRECTION.prev(dir);
+		if(canCalibrate(dir)){	//turn anticlockwise
+			return newDir;
+		}
+		
+		newDir = DIRECTION.next(newDir);
+		if(canCalibrate(dir)){ //turn behind 180 degrees
+			return newDir;
+		}
+		
+		
+		
+		
+		return null;
+	}
+
+	private boolean canCalibrate(DIRECTION robotDir){
+    	int x = robot.getRobotPosX();
+    	int y = robot.getRobotPosY();
+    	
+    	switch(robotDir){ //need to change, depend on the sensor direction
+    	case N: return notObstacleVirtualWall(x,y); // add more later
+    	case E: return notObstacleVirtualWall(x,y);
+    	case S: return notObstacleVirtualWall(x,y);
+    	case W: return notObstacleVirtualWall(x,y);
+    	}
+    	
+    	return false;
+    	
     }
     
     private boolean rightFree(){	//look right
