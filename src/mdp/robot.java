@@ -32,7 +32,7 @@ public class Robot {
     }
 
     public void setDirection(DIRECTION dir){
-    	this.botDir = dir;
+    	this.robotDir = dir;
     }
     
     public int getRobotPosX() {
@@ -44,7 +44,7 @@ public class Robot {
     }
     
     public DIRECTION getRobotDir(){
-    	return botDir;
+    	return robotDir;
     }
 
     public boolean getRealRobot() {

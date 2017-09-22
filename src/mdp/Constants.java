@@ -11,6 +11,7 @@ public class Constants {
 	public static final int GOAL_X = 14;
 	public static final int GOAL_Y = 19;
 	
+	
 	//robot related constants
 	public static final int ROBOT_WIDTH = 3;
 	public static final int ROBOT_SIZE = 9;
