@@ -1,9 +1,5 @@
 package mdp;
 
-import Map;
-import Constants;
-import Robot;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

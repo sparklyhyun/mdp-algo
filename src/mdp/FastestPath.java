@@ -1,10 +1,4 @@
 package mdp;
-import Coordinates;
-import Map;
-import Constants;
-import robot;
-import robot.DIRECTION;
-import robot.MOVEMENT;
 
 import java.util.ArrayList;
 import java.util.HashMap;
