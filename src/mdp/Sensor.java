@@ -1,4 +1,5 @@
 package mdp;
+import mdp.Constants.*;
 
 public class Sensor {
 	private int minRange;
@@ -6,7 +7,7 @@ public class Sensor {
 	private int x;	//x coordinate of sensor
 	private int y;	//y coordinate of sensor
 	private String id;
-	public enum DIRECTION{N,S,E,W};	
+
 	
 	private DIRECTION dir = DIRECTION.N;	// can change later
 	

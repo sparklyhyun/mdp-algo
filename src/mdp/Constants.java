@@ -21,5 +21,7 @@ public class Constants {
 	public static final int RANGE_SHORT_MIN = 1;
 	public static final int RANGE_SHORT_MAX = 8;
 	
+	public enum DIRECTION{N,S,E,W};	
+	public enum MOVEMENT{F,B,R,L,CALIBRATE, ERROR};
 
 }

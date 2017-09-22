@@ -1,4 +1,5 @@
 package mdp;
+import java.util.*;
 
 public class Exploration {
 	private final Map map;	// for exploration
@@ -145,7 +146,32 @@ public class Exploration {
     
     
     private void returnToStartPos(){
-    	//need fastest path algo!!
+    	//**********************************need to change********************************
+    	if(!robot.getReachedGoal() && coverageLimit == 300 && timeLimit == 3600){// need to change
+    		FastestPath toGoal = new FastestPath(map,robot ,realMap);
+    		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
+    	}
+    	
+    	FastestPath toStart = new FastestPath(map, robot, realMap);
+    	toStart.runFastestPath(Constants.START_X, Constants.START_Y);
+    	//exploration complete if return to starting position
+    	
+    	//print out exploration report
+    	System.out.printf("%.2f%% Coverage", (areaExplored / 300.0) * 100.0);
+        System.out.println(", " + areaExplored + " Cells");
+        System.out.println((System.currentTimeMillis() - startTime) / 1000 + " Seconds");
+
+        /*?????????????????????????????????????????????
+        if (robot.getRealBot()) {
+            turnBotDirection(DIRECTION.WEST);
+            moveBot(MOVEMENT.CALIBRATE);
+            turnBotDirection(DIRECTION.SOUTH);
+            moveBot(MOVEMENT.CALIBRATE);
+            turnBotDirection(DIRECTION.WEST);
+            moveBot(MOVEMENT.CALIBRATE);
+        }
+        turnBotDirection(DIRECTION.NORTH);
+        */
     }
 
     
