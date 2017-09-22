@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-import mdp.Sensor.DIRECTION;
+import mdp.Constants.*;
 
 public class FastestPath {
     private ArrayList<Coordinates> nextVisit;        // array of Coordinates to be visited next
