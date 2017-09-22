@@ -116,6 +116,17 @@ public class Map extends JPanel{
 		return coordinates[x][y];
 	}
 	
+	public void setAllExplored(){
+		for(int i=0; i<=Constants.MAX_X; i++){
+			for(int j=0; i<=Constants.MAX_Y; i++){
+				coordinates[i][j].setExplored();
+			}
+		}
+	}
+	
+	
+	
+	
 	public void genMapDescBefore() throws IOException{	//map descriptor with all 0
 			File file = new File("beforeMap.txt");
 			FileWriter fw = new FileWriter(file);

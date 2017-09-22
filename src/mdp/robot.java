@@ -1,6 +1,8 @@
 package mdp;
 
-import mdp.Sensor.DIRECTION;
+import java.util.concurrent.TimeUnit;
+
+import mdp.Constants.*;
 
 public class Robot {
 	int size = Constants.ROBOT_SIZE;	
@@ -11,6 +13,15 @@ public class Robot {
 	int goalPos_Y = Constants.GOAL_Y;
 	int robotPos_X;
 	int robotPos_Y;	
+	
+	/*
+	private final Sensor sensora;
+	private final Sensor sensorb;
+	private final Sensor sensorc;
+	private final Sensor sensord;
+	private final Sensor sensore;
+	private final Sensor sensorf;
+	 */
 	private DIRECTION robotDir = DIRECTION.N;	// can change later
 	public static final int INFINITE_COST = 9999;
 	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
@@ -32,7 +43,7 @@ public class Robot {
     }
 
     public void setDirection(DIRECTION dir){
-    	this.botDir = dir;
+    	this.robotDir = dir;
     }
     
     public int getRobotPosX() {
@@ -44,7 +55,7 @@ public class Robot {
     }
     
     public DIRECTION getRobotDir(){
-    	return botDir;
+    	return robotDir;
     }
 
     public boolean getRealRobot() {
@@ -56,5 +67,17 @@ public class Robot {
     private void updateReachedGoal() {
         if (this.getRobotPosX() == Constants.GOAL_X && this.getRobotPosY() == Constants.GOAL_Y)
             this.reachedGoal = true;
+    }
+    
+    public void move(MOVEMENT m){		//add boolean send to android
+    	if(!realRobot){
+    		 // Emulate real movement by pausing execution.
+            try {
+                TimeUnit.MILLISECONDS.sleep(speed);
+            } catch (InterruptedException e) {
+                System.out.println("Something went wrong in Robot.move()!");
+            }
+    	}
+    	
     }
     }
