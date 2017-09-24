@@ -272,6 +272,42 @@ public class Exploration {
         turnBotDirection(DIRECTION.NORTH);
         */
     }
+    
+    //trying gui
+    private void paintAfterSense(){
+    	robot.setSentors();
+    	robot.senseDist(map, realMap);
+    	map.repaint();
+    }
+    
+    private void moveRobot(MOVEMENT m){
+    	robot.move(m, 1, false); 		//for the time being
+    	map.repaint();
+    	if(m!= MOVEMENT.CALIBRATE){
+    		paintAfterSense();
+    	}else{
+    		//set commMgr
+    	}
+    	if(robot.getRealRobot() && !calibrationMode){
+    		calibrationMode = true;
+    		
+    		if(canCalibrate(robot.getRobotDir())){
+    			lastCalibrate = 0;
+    			moveRobot(MOVEMENT.CALIBRATE);    		
+    		}else{
+    			lastCalibrate++;
+    			if(lastCalibrate>=5){
+    				DIRECTION target = calibrateTargetDirection();
+    				if(target != null){
+    					lastCalibrate = 0;
+    					calibrateBot(target);
+    				}
+    				
+    			}
+    		}
+    		calibrationMode = false;
+    	}
+    }
 
     
 }
