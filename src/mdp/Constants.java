@@ -57,6 +57,9 @@ public class Constants {
 	public static final int ROBOT_H = 70;
 	public static final int ROBOT_W = 70;
 	
+	public static final int ROBOT_H_DIR = 10;
+	public static final int ROBOT_W_DIR = 10;
+	
 	public static final Color ROBOT_DIR = Color.WHITE;
 	
 	
