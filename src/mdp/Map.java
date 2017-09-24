@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Map extends JPanel{
 	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_X][Constants.MAX_Y];
-	
-	
+	private final Robot robot = null;
+
 	public Map() throws IOException{
 		
 		for(int i = 0; i<Constants.MAX_X; i++){
@@ -125,6 +125,13 @@ public class Map extends JPanel{
 		}
 	}
 	
+	private boolean isStartZone(int x, int y){
+		return x>=0 && x<=2 && y>=0 && x<= 2; 
+	}
+	
+	private boolean isGoalZone(int x, int y){
+		return x<=Constants.GOAL_X+1 && x>=Constants.GOAL_Y-1 && y<=Constants.GOAL_Y+1 && y>=Constants.GOAL_Y-1;
+	}
 	
 	
 	
@@ -374,6 +381,69 @@ public class Map extends JPanel{
 			
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	public void paintComponent(Graphics g){
+		GuiCell[][] guiCells = new GuiCell[Constants.MAX_X][Constants.MAX_Y]; //name??
+		for(int i=0; i<Constants.MAX_X; i++){
+			for(int j=0; j<Constants.MAX_Y; j++){
+				guiCells[i][j] = new GuiCell(i*Constants.CELL_SIZE, j*Constants.CELL_SIZE, Constants.CELL_SIZE);
+				
+			}
+		}
+		
+		for(int i=0; i<Constants.MAX_X; i++){
+			for(int j=0; j<Constants.MAX_Y; j++){
+				Color cellColor;
+				if(isStartZone(i,j)){
+					cellColor = Constants.COLOR_START;
+				}else if(isGoalZone(i,j)){
+					cellColor = Constants.COLOR_GOAL;
+				}else{
+					if(!coordinates[i][j].getIsExplored()){
+						cellColor = Constants.COLOR_UNEXP;
+					}else if(coordinates[i][j].getIsObstacle()){
+						cellColor = Constants.COLOR_OBS;
+					}else{
+						cellColor = Constants.COLOR_FREE;
+					}
+				}
+				g.setColor(cellColor);
+				g.fillRect(guiCells[i][j].x + Constants.MAPX_OFFSET, guiCells[i][j].y, guiCells[i][j].cellSize, guiCells[i][j].cellSize);
+			}
+		}
+	
+		g.setColor(Constants.COLOR_ROBOT);
+		int rx = robot.getRobotPosX();
+		int ry = robot.getRobotPosY();
+		g.fillOval((rx-1)*Constants.CELL_SIZE + Constants.MAPX_OFFSET + Constants.ROBOTX_OFFSET , Constants.MAPY - (ry * Constants.CELL_SIZE + Constants.ROBOTY_OFFSET), Constants.ROBOT_W, Constants.ROBOT_H);
+		
+		//to see robot direction
+		g.setColor(Constants.ROBOT_DIR);
+		Constants.DIRECTION d = robot.getRobotDir();
+		switch(d){
+		case N:g.fillOval(rx*Constants.CELL_SIZE + 10 + Constants.MAPX_OFFSET, Constants.MAPY - ry*Constants.CELL_SIZE - 15, Constants.ROBOT_W_DIR, Constants.ROBOT_H_DIR);
+			break;
+		case E:g.fillOval(rx*Constants.CELL_SIZE + 35 + Constants.MAPX_OFFSET, Constants.MAPY - ry*Constants.CELL_SIZE + 10, Constants.ROBOT_W_DIR, Constants.ROBOT_H_DIR);
+			break;
+		case S:g.fillOval(rx*Constants.CELL_SIZE + 10 + Constants.MAPX_OFFSET, Constants.MAPY - ry*Constants.CELL_SIZE + 35, Constants.ROBOT_W_DIR, Constants.ROBOT_H_DIR);
+			break;
+		case W:g.fillOval(rx*Constants.CELL_SIZE + 15 + Constants.MAPX_OFFSET, Constants.MAPY - ry*Constants.CELL_SIZE + 10, Constants.ROBOT_W_DIR, Constants.ROBOT_H_DIR);
+			break;
+		}
+	}
+	
+	private class GuiCell{
+		public final int x;
+		public final int y;
+		public final int cellSize;
+		
+		public GuiCell(int borderX, int borderY, int borderSize){
+			this.x = borderX + Constants.OUTLINE;
+			this.y = Constants.MAPY - (borderY - Constants.OUTLINE);
+			this.cellSize = borderSize - (Constants.OUTLINE * 2);
+			
 		}
 	}
 }

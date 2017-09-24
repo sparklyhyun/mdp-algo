@@ -1,5 +1,7 @@
 package mdp;
 
+import java.awt.*;
+
 public class Constants {
 	//map related constants
 	public static final int MAX_X = 15;
@@ -33,5 +35,30 @@ public class Constants {
 		}
 	};	
 	public enum MOVEMENT{F,B,R,L,CALIBRATE, ERROR};
+	
+	
+	//GUI related constants
+	public static final int CELL_SIZE = 30;
+	public static final Color COLOR_START = Color.ORANGE;
+	public static final Color COLOR_GOAL = 	Color.GREEN;
+	public static final Color COLOR_UNEXP = Color.LIGHT_GRAY;
+	public static final Color COLOR_OBS = Color.BLACK;
+	public static final Color COLOR_FREE = Color.WHITE;
+	public static final Color COLOR_ROBOT = Color.BLUE;
+	
+	public static final int OUTLINE = 2;
+	
+	public static final int MAPY = 600;
+	public static final int MAPX_OFFSET = 120;
+	
+	public static final int ROBOTX_OFFSET = 10;
+	public static final int ROBOTY_OFFSET = 20;
+	
+	public static final int ROBOT_H = 70;
+	public static final int ROBOT_W = 70;
+	
+	public static final Color ROBOT_DIR = Color.WHITE;
+	
+	
 
 }
