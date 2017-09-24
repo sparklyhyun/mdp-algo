@@ -31,7 +31,7 @@ public class Exploration {
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
     	while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
-    		moveNext();
+    		moveNext(1, false);
     		
     		areaExplored = getAreaExplored();
     		
@@ -248,11 +248,11 @@ public class Exploration {
     	//**********************************need to change********************************
     	if(!robot.getReachedGoal() && coverageLimit == 300 && timeLimit == 3600){// need to change
     		FastestPath toGoal = new FastestPath(map,robot ,realMap);
-    		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
+    		//toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
     	
     	FastestPath toStart = new FastestPath(map, robot, realMap);
-    	toStart.runFastestPath(Constants.START_X, Constants.START_Y);
+    	//toStart.runFastestPath(Constants.START_X, Constants.START_Y);
     	//exploration complete if return to starting position
     	
     	//print out exploration report
