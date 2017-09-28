@@ -52,8 +52,8 @@ public class Map extends JPanel{
 			if(!(coordinates[x-1][y].getIsVirtualWall() && coordinates[x-1][y].getIsObstacle())){ //left
 				coordinates[x-1][y].setIsVirtualWall();
 				}
-			if(!(coordinates[x+1][y].getIsVirtualWall()&& coordinates[x+1][y].getIsObstacle())){ //right
-				coordinates[x+1][y].setIsVirtualWall();
+			if(!(coordinates[y][x+1].getIsVirtualWall()&& coordinates[y][x+1].getIsObstacle())){ //right
+				coordinates[y][x+1].setIsVirtualWall();
 			}			
 		}
 		
