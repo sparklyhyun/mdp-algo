@@ -24,6 +24,26 @@ public class Exploration {
     };
     
     public void startExploration(){
+    	if(robot.getRealRobot()){
+    		/*set up communication manager
+    		 * 
+    		 */
+    		if(robot.getRealRobot()){
+    			/*calibrate robot 
+    			 * 
+    			 */
+    		}
+    		while(true){
+        		/*print out communication message
+        		 * 
+        		 */
+        	}
+    		
+    	}
+    	startTime = System.currentTimeMillis();
+    	endTime = startTime + (timeLimit + 1000);
+    	explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	
     	
     }
     
@@ -43,7 +63,7 @@ public class Exploration {
     		}
     	}
     	
-    	returnToStartPos();
+    	//returnToStartPos();
     	
     }
     
