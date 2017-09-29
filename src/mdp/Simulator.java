@@ -201,10 +201,12 @@ public class Simulator {
         // Exploration Button
         JButton Exploration_btn = new JButton("Exploration");
         formatButton(Exploration_btn);
+        
         Exploration_btn.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 CardLayout cl = ((CardLayout) _mapTiles.getLayout());
                 cl.show(_mapTiles, "EXPLORATION");
+                
                 new Explore().execute();
                 
             }

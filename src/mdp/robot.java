@@ -138,8 +138,10 @@ public class Robot {
     
     private DIRECTION dirToRotate(MOVEMENT m){ //if move right, rotate right, if left roatate left
     	if(m == MOVEMENT.R){
+    		System.out.println("rotate R");
     		return DIRECTION.next(robotDir);	//directions in clockwise order	, rotate right
     	}else{
+    		System.out.print("rotate L");
     		return DIRECTION.prev(robotDir);	//rotate left
     	}
     }

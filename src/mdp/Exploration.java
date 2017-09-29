@@ -58,18 +58,18 @@ public class Exploration {
     private void explore(int x, int y){
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
-    	while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
+    	//while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
     		
     		areaExplored = getAreaExplored();
     		
     		//??????????????
-    		if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
-    			if(areaExplored >= 100){
-    				break;
-    			}
-    		}
-    	}
+    		//if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
+    			//if(areaExplored >= 100){
+    				//break;
+    			//}
+    		//}
+    	//}
     	
     	//returnToStartPos();
     	
@@ -77,9 +77,15 @@ public class Exploration {
     
     //THE MAIN PART****************************************************************************
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
-    	if(rightFree()){	//change algorithm later
+    	//change algorithm later
+    	//System.out.print("Is right free? " + rightFree() + "\n");
+    	//System.out.print("Is left free? " + leftFree() + "\n");
+    	//System.out.print("Is front free? " + frontFree() + "\n");
+    	if(rightFree()){	
+
     		//move right
-    		moveRobot(Constants.MOVEMENT.R);
+    		//moveRobot(Constants.MOVEMENT.R);
+    		moveRobot(Constants.MOVEMENT.F);
     		if(frontFree()){
     			//move forward
     			moveRobot(Constants.MOVEMENT.F);
@@ -93,6 +99,7 @@ public class Exploration {
     		//move forward
     		moveRobot(Constants.MOVEMENT.F);
     	}else{
+    		
     		//move right
     		//move right?? <-- change accordingly
     		moveRobot(Constants.MOVEMENT.R);
@@ -203,12 +210,22 @@ public class Exploration {
     	
     }
     
+	int lol = 0;
+	
     private boolean rightFree(){	//look right
     	switch(robot.getRobotDir()){
-    	case N: return isEastFree(); 
-    	case E: return isSouthFree(); 
-    	case S: return isWestFree(); 
-    	case W: return isNorthFree(); 
+    	case N: 
+    		return isEastFree(); 
+    	case E: 
+    		//System.out.print("South Free\n");
+    		return isSouthFree(); 
+    	
+    	case S: 
+    		//System.out.print("West Free\n");
+    		return isWestFree(); 
+    	case W: 
+    		//System.out.print("North Free\n");
+    		return isNorthFree(); 
     	default: return false;
     	}
     }
@@ -223,7 +240,9 @@ public class Exploration {
     	}
     }
     
-    private boolean frontFree(){		// look in front
+    private boolean frontFree(){// look in front
+    	//System.out.print("Currently checking : Frontfree\n");
+    	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
     	switch(robot.getRobotDir()){
     	case N:	return isNorthFree();
     	case E: return isEastFree();
@@ -239,31 +258,37 @@ public class Exploration {
     private boolean isEastFree(){	//true if can move to east
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
-    	return (notObstacleVirtualWall(x+1,y+1) && notObstacleVirtualWall(x+1,y) && notObstacleVirtualWall(x+1, y-1));
+    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y) && notObstacleVirtualWall(x+2, y-1));
 
     }
     
     private boolean isWestFree(){
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x-1,y+1) && notObstacleVirtualWall(x-1, y) && notObstacleVirtualWall(x-1, y-1));
+    	return(notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2, y) && notObstacleVirtualWall(x-2, y-1));
     }
     
     private boolean isSouthFree(){
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x-1, y-1) && notObstacleVirtualWall(x, y-1) && notObstacleVirtualWall(x+1, y-1));
+    	return(notObstacleVirtualWall(x-1, y-2) && notObstacleVirtualWall(x, y-2) && notObstacleVirtualWall(x+1, y-2));
     }
     
     private boolean isNorthFree(){
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x+1, y-1) && notObstacleVirtualWall(x+1, y) && notObstacleVirtualWall(x+1, y+1));
+    	//System.out.println("Current Robot x position : " + x);
+    	//System.out.println("Current Robot y position : " + y);
+    	//System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
+    	//System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
+    	//System.out.println("Is x-1 y+2 true : " + notObstacleVirtualWall(x-1, y+2));
+    	return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2) && notObstacleVirtualWall(x-1, y+2));
     }
     
     private boolean notObstacleVirtualWall(int x, int y){
+    	
     	if(map.checkWithinRange(x, y)){
-    		if(!map.isObstacle(x,y) && !map.isVirtualWall(x, y) && map.isExplored(x,y)){
+    		if(!map.isObstacle(x,y) && /*!map.isVirtualWall(x, y) &&*/ map.isExplored(x,y)){
     			return true;
     		}
     	}
@@ -321,6 +346,7 @@ public class Exploration {
     }
     
     private void moveRobot(MOVEMENT m){
+    	//MOVEMENT.F
     	robot.move(m, 1, false); 		//for the time being
     	map.repaint();
     	if(m!= MOVEMENT.CALIBRATE){
