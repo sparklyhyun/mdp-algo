@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class Simulator {
 	private static JFrame _mapFrame = null;          // JFrame to display Map
@@ -21,13 +22,13 @@ public class Simulator {
 	
 	//private static final CommMgr comm = CommMgr.getCommMgr();
 
-	private static final boolean realExecution = true;
+	private static final boolean realExecution = false; //for now, not real map
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		//if (realExecution) comm.openConnection();   //connection function to be added!!!
 
-		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);
+		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution); 
 
 		if (!realExecution) {
 		    realMap = new Map(); 
@@ -110,7 +111,7 @@ public class Simulator {
 				public void mouseClicked(MouseEvent e) {
 				    loadMapDialog.setVisible(false);
 				    //loadMapFromDisk(realMap, loadText.getText());
-				    exploredMap.readMapDesc();
+				    //exploredMap.readMapDesc();
 				    CardLayout cl = ((CardLayout) _mapTiles.getLayout());
 				    cl.show(_mapTiles, "REAL_MAP");
 				    realMap.repaint();
@@ -126,6 +127,7 @@ public class Simulator {
 		    _mapButtons.add(LoadMap_btn);
 	}
         // FastestPath Class
+		/*
         class FastestPath extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 robot.setRobotPos(Constants.START_X, Constants.START_Y);
@@ -139,15 +141,17 @@ public class Simulator {
                    // }
                 }
 
-                FastestPath fastestPath = new FastestPath(exploredMap, robot);
+                //FastestPath fastestPath = new FastestPath(exploredMap, robot);
 
                 //fastestPath.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
 
                 return 222;
             }
-        }	
+        }
+        */	
 		
         // Fastest Path Button
+        /*
         JButton FastestPath_btn = new JButton("Fastest Path");
         formatButton(FastestPath_btn);
         FastestPath_btn.addMouseListener(new MouseAdapter() {
@@ -158,9 +162,10 @@ public class Simulator {
             }
         });
         _buttons.add(FastestPath_btn);	
-		
+		*/
 		
         // Exploration Class
+            /*
         class Exploration extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 int x, y;
@@ -200,6 +205,8 @@ public class Simulator {
             }
         });
         _buttons.add(Exploration_btn);
-
+		*/
 
 }
+        }
+

@@ -24,6 +24,26 @@ public class Exploration {
     };
     
     public void startExploration(){
+    	if(robot.getRealRobot()){
+    		/*set up communication manager
+    		 * 
+    		 */
+    		if(robot.getRealRobot()){
+    			/*calibrate robot 
+    			 * 
+    			 */
+    		}
+    		while(true){
+        		/*print out communication message
+        		 * 
+        		 */
+        	}
+    		
+    	}
+    	startTime = System.currentTimeMillis();
+    	endTime = startTime + (timeLimit + 1000);
+    	explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	
     	
     }
     
@@ -43,7 +63,7 @@ public class Exploration {
     		}
     	}
     	
-    	returnToStartPos();
+    	//returnToStartPos();
     	
     }
     
@@ -271,6 +291,42 @@ public class Exploration {
         }
         turnBotDirection(DIRECTION.NORTH);
         */
+    }
+    
+    //trying gui
+    private void paintAfterSense(){
+    	robot.setSentors();
+    	robot.senseDist(map, realMap);
+    	map.repaint();
+    }
+    
+    private void moveRobot(MOVEMENT m){
+    	robot.move(m, 1, false); 		//for the time being
+    	map.repaint();
+    	if(m!= MOVEMENT.CALIBRATE){
+    		paintAfterSense();
+    	}else{
+    		//set commMgr
+    	}
+    	if(robot.getRealRobot() && !calibrationMode){
+    		calibrationMode = true;
+    		
+    		if(canCalibrate(robot.getRobotDir())){
+    			lastCalibrate = 0;
+    			moveRobot(MOVEMENT.CALIBRATE);    		
+    		}else{
+    			lastCalibrate++;
+    			if(lastCalibrate>=5){
+    				DIRECTION target = calibrateTargetDirection();
+    				if(target != null){
+    					lastCalibrate = 0;
+    					calibrateBot(target);
+    				}
+    				
+    			}
+    		}
+    		calibrationMode = false;
+    	}
     }
 
     
