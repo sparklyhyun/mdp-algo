@@ -31,10 +31,10 @@ public class Simulator {
 		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution); 
 
 		if (!realExecution) {
-		    realMap = new Map(); 
+		    realMap = new Map(robot); 
 		}
 
-		exploredMap = new Map();
+		exploredMap = new Map(robot);
 		viewFullMap();
 	}	
 	

@@ -7,10 +7,10 @@ import java.awt.*;
 
 public class Map extends JPanel{
 	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_Y][Constants.MAX_X];
-	private final Robot robot = null;
+	private Robot robot = null;
 
-	public Map() throws IOException{
-		
+	public Map(Robot robot) throws IOException{
+		this.robot = robot;
 		for(int i = 0; i<Constants.MAX_Y; i++){
 			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
@@ -32,13 +32,13 @@ public class Map extends JPanel{
 		boolean withinX = false;
 		boolean withinY = false;
 		
-		if(x>=1 && x<=Constants.MAX_X-1){
+		if(x>=0 && x<Constants.MAX_X){
 			withinX = true;
 		}else{
 			return;
 		}
 		
-		if(y>=1 && y<=Constants.MAX_Y-1){
+		if(y>=0 && y<Constants.MAX_Y){
 			withinY = true;
 		}else{
 			return;
@@ -49,34 +49,34 @@ public class Map extends JPanel{
 		
 		//middle row
 		if(withinX){
-			if(!(coordinates[y][x-1].getIsVirtualWall() && coordinates[y][x-1].getIsObstacle())){ //left
+			if(checkWithinRange(x-1,y) && !(coordinates[y][x-1].getIsVirtualWall() && coordinates[y][x-1].getIsObstacle())){ //left
 				coordinates[y][x-1].setIsVirtualWall();
 				}
-			if(!(coordinates[y][x+1].getIsVirtualWall()&& coordinates[y][x+1].getIsObstacle())){ //right
+			if(checkWithinRange(x+1,y) && !(coordinates[y][x+1].getIsVirtualWall()&& coordinates[y][x+1].getIsObstacle())){ //right
 				coordinates[y][x+1].setIsVirtualWall();
 			}			
 		}
 		
 		//top row
 		if(withinX && withinY){
-			if(!(coordinates[y+1][x-1].getIsVirtualWall()&& coordinates[y+1][x-1].getIsObstacle())){ //left
+			if(checkWithinRange(x-1,y+1) && !(coordinates[y+1][x-1].getIsVirtualWall()&& coordinates[y+1][x-1].getIsObstacle())){ //left
 				coordinates[y+1][x-1].setIsVirtualWall();
 			}
-			if(!(coordinates[y+1][x].getIsVirtualWall()&& coordinates[y+1][x].getIsObstacle())){ //middle
+			if(checkWithinRange(x,y+1) && !(coordinates[y+1][x].getIsVirtualWall()&& coordinates[y+1][x].getIsObstacle())){ //middle
 				coordinates[y+1][x].setIsVirtualWall();
 			}
-			if(!(coordinates[y+1][x+1].getIsVirtualWall()&& coordinates[y+1][x+1].getIsObstacle())){ //right
+			if(checkWithinRange(x+1,y+1) && !(coordinates[y+1][x+1].getIsVirtualWall()&& coordinates[y+1][x+1].getIsObstacle())){ //right
 				coordinates[y+1][x+1].setIsVirtualWall();
 			}
 			
 		//bottom row
-			if(!(coordinates[y-1][x-1].getIsVirtualWall()&& coordinates[y-1][x-1].getIsObstacle())){	//left
+			if(checkWithinRange(x-1,y-1) && !(coordinates[y-1][x-1].getIsVirtualWall()&& coordinates[y-1][x-1].getIsObstacle())){	//left
 				coordinates[y-1][x-1].setIsVirtualWall();
 			}
-			if(!(coordinates[y-1][x].getIsVirtualWall()&& coordinates[y-1][x].getIsObstacle())){	//middle
+			if(checkWithinRange(x,y-1) && !(coordinates[y-1][x].getIsVirtualWall()&& coordinates[y-1][x].getIsObstacle())){	//middle
 				coordinates[y-1][x].setIsVirtualWall();
 			}
-			if(!(coordinates[y-1][x+1].getIsVirtualWall()&& coordinates[y-1][x+1].getIsObstacle())){	//bottom
+			if(checkWithinRange(x+1,y-1) && !(coordinates[y-1][x+1].getIsVirtualWall()&& coordinates[y-1][x+1].getIsObstacle())){	//bottom
 				coordinates[y-1][x+1].setIsVirtualWall();
 			}
 		}
@@ -357,9 +357,14 @@ public class Map extends JPanel{
 			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
 			String s;
 			
-			while((s = br.readLine())!= null && i!=20){
+			while((s = br.readLine())!= null){
+				sb.append(s);
+				sb.append("\n"); //end of line character
+				
+				/*
 				if(s.charAt(i) == c){
 					setObstacles(x,y);
 				}
@@ -376,8 +381,29 @@ public class Map extends JPanel{
 					break;
 				}
 				i++;
+				*/
 			}
 			br.close();
+			fr.close();
+			while(i<Constants.MAP_SIZE){
+				if(sb.charAt(i) == c){
+					setObstacles(x,y);
+				}
+				if(x<Constants.MAX_X){
+					x++;
+				}
+				else{
+					x = 0;
+				}
+				if(y<Constants.MAX_Y && x == Constants.MAX_X){
+					y++;
+				}
+				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
+					break;
+				}
+				i++;
+			}
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();

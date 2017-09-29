@@ -8,8 +8,8 @@ public class Constants {
 	public static final int MAX_Y = 20;
 	public static final int MAP_SIZE = 300;
 	
-	public static int START_X = 1; 
-	public static int START_Y = 1;
+	public static final int START_X = 1; 
+	public static final int START_Y = 1;
 	public static final int GOAL_X = 14;
 	public static final int GOAL_Y = 19;
 	
