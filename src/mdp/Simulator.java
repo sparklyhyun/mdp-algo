@@ -1,10 +1,12 @@
 package mdp;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+
 
 public class Simulator {
 	private static JFrame _mapFrame = null;          // JFrame to display Map
@@ -14,8 +16,8 @@ public class Simulator {
 
 	private static Robot robot;
 
-	private static Map realMap = null;              // real map
-	private static Map exploredMap = null;          // exploration map
+	private static Map realMap;              // real map
+	private static Map exploredMap;          // exploration map
 
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
@@ -165,7 +167,7 @@ public class Simulator {
 		*/
 		
         // Exploration Class
-            /*
+            
         class Exploration extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 int x, y;
@@ -178,16 +180,18 @@ public class Simulator {
 
                 Exploration exploration;
                 exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
-
+                	
+                /*
                 if (realRun) {
                     //CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);
                 }
-
-                exploration.runExploration();
-                generateMapDescriptor(exploredMap);
+				*/
+                
+                exploration.startExploration();
+               //generateMapDescriptor(exploredMap);
 
                 if (realExecution) {
-                    new FastestPath().execute();
+                    //new FastestPath().execute();
                 }
 
                 return 111;
@@ -204,8 +208,8 @@ public class Simulator {
                 new Exploration().execute();
             }
         });
-        _buttons.add(Exploration_btn);
-		*/
+        _mapButtons.add(Exploration_btn);
+		
 
 }
         }

@@ -129,7 +129,7 @@ public class Map extends JPanel{
 		return x>=0 && x<=2 && y>=0 && y<= 2; 
 	}
 	
-	private boolean isGoalZone(int x, int y){
+	private boolean isGoalZone(int y, int x){
 		return x<=Constants.GOAL_X+1 && x>=Constants.GOAL_X-1 && y<=Constants.GOAL_Y+1 && y>=Constants.GOAL_Y-1;
 	}
 	
