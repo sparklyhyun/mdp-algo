@@ -10,8 +10,8 @@ public class Constants {
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
-	public static final int GOAL_X = 14;
-	public static final int GOAL_Y = 19;
+	public static final int GOAL_X = 13;
+	public static final int GOAL_Y = 18;
 	
 	
 	//robot related constants
