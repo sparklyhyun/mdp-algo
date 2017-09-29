@@ -168,7 +168,7 @@ public class Simulator {
 		
         // Exploration Class
             
-        class Exploration extends SwingWorker<Integer, String> {
+        class Explore extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 int x, y;
 
@@ -178,8 +178,7 @@ public class Simulator {
                 robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                Exploration exploration;
-                exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
                 	
                 /*
                 if (realRun) {
@@ -187,8 +186,8 @@ public class Simulator {
                 }
 				*/
                 
-                exploration.explore();
-               // exploration.startExploration();
+                //exploration.explore(x,y);
+                exploration.startExploration();
                //generateMapDescriptor(exploredMap);
 
                 if (realExecution) {
@@ -206,7 +205,8 @@ public class Simulator {
             public void mousePressed(MouseEvent e) {
                 CardLayout cl = ((CardLayout) _mapTiles.getLayout());
                 cl.show(_mapTiles, "EXPLORATION");
-                new Exploration().execute();
+                new Explore().execute();
+                
             }
         });
         _mapButtons.add(Exploration_btn);
