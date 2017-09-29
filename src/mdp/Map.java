@@ -331,30 +331,7 @@ public class Map extends JPanel{
 		String ss = "1";
 		char c = ss.charAt(0);	//cast string to char
 		
-		try{
-			/*
-			f = new FileInputStream("testMap.txt");
-			isr = new InputStreamReader(f);
-			
-			//read till end of the file
-			while((i = isr.read())!= -1){
-				if(i == 1){
-					setObstacles(x,y);
-				}
-				if(x<=Constants.MAX_X-1){
-					x++;
-				}
-				else{
-					x = 0;
-				}
-				if(y<=Constants.MAX_Y-1 && x == Constants.MAX_X-1){
-					y++;
-				}
-				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
-					break;
-				}
-				*/
-			File file = new File("testMap.txt");
+		try{			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
@@ -363,28 +340,10 @@ public class Map extends JPanel{
 			while((s = br.readLine())!= null){
 				sb.append(s);
 				sb.append("\n"); //end of line character
-				
-				/*
-				if(s.charAt(i) == c){
-					setObstacles(x,y);
-				}
-				if(x<Constants.MAX_X){
-					x++;
-				}
-				else{
-					x = 0;
-				}
-				if(y<Constants.MAX_Y && x == Constants.MAX_X){
-					y++;
-				}
-				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
-					break;
-				}
-				i++;
-				*/
 			}
 			br.close();
 			fr.close();
+			
 			while(i<Constants.MAP_SIZE){
 				if(sb.charAt(i) == c){
 					setObstacles(x,y);
