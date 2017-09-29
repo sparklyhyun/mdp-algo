@@ -7,9 +7,9 @@ public class Coordinates {
 	private boolean isExplored = false;
 	private boolean isVirtualWall = false;
 	
-	public Coordinates(int x, int y){
-		this.x = x;
-		this.y = y;
+	public Coordinates(int i, int j){
+		this.x = j;
+		this.y = i;
 	}
 	
 	public int getX(){
