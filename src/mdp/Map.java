@@ -130,7 +130,7 @@ public class Map extends JPanel{
 	}
 	
 	private boolean isGoalZone(int x, int y){
-		return x<=Constants.GOAL_X+1 && x>=Constants.GOAL_Y-1 && y<=Constants.GOAL_Y+1 && y>=Constants.GOAL_Y-1;
+		return x<=Constants.GOAL_X+1 && x>=Constants.GOAL_X-1 && y<=Constants.GOAL_Y+1 && y>=Constants.GOAL_Y-1;
 	}
 	
 	
@@ -331,7 +331,8 @@ public class Map extends JPanel{
 		String ss = "1";
 		char c = ss.charAt(0);	//cast string to char
 		
-		try{			File file = new File("testMap.txt");
+		try{			
+			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
@@ -369,12 +370,12 @@ public class Map extends JPanel{
 		}
 	}
 	
+	//GUI 
 	public void paintComponent(Graphics g){
 		GuiCell[][] guiCells = new GuiCell[Constants.MAX_Y][Constants.MAX_X]; //name??
 		for(int i=0; i<Constants.MAX_Y; i++){
 			for(int j=0; j<Constants.MAX_X; j++){
-				guiCells[i][j] = new GuiCell(i*Constants.CELL_SIZE, j*Constants.CELL_SIZE, Constants.CELL_SIZE);
-				
+				guiCells[i][j] = new GuiCell(j*Constants.CELL_SIZE, i*Constants.CELL_SIZE, Constants.CELL_SIZE);
 			}
 		}
 		

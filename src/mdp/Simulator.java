@@ -43,7 +43,7 @@ public class Simulator {
 		_mapFrame = new JFrame();
 		_mapFrame.setTitle("Group 9 MDP Simulator");
 		_mapFrame.setSize(new Dimension(690, 700));
-		_mapFrame.setResizable(false);
+		_mapFrame.setResizable(true);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
