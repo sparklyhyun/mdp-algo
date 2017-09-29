@@ -359,7 +359,7 @@ public class Map extends JPanel{
 			BufferedReader br = new BufferedReader(fr);
 			String s;
 			
-			while((s = br.readLine())!= null){
+			while((s = br.readLine())!= null && i!=20){
 				if(s.charAt(i) == c){
 					setObstacles(x,y);
 				}
