@@ -24,7 +24,7 @@ public class Exploration {
     };
     
     public void startExploration(){
-    	if(robot.getRealRobot()){
+    	if(robot.getRealRobot()){	
     		/*set up communication manager
     		 * 
     		 */
@@ -44,6 +44,14 @@ public class Exploration {
     	endTime = startTime + (timeLimit + 1000);
     	explore(robot.getRobotPosX(), robot.getRobotPosY());
     	
+    	if(robot.getRealRobot()){
+    		//set communication manager
+    	}
+    	paintAfterSense();
+    	
+    	//print out area calculated??
+    	
+    	explore(robot.getRobotPosX(), robot.getRobotPosY());
     	
     }
     
@@ -69,29 +77,40 @@ public class Exploration {
     
     //THE MAIN PART****************************************************************************
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
-    	if(rightFree()){
+    	if(rightFree()){	//change algorithm later
     		//move right
+    		moveRobot(Constants.MOVEMENT.R);
     		if(frontFree()){
     			//move forward
+    			moveRobot(Constants.MOVEMENT.F);
     		}
     	}
     	else if(leftFree()){
     		//move left
+    		moveRobot(Constants.MOVEMENT.L);
     	}
     	else if(frontFree()){
     		//move forward
+    		moveRobot(Constants.MOVEMENT.F);
     	}else{
     		//move right
-    		//move right??  <- our algo
+    		//move right?? <-- change accordingly
+    		moveRobot(Constants.MOVEMENT.R);
+    		moveRobot(Constants.MOVEMENT.R);
     	}
     }
     
     private void robotMove(MOVEMENT m, int count, boolean toAndroid){
     	robot.move(m, count, toAndroid);
-    	/*
-    	 * update gui
-    	 * 
-    	 */
+    	map.repaint();
+    	
+    	if(m != MOVEMENT.CALIBRATE){
+    		paintAfterSense();
+    	}else{
+    		/*set up commMgr
+    		 * 
+    		 */
+    	}
     	
     	if(robot.getRealRobot() && !calibrationMode){
     		calibrationMode = true;
@@ -124,10 +143,11 @@ public class Exploration {
 		int turns = Math.abs(robot.getRobotDir().ordinal()-targetDir.ordinal());
 		if(turns>2){	//if multiple turns, decide whether to rotate left or right 
 			turns = turns %2;
-		}else if(turns == 2){	//rotate right twice (direction in clockwise)
-			robotMove(MOVEMENT.R, 1, false);
-			robotMove(MOVEMENT.R, 1, false);
 		}
+		/*else if(turns == 2){	//rotate right twice (direction in clockwise)
+			robotMove(MOVEMENT.R, 1, false);
+			robotMove(MOVEMENT.R, 1, false);
+		}*/
 		
 		if(turns == 1){	//after modulus
 			if(DIRECTION.next(robot.getRobotDir()) == targetDir){	//if clockwise
