@@ -345,6 +345,9 @@ public class Map extends JPanel{
 			br.close();
 			fr.close();
 			
+			//test
+			//System.out.print(sb);
+			
 			while(i<Constants.MAP_SIZE){
 				if(sb.charAt(i) == c){
 					setObstacles(x,y);

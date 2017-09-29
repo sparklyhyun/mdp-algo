@@ -92,6 +92,7 @@ public class Robot {
     	//count >= 1, move multiple steps forward
     	if(!realRobot){
     		 // Emulate real movement by pausing execution.
+    		
             try {
                 TimeUnit.MILLISECONDS.sleep(speed);
             } catch (InterruptedException e) {
@@ -128,7 +129,10 @@ public class Robot {
     	}
     	
     	//if(realRobot) sendMovement(m, toAndroid); <----------- need to change later
-    	//else System.out.println("Move: " +MOVEMENT.print(m)
+    	
+    	//else 
+    	//test
+    	System.out.println("Move: " + m);
     	updateReachedGoal();
     }
     
