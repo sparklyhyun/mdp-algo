@@ -187,7 +187,8 @@ public class Simulator {
                 }
 				*/
                 
-                exploration.startExploration();
+                exploration.explore();
+               // exploration.startExploration();
                //generateMapDescriptor(exploredMap);
 
                 if (realExecution) {
