@@ -345,22 +345,22 @@ public class FastestPath {
         int y = robot.getRobotPosY();
 
         switch (robot.getRobotCurDir()) {
-            case NORTH:
+            case N:
                 if (!map.isObstacle(y + 2, x - 1) && !map.isObstacle(y + 2, x) && !map.isObstacle(y + 2, x + 1)) {
                     return true;
                 }
                 break;
-            case EAST:
+            case E:
                 if (!map.isObstacle(y + 1, x + 2) && !map.isObstacle(y, x + 2) && !map.isObstacle(y - 1, x + 2)) {
                     return true;
                 }
                 break;
-            case SOUTH:
+            case S:
                 if (!map.isObstacle(y - 2, x - 1) && !map.isObstacle(y - 2, x) && !map.isObstacle(y - 2, x + 1)) {
                     return true;
                 }
                 break;
-            case WEST:
+            case W:
                 if (!map.isObstacle(y + 1, x - 2) && !map.isObstacle(y, x - 2) && !map.isObstacle(y - 1, x - 2)) {
                     return true;
                 }
@@ -375,51 +375,51 @@ public class FastestPath {
      */
     private MOVEMENT getTargetMove(DIRECTION a, DIRECTION b) {
         switch (a) {
-            case NORTH:
+            case N:
                 switch (b) {
-                    case NORTH:
+                    case N:
                         return MOVEMENT.ERROR;
-                    case SOUTH:
+                    case S:
                         return MOVEMENT.LEFT;
-                    case WEST:
+                    case W:
                         return MOVEMENT.LEFT;
-                    case EAST:
+                    case E:
                         return MOVEMENT.RIGHT;
                 }
                 break;
-            case SOUTH:
+            case S:
                 switch (b) {
-                    case NORTH:
+                    case N:
                         return MOVEMENT.LEFT;
-                    case SOUTH:
+                    case S:
                         return MOVEMENT.ERROR;
-                    case WEST:
+                    case W:
                         return MOVEMENT.RIGHT;
-                    case EAST:
+                    case E:
                         return MOVEMENT.LEFT;
                 }
                 break;
-            case WEST:
+            case W:
                 switch (b) {
-                    case NORTH:
+                    case N:
                         return MOVEMENT.RIGHT;
-                    case SOUTH:
+                    case S:
                         return MOVEMENT.LEFT;
-                    case WEST:
+                    case W:
                         return MOVEMENT.ERROR;
-                    case EAST:
+                    case E:
                         return MOVEMENT.LEFT;
                 }
                 break;
-            case EAST:
+            case E:
                 switch (b) {
-                    case NORTH:
+                    case N:
                         return MOVEMENT.LEFT;
-                    case SOUTH:
+                    case S:
                         return MOVEMENT.RIGHT;
-                    case WEST:
+                    case W:
                         return MOVEMENT.LEFT;
-                    case EAST:
+                    case E:
                         return MOVEMENT.ERROR;
                 }
         }
