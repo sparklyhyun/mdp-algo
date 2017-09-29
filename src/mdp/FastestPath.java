@@ -13,7 +13,7 @@ public class FastestPath {
     private Coordinates current;                   // current Coordinates
     private Coordinates[] neighbors;               // array of neighbors of current Coordinates
     private DIRECTION curDir;               // current direction of robot
-    private double[][] gCosts;              // array of real cost from START to [x-coordinate][y-coordinate] i.e. g(n)
+    private double[][] gCosts;              // array of real cost from START to [y-coordinate][x-coordinate] i.e. g(n)
     private Robot robot;
     private Map map;
     private Map realMap;
@@ -38,13 +38,13 @@ public class FastestPath {
         this.visited = new ArrayList<>();
         this.parents = new HashMap<>();
         this.neighbors = new Coordinates[4];
-        this.current = map.getCoordinate(robot.getRobotPosX(), robot.getRobotPosY()); 
+        this.current = map.getCoordinate(robot.getRobotPosY(), robot.getRobotPosX()); 
         this.curDir = robot.getRobotDir();
-        this.gCosts = new double[Constants.MAX_X][Constants.MAX_Y];
+        this.gCosts = new double[Constants.MAX_Y][Constants.MAX_X];
 
         // Initialize gCosts array
-        for (int i = 0; i < Constants.MAX_X; i++) {
-            for (int j = 0; j < Constants.MAX_Y; j++) {
+        for (int i = 0; i < Constants.MAX_Y; i++) {
+            for (int j = 0; j < Constants.MAX_X; j++) {
                 Coordinates coordinates = map.getCoordinate(i, j);
                 if (!canBeVisited(coordinates)) {
                     gCosts[i][j] = robot.INFINITE_COST; // TO BE ADDED INTO THE CONSTANTS
@@ -56,11 +56,11 @@ public class FastestPath {
         nextVisit.add(current);
 
         // Initialize starting point
-        gCosts[robot.getRobotPosX()][robot.getRobotPosY()] = 0; 
+        gCosts[robot.getRobotPosY()][robot.getRobotPosX()] = 0; 
         this.loopCount = 0;
     }  
     /**
-     * Returns true if the cell can be visited.
+     * Returns true if the coordinates can be visited.
      */
     private boolean canBeVisited(Coordinates c) {
         boolean checkIsExplored = c.getIsExplored();
@@ -73,14 +73,14 @@ public class FastestPath {
     /**
      * Returns the Coordinates inside nextVisit with the minimum g(n) + h(n).
      */
-    private Coordinates minimumCostCoordinates(int goalX, int goalY) {
+    private Coordinates minimumCostCoordinates(int goalY, int goalX) {
         int size = nextVisit.size();
         double minCost = robot.INFINITE_COST;
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
-            double gCost = gCosts[(nextVisit.get(i).getX())][(nextVisit.get(i).getY())];
-            double cost = gCost + costH(nextVisit.get(i), goalX, goalY);
+            double gCost = gCosts[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())];
+            double cost = gCost + costH(nextVisit.get(i), goalY, goalX);
             if (cost < minCost) {
                 minCost = cost;
                 result = nextVisit.get(i);
@@ -91,17 +91,17 @@ public class FastestPath {
     }
     
     /**
-     * Returns the heuristic cost i.e. h(n) from a given Coordinates to a given [goalX, goalY] in the maze.
+     * Returns the heuristic cost i.e. h(n) from a given Coordinates to a given [goalY, goalX] in the maze.
      */
-    private double costH(Coordinates c, int goalX, int goalY) {
-        // Heuristic: The no. of moves will be equal to the difference in the x coordinate and y coordinate values.
-        double movementCost = (Math.abs(goalY - c.getY()) + Math.abs(goalX - c.getX())) * robot.MOVE_COST;
+    private double costH(Coordinates c, int goalY, int goalX) {
+        // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
+        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * robot.MOVE_COST;
 
         if (movementCost == 0) return 0;
 
-        // Heuristic: If c is not in the same X coordinate and Y coordinate, one turn will be needed.
+        // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
         double turnCost = 0;
-        if (goalY - c.getY() != 0 && goalX - c.getX() != 0) {
+        if (goalX - c.getX() != 0 && goalY - c.getY() != 0) {
             turnCost = robot.TURN_COST;
         }
 
@@ -113,14 +113,14 @@ public class FastestPath {
      */
     private DIRECTION getTargetDir(int robotR, int robotC, DIRECTION robotDir, Coordinates target) {
     	//need to change 
-        if (robotC - target.getY() > 0) {
+        if (robotC - target.getX() > 0) {
             return DIRECTION.W;
-        } else if (target.getY() - robotC > 0) {
+        } else if (target.getX() - robotC > 0) {
             return DIRECTION.E;
         } else {
-            if (robotR - target.getX() > 0) {
+            if (robotR - target.getY() > 0) {
                 return DIRECTION.S;
-            } else if (target.getX() - robotR > 0) {
+            } else if (target.getY() - robotR > 0) {
                 return DIRECTION.N;
             } else {
                 return robotDir;
@@ -146,7 +146,7 @@ public class FastestPath {
         double moveCost = robot.MOVE_COST; // one movement to neighbor
 
         double turnCost;
-        DIRECTION targetDir = getTargetDir(a.getX(), a.getY(), aDir, b);
+        DIRECTION targetDir = getTargetDir(a.getY(), a.getX(), aDir, b);
         turnCost = getTurnCost(aDir, targetDir);
 
         return moveCost + turnCost;
@@ -154,54 +154,54 @@ public class FastestPath {
 }
 
     /**
-     * Find the fastest path from the robot's current position to [goalX, goalY].
+     * Find the fastest path from the robot's current position to [goalY, goalX].
      */
-    public String runFastestPath(int goalX, int goalY) {
-        System.out.println("Calculating fastest path from (" + current.getX() + ", " + current.getY() + ") to goal (" + goalX + ", " + goalY + ")...");
+    public String runFastestPath(int goalY, int goalX) {
+        System.out.println("Calculating fastest path from (" + current.getY() + ", " + current.getX() + ") to goal (" + goalY + ", " + goalX + ")...");
 
-        Stack<Cell> path;
+        Stack<Coordinates> path;
         do {
             loopCount++;
 
-            // Get cell with minimum cost from toVisit and assign it to current.
-            current = minimumCostCell(goalX, goalY);
+            // Get coordinates with minimum cost from nextVisit and assign it to current.
+            current = minimumCostCoordinates(goalY, goalX);
 
-            // Point the robot in the direction of current from the previous cell.
+            // Point the robot in the direction of current from the previous coordinates.
             if (parents.containsKey(current)) {
-                curDir = getTargetDir(parents.get(current).getX(), parents.get(current).getY(), curDir, current);
+                curDir = getTargetDir(parents.get(current).getY(), parents.get(current).getX(), curDir, current);
             }
 
             visited.add(current);       // add current to visited
-            toVisit.remove(current);    // remove current from toVisit
+            nextVisit.remove(current);    // remove current from nextVisit
 
-            if (visited.contains(map.getCell(goalX, goalY))) {
+            if (visited.contains(map.getCoordinate(goalY, goalX))) {
                 System.out.println("Goal visited. Path found!");
-                path = getPath(goalX, goalY);
+                path = getPath(goalY, goalX);
                 printFastestPath(path);
-                return executePath(path, goalX, goalY);
+                return executePath(path, goalY, goalX);
             }
 
-            // Setup neighbors of current cell. [Top, Bottom, Left, Right].
-            if (map.checkValidCoordinates(current.getX() + 1, current.getY())) {
-                neighbors[0] = map.getCell(current.getX() + 1, current.getY());
+            // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
+            if (map.checkValidCoordinates(current.getY() + 1, current.getX())) {
+                neighbors[0] = map.getCoordinate(current.getY() + 1, current.getX());
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
                 }
             }
-            if (map.checkValidCoordinates(current.getX() - 1, current.getY())) {
-                neighbors[1] = map.getCell(current.getX() - 1, current.getY());
+            if (map.checkValidCoordinates(current.getY() - 1, current.getX())) {
+                neighbors[1] = map.getCoordinate(current.getY() - 1, current.getX());
                 if (!canBeVisited(neighbors[1])) {
                     neighbors[1] = null;
                 }
             }
-            if (map.checkValidCoordinates(current.getX(), current.getY() - 1)) {
-                neighbors[2] = map.getCell(current.getX(), current.getY() - 1);
+            if (map.checkValidCoordinates(current.getY(), current.getX() - 1)) {
+                neighbors[2] = map.getCoordinate(current.getY(), current.getX() - 1);
                 if (!canBeVisited(neighbors[2])) {
                     neighbors[2] = null;
                 }
             }
-            if (map.checkValidCoordinates(current.getX(), current.getY() + 1)) {
-                neighbors[3] = map.getCell(current.getX(), current.getY() + 1);
+            if (map.checkValidCoordinates(current.getY(), current.getX() + 1)) {
+                neighbors[3] = map.getCoordinate(current.getY(), current.getX() + 1);
                 if (!canBeVisited(neighbors[3])) {
                     neighbors[3] = null;
                 }
@@ -214,21 +214,21 @@ public class FastestPath {
                         continue;
                     }
 
-                    if (!(toVisit.contains(neighbors[i]))) {
+                    if (!(nextVisit.contains(neighbors[i]))) {
                         parents.put(neighbors[i], current);
-                        gCosts[neighbors[i].getX()][neighbors[i].getY()] = gCosts[current.getX()][current.getY()] + costG(current, neighbors[i], curDir);
-                        toVisit.add(neighbors[i]);
+                        gCosts[neighbors[i].getY()][neighbors[i].getX()] = gCosts[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
+                        nextVisit.add(neighbors[i]);
                     } else {
-                        double currentGScore = gCosts[neighbors[i].getX()][neighbors[i].getY()];
-                        double newGScore = gCosts[current.getX()][current.getY()] + costG(current, neighbors[i], curDir);
+                        double currentGScore = gCosts[neighbors[i].getY()][neighbors[i].getX()];
+                        double newGScore = gCosts[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
                         if (newGScore < currentGScore) {
-                            gCosts[neighbors[i].getX()][neighbors[i].getY()] = newGScore;
+                            gCosts[neighbors[i].getY()][neighbors[i].getX()] = newGScore;
                             parents.put(neighbors[i], current);
                         }
                     }
                 }
             }
-        } while (!toVisit.isEmpty());
+        } while (!nextVisit.isEmpty());
 
         System.out.println("Path not found!");
         return null;
@@ -237,9 +237,9 @@ public class FastestPath {
     /**
      * Generates path in reverse using the parents HashMap.
      */
-    private Stack<Cell> getPath(int goalX, int goalY) {
-        Stack<Cell> actualPath = new Stack<>();
-        Cell temp = map.getCell(goalX, goalY);
+    private Stack<Coordinates> getPath(int goalY, int goalX) {
+        Stack<Coordinates> actualPath = new Stack<>();
+        Coordinates temp = map.getCoordinate(goalY, goalX);
 
         while (true) {
             actualPath.push(temp);
@@ -255,38 +255,38 @@ public class FastestPath {
     /**
      * Executes the fastest path and returns a StringBuilder object with the path steps.
      */
-    private String executePath(Stack<Cell> path, int goalX, int goalY) {
+    private String executePath(Stack<Coordinates> path, int goalY, int goalX) {
         StringBuilder outputString = new StringBuilder();
 
-        Cell temp = path.pop();
+        Coordinates temp = path.pop();
         DIRECTION targetDir;
 
         ArrayList<MOVEMENT> movements = new ArrayList<>();
 
-        Robot tempBot = new Robot(1, 1, false);
-        tempBot.setSpeed(0);
-        while ((tempBot.getRobotPosX() != goalX) || (tempBot.getRobotPosY() != goalY)) {
-            if (tempBot.getRobotPosX() == temp.getX() && tempBot.getRobotPosY() == temp.getY()) {
+        Robot tempRobot = new Robot(1, 1, false);
+        tempRobot.setSpeed(0);
+        while ((tempRobot.getRobotPosY() != goalY) || (tempRobot.getRobotPosX() != goalX)) {
+            if (tempRobot.getRobotPosY() == temp.getY() && tempRobot.getRobotPosX() == temp.getX()) {
                 temp = path.pop();
             }
 
-            targetDir = getTargetDir(tempBot.getRobotPosX(), tempBot.getRobotPosY(), tempBot.getRobotCurDir(), temp);
+            targetDir = getTargetDir(tempRobot.getRobotPosY(), tempRobot.getRobotPosX(), tempRobot.getRobotCurDir(), temp);
 
             MOVEMENT m;
-            if (tempBot.getRobotCurDir() != targetDir) {
-                m = getTargetMove(tempBot.getRobotCurDir(), targetDir);
+            if (tempRobot.getRobotCurDir() != targetDir) {
+                m = getTargetMove(tempRobot.getRobotCurDir(), targetDir);
             } else {
                 m = MOVEMENT.FORWARD;
             }
 
-            System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempBot.getRobotPosX() + ", " + tempBot.getRobotPosY() + ") to (" + temp.getX() + ", " + temp.getY() + ")");
+            System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempRobot.getRobotPosY() + ", " + tempRobot.getRobotPosX() + ") to (" + temp.getY() + ", " + temp.getX() + ")");
 
-            tempBot.move(m);
+            tempRobot.move(m);
             movements.add(m);
             outputString.append(MOVEMENT.print(m));
         }
 
-        if (!bot.getRealBot() || explorationMode) {
+        if (!robot.getRealRobot() || explorationMode) {
             for (MOVEMENT x : movements) {
                 if (x == MOVEMENT.FORWARD) {
                     if (!canMoveForward()) {
@@ -295,13 +295,13 @@ public class FastestPath {
                     }
                 }
 
-                bot.move(x);
+                robot.move(x);
                 this.map.repaint();
 
                 // During exploration, use sensor data to update map.
                 if (explorationMode) {
-                    bot.setSensors();
-                    bot.sense(this.map, this.realMap);
+                    robot.setSensors();
+                    robot.sense(this.map, this.realMap);
                     this.map.repaint();
                 }
             }
@@ -311,24 +311,24 @@ public class FastestPath {
                 if (x == MOVEMENT.FORWARD) {
                     fCount++;
                     if (fCount == 10) {
-                        bot.moveForwardMultiple(fCount);
+                        robot.moveForwardMultiple(fCount);
                         fCount = 0;
                         map.repaint();
                     }
                 } else if (x == MOVEMENT.RIGHT || x == MOVEMENT.LEFT) {
                     if (fCount > 0) {
-                        bot.moveForwardMultiple(fCount);
+                        robot.moveForwardMultiple(fCount);
                         fCount = 0;
                         map.repaint();
                     }
 
-                    bot.move(x);
+                    robot.move(x);
                     map.repaint();
                 }
             }
 
             if (fCount > 0) {
-                bot.moveForwardMultiple(fCount);
+                robot.moveForwardMultiple(fCount);
                 map.repaint();
             }
         }
@@ -338,30 +338,30 @@ public class FastestPath {
     }
 
     /**
-     * Returns true if the robot can move forward one cell with the current heading.
+     * Returns true if the robot can move forward one coordinate with the current heading.
      */
     private boolean canMoveForward() {
-        int x = bot.getRobotPosX();
-        int y = bot.getRobotPosy();
+        int x = robot.getRobotPosX();
+        int y = robot.getRobotPosY();
 
-        switch (bot.getRobotCurDir()) {
+        switch (robot.getRobotCurDir()) {
             case NORTH:
-                if (!map.isObstacleCell(x + 2, y - 1) && !map.isObstacleCell(x + 2, y) && !map.isObstacleCell(x + 2, y + 1)) {
+                if (!map.isObstacle(y + 2, x - 1) && !map.isObstacle(y + 2, x) && !map.isObstacle(y + 2, x + 1)) {
                     return true;
                 }
                 break;
             case EAST:
-                if (!map.isObstacleCell(x + 1, y + 2) && !map.isObstacleCell(x, y + 2) && !map.isObstacleCell(x - 1, y + 2)) {
+                if (!map.isObstacle(y + 1, x + 2) && !map.isObstacle(y, x + 2) && !map.isObstacle(y - 1, x + 2)) {
                     return true;
                 }
                 break;
             case SOUTH:
-                if (!map.isObstacleCell(x - 2, y - 1) && !map.isObstacleCell(x - 2, y) && !map.isObstacleCell(x - 2, y + 1)) {
+                if (!map.isObstacle(y - 2, x - 1) && !map.isObstacle(y - 2, x) && !map.isObstacle(y - 2, x + 1)) {
                     return true;
                 }
                 break;
             case WEST:
-                if (!map.isObstacleCell(x + 1, y - 2) && !map.isObstacleCell(x, y - 2) && !map.isObstacleCell(x - 1, y - 2)) {
+                if (!map.isObstacle(y + 1, x - 2) && !map.isObstacle(y, x - 2) && !map.isObstacle(y - 1, x - 2)) {
                     return true;
                 }
                 break;
@@ -429,29 +429,29 @@ public class FastestPath {
     /**
      * Prints the fastest path from the Stack object.
      */
-    private void printFastestPath(Stack<Cell> path) {
+    private void printFastestPath(Stack<Coordinates> path) {
         System.out.println("\nLooped " + loopCount + " times.");
         System.out.println("The number of steps is: " + (path.size() - 1) + "\n");
 
-        Stack<Cell> pathForPrint = (Stack<Cell>) path.clone();
-        Cell temp;
+        Stack<Coordinates> pathForPrint = (Stack<Coordinates>) path.clone();
+        Coordinates temp;
         System.out.println("Path:");
         while (!pathForPrint.isEmpty()) {
             temp = pathForPrint.pop();
-            if (!pathForPrint.isEmpty()) System.out.print("(" + temp.getX() + ", " + temp.getY() + ") --> ");
-            else System.out.print("(" + temp.getX() + ", " + temp.getY() + ")");
+            if (!pathForPrint.isEmpty()) System.out.print("(" + temp.getY() + ", " + temp.getX() + ") --> ");
+            else System.out.print("(" + temp.getY() + ", " + temp.getX() + ")");
         }
 
         System.out.println("\n");
     }
 
     /**
-     * Prints all the current g(n) values for the cells.
+     * Prints all the current g(n) values for the coordinates.
      */
     public void printGCosts() {
-        for (int i = 0; i < MapConstants.MAX_X; i++) {
-            for (int j = 0; j < MapConstants.MAX_Y; j++) {
-                System.out.print(gCosts[MapConstants.MAX_X - 1 - i][j]);
+        for (int i = 0; i < Constants.MAX_Y; i++) {
+            for (int j = 0; j < Constants.MAX_X; j++) {
+                System.out.print(gCosts[Constants.MAX_Y - 1 - i][j]);
                 System.out.print(";");
             }
             System.out.println("\n");
