@@ -331,7 +331,8 @@ public class Map extends JPanel{
 		String ss = "1";
 		char c = ss.charAt(0);	//cast string to char
 		
-		try{			File file = new File("testMap.txt");
+		try{			
+			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
