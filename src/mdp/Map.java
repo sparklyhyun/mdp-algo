@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Map extends JPanel{
-	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_X][Constants.MAX_Y];
-	private final Robot robot = null;
+	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_Y][Constants.MAX_X];
+	private Robot robot = null;
 
-	public Map() throws IOException{
-		
-		for(int i = 0; i<Constants.MAX_X; i++){
-			for(int j = 0; j<Constants.MAX_Y; j++){
+	public Map(Robot robot) throws IOException{
+		this.robot = robot;
+		for(int i = 0; i<Constants.MAX_Y; i++){
+			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
 				
 			}
@@ -26,19 +26,19 @@ public class Map extends JPanel{
 	
 	public void setObstacles(int x, int y){
 		//set obstacle
-		coordinates[x][y].setObstacle();
+		coordinates[y][x].setObstacle();
 		
 		//check if within range
 		boolean withinX = false;
 		boolean withinY = false;
 		
-		if(x>=1 && x<=Constants.MAX_X-1){
+		if(x>=0 && x<Constants.MAX_X){
 			withinX = true;
 		}else{
 			return;
 		}
 		
-		if(y>=1 && y<=Constants.MAX_Y-1){
+		if(y>=0 && y<Constants.MAX_Y){
 			withinY = true;
 		}else{
 			return;
@@ -49,43 +49,43 @@ public class Map extends JPanel{
 		
 		//middle row
 		if(withinX){
-			if(!(coordinates[x-1][y].getIsVirtualWall() && coordinates[x-1][y].getIsObstacle())){ //left
-				coordinates[x-1][y].setIsVirtualWall();
+			if(checkWithinRange(x-1,y) && !(coordinates[y][x-1].getIsVirtualWall() && coordinates[y][x-1].getIsObstacle())){ //left
+				coordinates[y][x-1].setIsVirtualWall();
 				}
-			if(!(coordinates[y][x+1].getIsVirtualWall()&& coordinates[y][x+1].getIsObstacle())){ //right
+			if(checkWithinRange(x+1,y) && !(coordinates[y][x+1].getIsVirtualWall()&& coordinates[y][x+1].getIsObstacle())){ //right
 				coordinates[y][x+1].setIsVirtualWall();
 			}			
 		}
 		
 		//top row
 		if(withinX && withinY){
-			if(!(coordinates[x-1][y+1].getIsVirtualWall()&& coordinates[x-1][y+1].getIsObstacle())){ //left
-				coordinates[x-1][y+1].setIsVirtualWall();
+			if(checkWithinRange(x-1,y+1) && !(coordinates[y+1][x-1].getIsVirtualWall()&& coordinates[y+1][x-1].getIsObstacle())){ //left
+				coordinates[y+1][x-1].setIsVirtualWall();
 			}
-			if(!(coordinates[x][y+1].getIsVirtualWall()&& coordinates[x][y+1].getIsObstacle())){ //middle
-				coordinates[x][y+1].setIsVirtualWall();
+			if(checkWithinRange(x,y+1) && !(coordinates[y+1][x].getIsVirtualWall()&& coordinates[y+1][x].getIsObstacle())){ //middle
+				coordinates[y+1][x].setIsVirtualWall();
 			}
-			if(!(coordinates[x+1][y+1].getIsVirtualWall()&& coordinates[x+1][y+1].getIsObstacle())){ //right
-				coordinates[x+1][y+1].setIsVirtualWall();
+			if(checkWithinRange(x+1,y+1) && !(coordinates[y+1][x+1].getIsVirtualWall()&& coordinates[y+1][x+1].getIsObstacle())){ //right
+				coordinates[y+1][x+1].setIsVirtualWall();
 			}
 			
 		//bottom row
-			if(!(coordinates[x-1][y-1].getIsVirtualWall()&& coordinates[x-1][y-1].getIsObstacle())){	//left
-				coordinates[x-1][y-1].setIsVirtualWall();
+			if(checkWithinRange(x-1,y-1) && !(coordinates[y-1][x-1].getIsVirtualWall()&& coordinates[y-1][x-1].getIsObstacle())){	//left
+				coordinates[y-1][x-1].setIsVirtualWall();
 			}
-			if(!(coordinates[x][y-1].getIsVirtualWall()&& coordinates[x][y-1].getIsObstacle())){	//middle
-				coordinates[x][y-1].setIsVirtualWall();
+			if(checkWithinRange(x,y-1) && !(coordinates[y-1][x].getIsVirtualWall()&& coordinates[y-1][x].getIsObstacle())){	//middle
+				coordinates[y-1][x].setIsVirtualWall();
 			}
-			if(!(coordinates[x+1][y-1].getIsVirtualWall()&& coordinates[x-1][y-1].getIsObstacle())){	//bottom
-				coordinates[x+1][y-1].setIsVirtualWall();
+			if(checkWithinRange(x+1,y-1) && !(coordinates[y-1][x+1].getIsVirtualWall()&& coordinates[y-1][x+1].getIsObstacle())){	//bottom
+				coordinates[y-1][x+1].setIsVirtualWall();
 			}
 		}
 	}
 	
 	public void setBoundary(){
 		//sets boundary virtual wall
-		for(int i=0; i < Constants.MAX_X; i++){
-			for(int j=0; j<Constants.MAX_Y; j++){
+		for(int i=0; i < Constants.MAX_Y; i++){
+			for(int j=0; j<Constants.MAX_X; j++){
 				if(i==0 || j==0 || i==Constants.MAX_X-1|| j==Constants.MAX_Y-1){
 					coordinates[i][j].setIsVirtualWall();
 				}
@@ -96,16 +96,16 @@ public class Map extends JPanel{
 	
 	
 	public boolean isObstacle(int x, int y){
-		return (coordinates[x][y].getIsObstacle());
+		return (coordinates[y][x].getIsObstacle());
 
 	}
 	
 	public boolean isExplored(int x, int y){
-		return (coordinates[x][y].getIsExplored());
+		return (coordinates[y][x].getIsExplored());
 	}
 	
 	public boolean isVirtualWall(int x, int y){
-		return (coordinates[x][y].getIsVirtualWall());
+		return (coordinates[y][x].getIsVirtualWall());
 	}
 	
 	
@@ -114,19 +114,19 @@ public class Map extends JPanel{
 	}
 	
 	public Coordinates getCoordinate(int x, int y){
-		return coordinates[x][y];
+		return coordinates[y][x];
 	}
 	
 	public void setAllExplored(){
-		for(int i=0; i<=Constants.MAX_X; i++){
-			for(int j=0; i<=Constants.MAX_Y; i++){
+		for(int i=0; i<=Constants.MAX_Y; i++){
+			for(int j=0; i<=Constants.MAX_X; i++){
 				coordinates[i][j].setExplored();
 			}
 		}
 	}
 	
 	private boolean isStartZone(int x, int y){
-		return x>=0 && x<=2 && y>=0 && x<= 2; 
+		return x>=0 && x<=2 && y>=0 && y<= 2; 
 	}
 	
 	private boolean isGoalZone(int x, int y){
@@ -143,8 +143,8 @@ public class Map extends JPanel{
 				file.createNewFile();
 			}
 
-			for(int i = 0; i<=Constants.MAX_Y-1; i++){
-				for(int j = 0; j<=Constants.MAX_X-1; i++){
+			for(int i = 0; i<Constants.MAX_X; i++){
+				for(int j = 0; j<Constants.MAX_Y-1; i++){
 					bw.write("0");
 				}
 				bw.newLine();
@@ -159,8 +159,8 @@ public class Map extends JPanel{
 		
 
 		
-		for(int i = 0; i<=Constants.MAX_X-1 ; i++){
-			for(int j =0; j<=Constants.MAX_Y-1; j++){
+		for(int i = 0; i<Constants.MAX_Y ; i++){
+			for(int j =0; j<Constants.MAX_X; j++){
 				if(coordinates[i][j].getIsExplored()){
 					explored.append("1");
 					if(coordinates[i][j].getIsObstacle()){
@@ -200,8 +200,8 @@ public class Map extends JPanel{
 			bw.write("11");
 			bw.newLine();
 			
-			for(int i = 0; i<=Constants.MAX_Y-1; i++){
-				for(int j = 0; j<=Constants.MAX_X-1; i++){
+			for(int i = 0; i<Constants.MAX_Y; i++){
+				for(int j = 0; j<Constants.MAX_X; i++){
 					bw.write(s.charAt(count));
 					count++;
 				}
@@ -331,45 +331,30 @@ public class Map extends JPanel{
 		String ss = "1";
 		char c = ss.charAt(0);	//cast string to char
 		
-		try{
-			/*
-			f = new FileInputStream("testMap.txt");
-			isr = new InputStreamReader(f);
-			
-			//read till end of the file
-			while((i = isr.read())!= -1){
-				if(i == 1){
-					setObstacles(x,y);
-				}
-				if(x<=Constants.MAX_X-1){
-					x++;
-				}
-				else{
-					x = 0;
-				}
-				if(y<=Constants.MAX_Y-1 && x == Constants.MAX_X-1){
-					y++;
-				}
-				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
-					break;
-				}
-				*/
-			File file = new File("testMap.txt");
+		try{			File file = new File("testMap.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
 			String s;
 			
 			while((s = br.readLine())!= null){
-				if(s.charAt(i) == c){
+				sb.append(s);
+				sb.append("\n"); //end of line character
+			}
+			br.close();
+			fr.close();
+			
+			while(i<Constants.MAP_SIZE){
+				if(sb.charAt(i) == c){
 					setObstacles(x,y);
 				}
-				if(x<=Constants.MAX_X-1){
+				if(x<Constants.MAX_X){
 					x++;
 				}
 				else{
 					x = 0;
 				}
-				if(y<=Constants.MAX_Y-1 && x == Constants.MAX_X-1){
+				if(y<Constants.MAX_Y && x == Constants.MAX_X){
 					y++;
 				}
 				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
@@ -377,7 +362,7 @@ public class Map extends JPanel{
 				}
 				i++;
 			}
-			br.close();
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -385,16 +370,16 @@ public class Map extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g){
-		GuiCell[][] guiCells = new GuiCell[Constants.MAX_X][Constants.MAX_Y]; //name??
-		for(int i=0; i<Constants.MAX_X; i++){
-			for(int j=0; j<Constants.MAX_Y; j++){
+		GuiCell[][] guiCells = new GuiCell[Constants.MAX_Y][Constants.MAX_X]; //name??
+		for(int i=0; i<Constants.MAX_Y; i++){
+			for(int j=0; j<Constants.MAX_X; j++){
 				guiCells[i][j] = new GuiCell(i*Constants.CELL_SIZE, j*Constants.CELL_SIZE, Constants.CELL_SIZE);
 				
 			}
 		}
 		
-		for(int i=0; i<Constants.MAX_X; i++){
-			for(int j=0; j<Constants.MAX_Y; j++){
+		for(int i=0; i<Constants.MAX_Y; i++){
+			for(int j=0; j<Constants.MAX_X; j++){
 				Color cellColor;
 				if(isStartZone(i,j)){
 					cellColor = Constants.COLOR_START;

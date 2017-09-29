@@ -82,7 +82,7 @@ public class Exploration {
     		//move forward
     	}else{
     		//move right
-    		//move right??
+    		//move right??  <- our algo
     	}
     }
     
@@ -252,8 +252,8 @@ public class Exploration {
     
     private int getAreaExplored(){
     	int total = 0;
-    	for(int i=0; i<Constants.MAX_X ; i++){
-    		for(int j=0; j<Constants.MAX_Y; j++ ){
+    	for(int i=0; i<Constants.MAX_Y ; i++){
+    		for(int j=0; j<Constants.MAX_X; j++ ){
     			if(map.getCoordinate(i, j).getIsExplored()){
     				total++;
     			}
