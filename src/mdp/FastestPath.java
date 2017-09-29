@@ -449,9 +449,9 @@ public class FastestPath {
      * Prints all the current g(n) values for the coordinates.
      */
     public void printGCosts() {
-        for (int i = 0; i < MapConstants.MAX_Y; i++) {
-            for (int j = 0; j < MapConstants.MAX_X; j++) {
-                System.out.print(gCosts[MapConstants.MAX_Y - 1 - i][j]);
+        for (int i = 0; i < Constants.MAX_Y; i++) {
+            for (int j = 0; j < Constants.MAX_X; j++) {
+                System.out.print(gCosts[Constants.MAX_Y - 1 - i][j]);
                 System.out.print(";");
             }
             System.out.println("\n");
