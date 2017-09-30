@@ -14,6 +14,8 @@ public class Map extends JPanel{
 		for(int i = 0; i<Constants.MAX_Y; i++){
 			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
+				//for testing purpose
+				//coordinates[i][j].setExplored();
 				
 			}
 		}
@@ -26,6 +28,8 @@ public class Map extends JPanel{
 	
 	public void setObstacles(int x, int y){
 		//set obstacle
+		//System.out.print("Obstacle at y " + y + "\n");
+		//System.out.print("Obstacle at x " + x + "\n");
 		coordinates[y][x].setObstacle();
 		
 		//check if within range
@@ -110,6 +114,9 @@ public class Map extends JPanel{
 	
 	
 	public boolean checkWithinRange(int x, int y){
+		//System.out.println("Checking if sensor is within boundary");
+		//System.out.println("Sensor X position : " + x);
+		//System.out.println("Sensor Y position : " + y);
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}
 	
@@ -345,24 +352,65 @@ public class Map extends JPanel{
 			br.close();
 			fr.close();
 			
+			//test
+			System.out.print(sb);
+			//System.out.print("\nsb.charAt\n");
+			/*
+			while(i<Constants.MAP_SIZE){
+				//System.out.print(sb.charAt(i));
+				i++;
+				System.out.print(i);
+			}
+			*/
+			System.out.print("\n");
+			i = 0;
+			System.out.print("Map size : " + Constants.MAP_SIZE+"\n");
+			System.out.print("Constants.MAX_Y : "+ Constants.MAX_Y + "\n");
+			System.out.print("Constants.MAX_X : " + Constants.MAX_X + "\n");
+			
+			//System.out.print("Test\n");
+			
+			
+			for (y = Constants.MAX_Y-1; y >= 0; y--){
+				for (x = 0; x < Constants.MAX_X; x++){
+					if (sb.charAt(i) == c){
+						setObstacles(x,y);
+						//System.out.print("1");
+					}
+					else{
+						//System.out.print("0");
+					}
+					i++;
+				}
+				//System.out.print("\n");
+				i++;
+			}
+			/*
 			while(i<Constants.MAP_SIZE){
 				if(sb.charAt(i) == c){
 					setObstacles(x,y);
+					System.out.print("1");
+				}
+				else{
+					System.out.print("0");
 				}
 				if(x<Constants.MAX_X){
 					x++;
 				}
-				else{
-					x = 0;
-				}
 				if(y<Constants.MAX_Y && x == Constants.MAX_X){
 					y++;
+					i++;
+					x=0;
+					System.out.print("\n");
 				}
-				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X-1){
+				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X){
+					System.out.print("break\n");
 					break;
 				}
 				i++;
 			}
+			*/
+			
 			
 			
 		}catch(Exception e){

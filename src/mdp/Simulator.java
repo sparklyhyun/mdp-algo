@@ -172,10 +172,10 @@ public class Simulator {
             protected Integer doInBackground() throws Exception {
                 int x, y;
 
-                x = Constants.START_X;
-                y = Constants.START_Y;
+                x = robot.robotPos_X;
+                y = robot.robotPos_Y;
 
-                robot.setRobotPos(x, y);
+                //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
                 Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
@@ -201,10 +201,12 @@ public class Simulator {
         // Exploration Button
         JButton Exploration_btn = new JButton("Exploration");
         formatButton(Exploration_btn);
+        
         Exploration_btn.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 CardLayout cl = ((CardLayout) _mapTiles.getLayout());
                 cl.show(_mapTiles, "EXPLORATION");
+                
                 new Explore().execute();
                 
             }
