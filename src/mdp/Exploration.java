@@ -7,13 +7,18 @@ public class Exploration {
 	private final Map map;	// for exploration
 	private final Map realMap;	//real map 
 	private final Robot robot;
-    private final int coverageLimit;	//??
-    private final int timeLimit;	//??
+    private final int coverageLimit;	
+    private final int timeLimit;	
     private int areaExplored;
     private long startTime;
     private long endTime;
     private int lastCalibrate;	//no of steps before calibration
-    private boolean calibrationMode;	//??
+    private boolean calibrationMode;	
+    private int currentdir = 8; // 1 = north, 2 = south, 3 = east, 4 = west
+    private int[][] searchDir = {{1,3,4,2},{2,4,3,1},{3,2,1,4},{4,1,2,3}};
+    //searchDir [1] = when robot is facing north, [2] = robot is facing south
+    //[3] = robot is facing east, [4] = robot is facing west
+ 
 	
     public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
     	this.map = map;
@@ -33,11 +38,13 @@ public class Exploration {
     			 * 
     			 */
     		}
+    		/*
     		while(true){
         		/*print out communication message
         		 * 
         		 */
-        	}
+        	//}
+    	
     		
     	}
     	startTime = System.currentTimeMillis();
@@ -56,6 +63,7 @@ public class Exploration {
     }
     
     private void explore(int x, int y){
+
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
     	//while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
@@ -75,36 +83,56 @@ public class Exploration {
     	
     }
     
+    
     //THE MAIN PART****************************************************************************
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
     	//change algorithm later
     	//System.out.print("Is right free? " + rightFree() + "\n");
     	//System.out.print("Is left free? " + leftFree() + "\n");
     	//System.out.print("Is front free? " + frontFree() + "\n");
+    	
+    	// Check the position bot is in
+    	/*
+    	if (currentdir == 8){
+    		
+    	}
+    	
+    	*/
+    	
+    	
     	if(rightFree()){	
-
+    	
     		//move right
-    		//moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.F);
+    		
+    		moveRobot(Constants.MOVEMENT.R);
+    		System.out.println("Is front free after turning : " + frontFree());
+    		
+    		
     		if(frontFree()){
-    			//move forward
+    			
     			moveRobot(Constants.MOVEMENT.F);
+    			//move forward
+    			
     		}
+    		
+    	}
+    	else if(frontFree()){
+    		//move forward
+    		moveRobot(Constants.MOVEMENT.F);
     	}
     	else if(leftFree()){
     		//move left
     		moveRobot(Constants.MOVEMENT.L);
     	}
-    	else if(frontFree()){
-    		//move forward
-    		moveRobot(Constants.MOVEMENT.F);
-    	}else{
+    	else{
     		
     		//move right
     		//move right?? <-- change accordingly
     		moveRobot(Constants.MOVEMENT.R);
     		moveRobot(Constants.MOVEMENT.R);
     	}
+    	
+    	
     }
     
     private void robotMove(MOVEMENT m, int count, boolean toAndroid){
@@ -240,7 +268,7 @@ public class Exploration {
     	}
     }
     
-    private boolean frontFree(){// look in front
+    public boolean frontFree(){// look in front
     	//System.out.print("Currently checking : Frontfree\n");
     	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
     	switch(robot.getRobotDir()){
@@ -256,8 +284,12 @@ public class Exploration {
 
     
     private boolean isEastFree(){	//true if can move to east
+    	
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
+    	//System.out.println("Is x+2 y+1 free : " + notObstacleVirtualWall(x+2,y+1));
+    	//System.out.println("Is x+2 y free : " + notObstacleVirtualWall(x+2,y));
+    	//System.out.println("Is x+2 y-1 free : " + notObstacleVirtualWall(x+2,y-1));
     	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y) && notObstacleVirtualWall(x+2, y-1));
 
     }
@@ -340,8 +372,11 @@ public class Exploration {
     
     //trying gui
     private void paintAfterSense(){
+    	
     	robot.setSentors();
+    	
     	robot.senseDist(map, realMap);
+    	
     	map.repaint();
     }
     
@@ -349,11 +384,15 @@ public class Exploration {
     	//MOVEMENT.F
     	robot.move(m, 1, false); 		//for the time being
     	map.repaint();
+    	
     	if(m!= MOVEMENT.CALIBRATE){
+    		
     		paintAfterSense();
+    		//System.out.println("testing");
     	}else{
     		//set commMgr
     	}
+    	
     	if(robot.getRealRobot() && !calibrationMode){
     		calibrationMode = true;
     		

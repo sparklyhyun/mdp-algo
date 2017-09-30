@@ -15,7 +15,7 @@ public class Map extends JPanel{
 			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
 				//for testing purpose
-				coordinates[i][j].setExplored();
+				//coordinates[i][j].setExplored();
 				
 			}
 		}

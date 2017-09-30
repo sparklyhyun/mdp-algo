@@ -62,6 +62,7 @@ public class Sensor {
 		case S: sensorValFindObstacles(exploredMap, sensorVal, 0, -1); break; //see south
 		case W: sensorValFindObstacles(exploredMap, sensorVal, -1, 0); break; //see left
 		}
+		
 	}
 	
 	private void sensorValFindObstacles(Map exploredMap, int sensorVal, int xInc, int yInc){
