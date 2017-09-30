@@ -66,7 +66,6 @@ public class Robot {
     	//after adding sensor 
     	
     	switch(robotDir){
-    	
     	case N:
     		topL_L.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
     		midL_S.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
@@ -74,6 +73,7 @@ public class Robot {
     		topR_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
     		midR_S.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
     		bottomR_S.setSensor(this.robotPos_X+1, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
+    		break;
     	case E:
     		topL_L.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
     		midL_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
@@ -81,6 +81,7 @@ public class Robot {
     		topR_S.setSensor(this.robotPos_X+1, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
     		midR_S.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
     		bottomR_S.setSensor(this.robotPos_X-1, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
+    		break;
     	case W:
     		topL_L.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
     		midL_S.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.L));
@@ -88,6 +89,7 @@ public class Robot {
     		topR_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
     		midR_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
     		bottomR_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		break;
     	case S:
     		topL_L.setSensor(this.robotPos_X+1, this.robotPos_Y-1, this.robotDir);
     		midL_S.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
@@ -95,6 +97,7 @@ public class Robot {
     		topR_S.setSensor(this.robotPos_X-1, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
     		midR_S.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
     		bottomR_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		break;
     	}
     	
     }
@@ -226,11 +229,17 @@ public class Robot {
     	if(!realRobot){
     		
     		distance[0] = topL_L.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[0]);
     		distance[1] = midL_S.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[1]);
     		distance[2] = bottomL_S.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[2]);
     		distance[3] = topR_S.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[3]);
     		distance[4] = midR_S.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[4]);
     		distance[5] = bottomR_S.distanceToObstacle(expMap, realMap);
+    		//System.out.println(distance[5]);
     		
     	}else{
     		//CommMgr comm = new CommMgr();
@@ -239,18 +248,18 @@ public class Robot {
     		 */
     	}
     	//set obstacles based on sensor values
-    	topL_L.findAndSetObstacleOnMap(expMap, distance[0]);
-    	System.out.println("Sensor 1 working");
-    	midL_S.findAndSetObstacleOnMap(expMap, distance[1]);
-    	System.out.println("Sensor 2 working");
-    	bottomL_S.findAndSetObstacleOnMap(expMap, distance[2]);
-    	System.out.println("Sensor 3 working");
-    	topR_S.findAndSetObstacleOnMap(expMap, distance[3]);
-    	System.out.println("Sensor 4 working");
-    	midR_S.findAndSetObstacleOnMap(expMap, distance[4]);
-    	System.out.println("Sensor 5 working");
+    	//topL_L.findAndSetObstacleOnMap(expMap, distance[0]);
+    	//System.out.println("Sensor 1 working");
+    	//midL_S.findAndSetObstacleOnMap(expMap, distance[1]);
+    	//System.out.println("Sensor 2 working");
+    	//bottomL_S.findAndSetObstacleOnMap(expMap, distance[2]);
+    	//System.out.println("Sensor 3 working");
+    	//topR_S.findAndSetObstacleOnMap(expMap, distance[3]);
+    	//System.out.println("Sensor 4 working");
+    	//midR_S.findAndSetObstacleOnMap(expMap, distance[4]);
+    	//System.out.println("Sensor 5 working");
     	bottomR_S.findAndSetObstacleOnMap(expMap, distance[5]);
-    	System.out.println("Sensor 6 working");
+    	//System.out.println("Sensor 6 working");
     	//send msg to commMgr
     	
     	return distance;
