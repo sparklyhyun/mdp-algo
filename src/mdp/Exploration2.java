@@ -5,7 +5,8 @@ import java.util.*;
 import mdp.Constants.*;
 
 
-public class Exploration {
+
+public class Exploration2 {
 	private final Map map;	// for exploration
 	private final Map realMap;	//real map 
 	private final Robot robot;
@@ -19,7 +20,7 @@ public class Exploration {
     private boolean checkptRightTurn = false;
     private int rightTurn = 0;
 	
-    public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
+    public Exploration2(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
     	this.map = map;
     	this.realMap = realMap;
     	this.robot = robot;
@@ -92,7 +93,30 @@ public class Exploration {
     	System.out.println("rightfree = " + rightFree());
     	System.out.println("frontfree = " + frontFree());
     	System.out.println("leftfree = " + leftFree());
-    
+    	/*
+    	if(frontFree()){
+    		moveRobot(Constants.MOVEMENT.F);
+    		if(frontFree()){
+    			moveRobot(Constants.MOVEMENT.F);   		    			
+    		}
+    	}else if(rightFree()){
+    		moveRobot(Constants.MOVEMENT.R);
+    		System.out.println("Is front free after turning : " + frontFree());
+    		if(frontFree()){
+    			//move forward
+    			moveRobot(Constants.MOVEMENT.F);   		    		
+    		    	
+    		}
+    	}else if(leftFree()){
+    		moveRobot(Constants.MOVEMENT.L);
+    		if(frontFree()){
+    			moveRobot(Constants.MOVEMENT.F);   		    		
+    		    	
+    		}
+    	}else{
+    		moveRobot(Constants.MOVEMENT.R);
+    		moveRobot(Constants.MOVEMENT.R);
+    	}*/
     	
     	
     	if(rightFree()){
@@ -131,6 +155,9 @@ public class Exploration {
     		moveRobot(Constants.MOVEMENT.R);
 
     	}
+    	
+    	
+
 }
     	
 

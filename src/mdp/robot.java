@@ -145,11 +145,7 @@ public class Robot {
     	switch(m){
     	case F:
     		switch(robotDir){
-    		case N : 
-    			//System.out.println("lol");
-    			robotPos_Y += count; 
-    			
-    			break;
+    		case N: robotPos_Y += count; break;
     		case S: robotPos_Y -= count; break;
     		case E: robotPos_X += count; break;
     		case W: robotPos_X -= count; break;
@@ -157,7 +153,7 @@ public class Robot {
     		}break;
     	case B:
     		switch(robotDir){
-    		case N : robotPos_Y -= count; break;
+    		case N: robotPos_Y -= count; break;
     		case S: robotPos_Y += count; break;
     		case E: robotPos_X -= count; break;
     		case W: robotPos_X += count; break;
@@ -166,11 +162,11 @@ public class Robot {
     	case L: 
     		
     		robotDir = dirToRotate(m); 
-    		System.out.println("Robot direction updated to : " + robotDir);
+    		//System.out.println("Robot direction updated to : " + robotDir);
     		break;
     	case R: 
     		robotDir = dirToRotate(m);
-    		System.out.println("Robot direction updated to : " + robotDir);
+    		//System.out.println("Robot direction updated to : " + robotDir);
     		break;
     	case CALIBRATE: break;
     	case ERROR: break;	//print error message? 
@@ -248,15 +244,15 @@ public class Robot {
     		 */
     	}
     	//set obstacles based on sensor values
-    	//topL_L.findAndSetObstacleOnMap(expMap, distance[0]);
+    	topL_L.findAndSetObstacleOnMap(expMap, distance[0]);
     	//System.out.println("Sensor 1 working");
-    	//midL_S.findAndSetObstacleOnMap(expMap, distance[1]);
+    	midL_S.findAndSetObstacleOnMap(expMap, distance[1]);
     	//System.out.println("Sensor 2 working");
-    	//bottomL_S.findAndSetObstacleOnMap(expMap, distance[2]);
+    	bottomL_S.findAndSetObstacleOnMap(expMap, distance[2]);
     	//System.out.println("Sensor 3 working");
-    	//topR_S.findAndSetObstacleOnMap(expMap, distance[3]);
+    	topR_S.findAndSetObstacleOnMap(expMap, distance[3]);
     	//System.out.println("Sensor 4 working");
-    	//midR_S.findAndSetObstacleOnMap(expMap, distance[4]);
+    	midR_S.findAndSetObstacleOnMap(expMap, distance[4]);
     	//System.out.println("Sensor 5 working");
     	bottomR_S.findAndSetObstacleOnMap(expMap, distance[5]);
     	//System.out.println("Sensor 6 working");
