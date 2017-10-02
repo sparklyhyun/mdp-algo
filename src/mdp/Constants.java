@@ -34,7 +34,27 @@ public class Constants {
 			return values()[((currentDir.ordinal()-1)+values().length) % values().length ];
 		}
 	};	
-	public enum MOVEMENT{F,B,R,L,CALIBRATE, ERROR};
+    public enum MOVEMENT {
+        F, B, R, L, CALIBRATE, ERROR;
+
+        public static char print(MOVEMENT m) {
+            switch (m) {
+                case F:
+                    return 'F';
+                case B:
+                    return 'B';
+                case R:
+                    return 'R';
+                case L:
+                    return 'L';
+                case CALIBRATE:
+                    return 'C';
+                case ERROR:
+                default:
+                    return 'E';
+            }
+        }
+    }
 	
 	
 	//GUI related constants

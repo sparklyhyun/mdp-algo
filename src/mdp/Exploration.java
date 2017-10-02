@@ -58,6 +58,8 @@ public class Exploration {
     	//print out area calculated??
     	
     	explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	System.out.println("explore function exited");
+    	
     	map.genMapDescAfter();
     	System.out.println("map desc generated");
     }
@@ -67,7 +69,7 @@ public class Exploration {
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
     	
-    	robot.setSpeed(60); //<- what is the unit? 
+    	robot.setSpeed(30); //<-delay time in miliseconds
     	while(true /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
     		moveNext(1, false);
     		if(robot.getReachedGoal() && robot.isInStartZone()){

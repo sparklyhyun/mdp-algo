@@ -140,7 +140,7 @@ public class Simulator {
                         System.out.println("Waiting for FP_START...");
                        // String msg = comm.recvMsg();
                        // if (msg.equals(CommMgr.FP_START)) break;
-                   // }
+                    }
                 }
 
                 //FastestPath fastestPath = new FastestPath(exploredMap, robot);
@@ -192,7 +192,6 @@ public class Simulator {
                 //exploration.explore(x,y);
                 exploration.startExploration();
                //generateMapDescriptor(exploredMap);
-
                 if (realExecution) {
                     //new FastestPath().execute();
                 }
