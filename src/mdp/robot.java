@@ -125,6 +125,13 @@ public class Robot {
             this.reachedGoal = true;
     }
     
+    public boolean isInStartZone(){
+    	int x = this.robotPos_X;
+    	int y = this.robotPos_Y;
+    	
+    	return (((x == Constants.START_X-1) || (x == Constants.START_X) )&& y == Constants.START_Y);    	
+    }
+    
     public void move(MOVEMENT m, int count, boolean toAndroid){		//add boolean send to android
     	//count >= 1, move multiple steps forward
     	if(!realRobot){

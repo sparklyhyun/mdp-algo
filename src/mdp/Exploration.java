@@ -66,11 +66,15 @@ public class Exploration {
 
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
-    	while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
+    	
+    	robot.setSpeed(60); //<- what is the unit? 
+    	while(true /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
     		moveNext(1, false);
+    		if(robot.getReachedGoal() && robot.isInStartZone()){
+    			System.out.println("exploration done");
+    			break;
+    		}
     		
-    		areaExplored = getAreaExplored();
-    		System.out.println("Area explored = " + areaExplored);
     		
     		//??????????????
     		//if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
@@ -79,6 +83,8 @@ public class Exploration {
     			//}
     		//}
     	}
+    	areaExplored = getAreaExplored();
+		System.out.println("Area explored = " + areaExplored);
     	
     	//returnToStartPos();
     	
@@ -318,8 +324,8 @@ public class Exploration {
     	int y = robot.getRobotPosY();
     	//System.out.println("Current Robot x position : " + x);
     	//System.out.println("Current Robot y position : " + y);
-    	System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
-    	System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
+    	//System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
+    	//System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
     	//System.out.println("Is x-1 y+2 true : " + notObstacleVirtualWall(x-1, y+2));
     	return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2));
     	//return(notObstacleVirtualWall(x,y+2) && notObstacleVirtualWall(x-1, y+2));
@@ -354,7 +360,7 @@ public class Exploration {
     	int total = 0;
     	for(int i=0; i<Constants.MAX_Y ; i++){
     		for(int j=0; j<Constants.MAX_X; j++ ){
-    			if(map.getCoordinate(i, j).getIsExplored()){
+    			if(map.getCoordinate(j, i).getIsExplored()){
     				total++;
     			}
     		}
