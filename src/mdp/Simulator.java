@@ -45,7 +45,7 @@ public class Simulator {
 		_mapFrame = new JFrame();
 		_mapFrame.setTitle("Group 9 MDP Simulator");
 		_mapFrame.setSize(new Dimension(690, 700));
-		_mapFrame.setResizable(true);
+		_mapFrame.setResizable(false);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
@@ -179,7 +179,10 @@ public class Simulator {
                 exploredMap.repaint();
 
                 Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
-                	
+                //for testing
+                //Exploration2 exploration = new Exploration2(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                
+                
                 /*
                 if (realRun) {
                     //CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);

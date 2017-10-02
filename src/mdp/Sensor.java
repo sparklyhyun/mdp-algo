@@ -59,16 +59,16 @@ public class Sensor {
 		
 		switch(dir){
 		case N: 
-			System.out.println(sensorVal);
+			//System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 0, 1); break; //see forward
 		case E: 
-			System.out.println(sensorVal);
+			//System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 1, 0); break; //see right
 		case S: 
-			System.out.println(sensorVal);
+			//System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 0, -1); break; //see south
 		case W: 
-			System.out.println(sensorVal);
+			//System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, -1, 0); break; //see left
 		}
 		
@@ -85,11 +85,11 @@ public class Sensor {
 			int y = this.y + (yInc * i);
 			
 			if(!exploredMap.checkWithinRange(x, y)){ 
-				System.out.println("testing");
+				//System.out.println("testing");
 				return;	//seeing outside maze
 			}
 			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
-			System.out.println("testing");
+			//System.out.println("testing");
 			
 			
 			

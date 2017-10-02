@@ -19,9 +19,16 @@ public class Map extends JPanel{
 				
 			}
 		}
+		
+		//set the starting position as explored (for testing)
+		for(int i=0; i<=2 ; i++){
+			for(int j=0; j<=2; j++){
+				coordinates[j][i].setExplored();
+			}
+		}
 		setBoundary();
 		readMapDesc(); 	//set obstacles from the map descriptor
-		
+		//genMapDescBefore();
 		
 		
 	}
@@ -141,7 +148,7 @@ public class Map extends JPanel{
 	}
 	
 	
-	
+	/*
 	public void genMapDescBefore() throws IOException{	//map descriptor with all 0
 			File file = new File("beforeMap.txt");
 			FileWriter fw = new FileWriter(file);
@@ -158,7 +165,7 @@ public class Map extends JPanel{
 			}
 			bw.close();
 		}
-	
+	*/
 	
 	public void genMapDescAfter() throws IOException{	//map descriptor after exploration
 		StringBuilder explored = new StringBuilder();
