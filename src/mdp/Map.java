@@ -171,7 +171,7 @@ public class Map extends JPanel{
 		StringBuilder explored = new StringBuilder();
 		StringBuilder obstacle = new StringBuilder();
 		
-
+		System.out.println("genmapdescAfter entered");
 		
 		for(int i = 0; i<Constants.MAX_Y ; i++){
 			for(int j =0; j<Constants.MAX_X; j++){
@@ -188,49 +188,54 @@ public class Map extends JPanel{
 			}
 		}
 		
-
+		System.out.println("string buffer done");
+		System.out.println(explored.toString());
+		System.out.println(obstacle.toString());
+		
 		
 		String exploredMap = explored.toString();
 		genDescFile(exploredMap, true);
-		genHexFile(exploredMap);
+		genHexFile(exploredMap, true);
+		System.out.println("explored map complete");
 		
 		String obstacleMap = obstacle.toString();
 		genDescFile(obstacleMap, false);
-		genHexFile(obstacleMap);
+		genHexFile(obstacleMap, false);
 	}
 		
 	public void genDescFile(String s, boolean exp) throws IOException{
+		System.out.println("gendescfile entered");
 	      File file;
 	      int count = 0;
 		
-		if(exp == true){	//explored file
+		if(exp){	//explored file
 			file = new File("exploredMap.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
+			System.out.println("gendesc file initialization");
 			if(!file.exists()){
 				file.createNewFile();
+				System.out.println("gendescfile new file created");
 			}
 			//apend 11 in front 
 			bw.write("11");
-			bw.newLine();
+			//bw.newLine();
+			System.out.println("11 appended in front ");
 			
-			for(int i = 0; i<Constants.MAX_Y; i++){
-				for(int j = 0; j<Constants.MAX_X; i++){
-					bw.write(s.charAt(count));
-					count++;
-				}
-				bw.newLine();
+			
+			for(int i=0; i<Constants.MAP_SIZE; i++){
+				bw.write(s.charAt(i));
 			}
+			
 			//append 11 at the back
 			bw.write("11");
 			bw.close();
-			
-		}
-		
-		if(exp = false){	//obstacle file
+			System.out.println("11 appended at the back");
+		}else if(!exp){	//obstacle file
 			file = new File("obstacleMap.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
+			System.out.println("obstacle file gen initialization");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -239,109 +244,151 @@ public class Map extends JPanel{
 		}
 	}
 	
-	public void genHexFile(String s){
+	public void genHexFile(String s, boolean exp){
+		System.out.println("genhexfile entered");
 		StringBuilder convert = new StringBuilder();
 		StringBuilder converted = new StringBuilder();
 		int i=0;
 		File file;
+		System.out.println("genhexfile initiated");
 		
-		//padding bits at the back (if needed) 
-		if(s.length()%4 != 0){
-			int remainder = s.length()%4;
-			for(int k = 0; k<= remainder-1; k++){
+		//padding bits at the back (if needed) 		
+		int remainder = s.length()%4;
+		//System.out.println(remainder);
+		if(remainder != 0){
+			for(int k = 0; k< remainder; k++){
 				s.concat("0"); 
 			}
-			
+			System.out.println("concatenated: " + s);
 		}
+		System.out.println(s);
 		//convert string to hex
 		while(i<s.length()){
-			for(int j = 0; j <= 4; j++){
+			for(int j = 0; j < 4; j++){
+				//System.out.println("for loop entered");
 				convert.append(s.charAt(i));
+				//System.out.println("convert = " + convert );
+				i++;
 			}
 			converted.append(convertToHex(convert));
+			//System.out.println("converted:" + converted.toString());
 			convert.setLength(0);		//empty string builder 
 			i++;
 		}
 		
+		if(exp){
 		try{
 			
-			file = new File("HexMap.txt");
+			file = new File("HexMapExplored.txt");
+			System.out.println("hex file created");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
 			bw.write(converted.toString());
+			System.out.println("hex file written");
 			bw.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		}else{
+		try{
+			file = new File("HexMapObstacle.txt");
+			System.out.println("hex file created");
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(fw);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			bw.write(converted.toString());
+			System.out.println("hex file written");
+			bw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+		
 			
 	}
 	
 	public String convertToHex(StringBuilder s){
+		//System.out.println("convert to hex entered");
 		String returnString = "";
 		
-		if(s.equals("0000")){
+		switch(s.toString()){
+		case "0000":
 			returnString = "0";
-		}
-		if(s.equals("0001")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0001":
 			returnString = "1";
-		}
-		if(s.equals("0010")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0010":
 			returnString = "2";
-		}
-		if(s.equals("0011")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0011":
 			returnString = "3";
-		}
-		if(s.equals("0100")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0100":
 			returnString = "4";
-		}
-		if(s.equals("0101")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0101":
 			returnString = "5";
-		}
-		if(s.equals("0110")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0110":
 			returnString = "6";
-		}
-		if(s.equals("0111")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "0111":
 			returnString = "7";
-		}
-		if(s.equals("1000")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1000":
 			returnString = "8";
-		}
-		if(s.equals("1001")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1001":
 			returnString = "9";
-		}
-		if(s.equals("1010")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1010":
 			returnString = "A";
-		}
-		if(s.equals("1011")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1011":
 			returnString = "B";
-		}
-		if(s.equals("1100")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1100":
 			returnString = "C";
-		}
-		if(s.equals("1101")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1101":
 			returnString = "D";
-		}
-		if(s.equals("1110")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1110":
 			returnString = "E";
-		}
-		if(s.equals("1111")){
+			//System.out.println("returnString = " + returnString);
+			break;
+		case "1111":
 			returnString = "F";
+			//System.out.println("returnString = " + returnString);
+			break;
 		}
-
 		return returnString;
 	}
 	
-	public void readMapDesc() throws IOException{	//read text file & put in coordinates array	
-		//FileInputStream f = null; 
-		//InputStreamReader isr = null;
-		
-		int i = 0;
+	public void readMapDesc() throws IOException{	//read text file & put in coordinates array		
 		int x = 0;	//x coordinate of map
 		int y = 0;	//y coordinate of map
-
+		int i = 0;
 		String ss = "1";
 		char c = ss.charAt(0);	//cast string to char
 		
@@ -361,14 +408,7 @@ public class Map extends JPanel{
 			
 			//test
 			System.out.print(sb);
-			//System.out.print("\nsb.charAt\n");
-			/*
-			while(i<Constants.MAP_SIZE){
-				//System.out.print(sb.charAt(i));
-				i++;
-				System.out.print(i);
-			}
-			*/
+			
 			System.out.print("\n");
 			i = 0;
 			System.out.print("Map size : " + Constants.MAP_SIZE+"\n");
@@ -392,34 +432,6 @@ public class Map extends JPanel{
 				//System.out.print("\n");
 				i++;
 			}
-			/*
-			while(i<Constants.MAP_SIZE){
-				if(sb.charAt(i) == c){
-					setObstacles(x,y);
-					System.out.print("1");
-				}
-				else{
-					System.out.print("0");
-				}
-				if(x<Constants.MAX_X){
-					x++;
-				}
-				if(y<Constants.MAX_Y && x == Constants.MAX_X){
-					y++;
-					i++;
-					x=0;
-					System.out.print("\n");
-				}
-				else if(y==Constants.MAX_Y-1 && x == Constants.MAX_X){
-					System.out.print("break\n");
-					break;
-				}
-				i++;
-			}
-			*/
-			
-			
-			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
