@@ -380,45 +380,45 @@ public class FastestPath {
                     case N:
                         return MOVEMENT.ERROR;
                     case S:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case W:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case E:
-                        return MOVEMENT.RIGHT;
+                        return MOVEMENT.R;
                 }
                 break;
             case S:
                 switch (b) {
                     case N:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case S:
                         return MOVEMENT.ERROR;
                     case W:
-                        return MOVEMENT.RIGHT;
+                        return MOVEMENT.R;
                     case E:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                 }
                 break;
             case W:
                 switch (b) {
                     case N:
-                        return MOVEMENT.RIGHT;
+                        return MOVEMENT.R;
                     case S:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case W:
                         return MOVEMENT.ERROR;
                     case E:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                 }
                 break;
             case E:
                 switch (b) {
                     case N:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case S:
-                        return MOVEMENT.RIGHT;
+                        return MOVEMENT.R;
                     case W:
-                        return MOVEMENT.LEFT;
+                        return MOVEMENT.L;
                     case E:
                         return MOVEMENT.ERROR;
                 }
