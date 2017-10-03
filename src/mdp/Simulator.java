@@ -21,6 +21,8 @@ public class Simulator {
 
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
+	private static int explorationMode;
+	private static int robotDelay;
 	
 	//private static final CommMgr comm = CommMgr.getCommMgr();
 
@@ -129,7 +131,7 @@ public class Simulator {
 		    _mapButtons.add(LoadMap_btn);
 	}
         // FastestPath Class
-		/*
+		
         class FastestPath extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 robot.setRobotPos(Constants.START_X, Constants.START_Y);
@@ -150,10 +152,10 @@ public class Simulator {
                 return 222;
             }
         }
-        */	
+        
 		
         // Fastest Path Button
-        /*
+        
         JButton FastestPath_btn = new JButton("Fastest Path");
         formatButton(FastestPath_btn);
         FastestPath_btn.addMouseListener(new MouseAdapter() {
@@ -163,9 +165,9 @@ public class Simulator {
                 new FastestPath().execute();
             }
         });
-        _buttons.add(FastestPath_btn);	
-		*/
+        _mapButtons.add(FastestPath_btn);	
 		
+
         // Exploration Class
             
         class Explore extends SwingWorker<Integer, String> {
@@ -178,7 +180,7 @@ public class Simulator {
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 //for testing
                 //Exploration2 exploration = new Exploration2(exploredMap, realMap, robot, coverageLimit, timeLimit);
                 
@@ -189,14 +191,13 @@ public class Simulator {
                 }
 				*/
                 
-                //exploration.explore(x,y);
                 exploration.startExploration();
-               //generateMapDescriptor(exploredMap);
+                
                 if (realExecution) {
                     //new FastestPath().execute();
                 }
 
-                return 111;
+                return 111; //<-- need to change accordingly 
             }
         }
 		
@@ -215,7 +216,138 @@ public class Simulator {
         });
         _mapButtons.add(Exploration_btn);
 		
-
-}
+        
+        //coverage limited exploration class
+        class ExploreCoverageLimited extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 1, robotDelay);
+        		explorationCL.startExploration();
+        		
+        		return 333; //<- need to change accordingly
+        	}
         }
+        
+        //coverage limited exploration button
+        JButton explorationCL_button = new JButton("Coverage Limited");
+        formatButton(explorationCL_button);
+        explorationCL_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog explorationCL_dialog = new JDialog(_mapFrame, "Coverage-Limited Exploration", true);
+                explorationCL_dialog.setSize(400, 60);
+                explorationCL_dialog.setLayout(new FlowLayout());
+                final JTextField coverage_text = new JTextField(5);
+                JButton run_button = new JButton("Run");
+        	
+                run_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		explorationCL_dialog.setVisible(false);
+                		coverageLimit = (int) ((Integer.parseInt(coverage_text.getText())) * Constants.MAP_SIZE / 100.0); 
+                		new ExploreCoverageLimited().execute();
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		cl.show(_mapTiles , "EXPLORATION");
+                	}
+                	
+                });
+                explorationCL_dialog.add(new JLabel("Coverage Limit (in %): "));
+                explorationCL_dialog.add(coverage_text);
+                explorationCL_dialog.add(run_button);
+                explorationCL_dialog.setVisible(true);
+        	}
+        	
+        });
+        _mapButtons.add(explorationCL_button);
+        
+        
+        //time limited exploration class
+        class ExplorationTimeLimited extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		Exploration explorationTL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 2, robotDelay);
+        		explorationTL.startExploration();
+        		
+        		return 444; //<- need to change accordingly
+        	}
+
+        }
+        
+        //time limited exploration button
+        JButton explorationTL_button = new JButton("Time Limited");
+        formatButton(explorationTL_button);
+        explorationTL_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog explorationTL_dialog = new JDialog(_mapFrame, "Coverage-Limited Exploration", true);
+                explorationTL_dialog.setSize(400, 60);
+                explorationTL_dialog.setLayout(new FlowLayout());
+                final JTextField time_text = new JTextField(5); //time in MM:SS format
+                JButton run_button = new JButton("Run");
+        	
+                run_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		explorationTL_dialog.setVisible(false);
+                		String time = time_text.getText();
+                		String[] timeSplit = time.split(":");
+                		timeLimit = (Integer.parseInt(timeSplit[0]) * 60) + Integer.parseInt(timeSplit[1]);
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		cl.show(_mapTiles , "EXPLORATION");
+                		new ExplorationTimeLimited().execute();
+                	}
+                });
+                explorationTL_dialog.add(new JLabel("Time Limit (in mm:ss):"));
+                explorationTL_dialog.add(time_text);
+                explorationTL_dialog.add(run_button);
+                explorationTL_dialog.setVisible(true);
+               }
+        	
+        
+        });
+        
+        _mapButtons.add(explorationTL_button);
+        
+        
+        //to set speed
+        class SetSpeed extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		return 555; //<- need to change accordingly
+        	}
+
+        }
+        JButton setSpeed_button = new JButton("Set Speed");
+        formatButton(setSpeed_button);
+        setSpeed_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog setSpeed_dialog = new JDialog(_mapFrame, "Set Robot Speed", true);
+                setSpeed_dialog.setSize(400, 60);
+                setSpeed_dialog.setLayout(new FlowLayout());
+                final JTextField setSpeed_text = new JTextField(5);
+                JButton set_button = new JButton("Set");
+        	
+                set_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		setSpeed_dialog.setVisible(false);
+                		robotDelay =  1000 / (int)(Integer.parseInt(setSpeed_text.getText())); 
+                		System.out.println(robotDelay);
+                		new SetSpeed().execute();
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		cl.show(_mapTiles , "SET SPEED");
+                	}
+                	
+                });
+                setSpeed_dialog.add(new JLabel("Robot Speed (in steps/second): "));
+                setSpeed_dialog.add(setSpeed_text);
+                setSpeed_dialog.add(set_button);
+                setSpeed_dialog.setVisible(true);
+        	}
+        	
+        });
+        _mapButtons.add(setSpeed_button);
+	}
+}
 

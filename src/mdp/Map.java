@@ -171,7 +171,7 @@ public class Map extends JPanel{
 		StringBuilder explored = new StringBuilder();
 		StringBuilder obstacle = new StringBuilder();
 		
-		System.out.println("genmapdescAfter entered");
+		//System.out.println("genmapdescAfter entered");
 		
 		for(int i = 0; i<Constants.MAX_Y ; i++){
 			for(int j =0; j<Constants.MAX_X; j++){
@@ -188,15 +188,15 @@ public class Map extends JPanel{
 			}
 		}
 		
-		System.out.println("string buffer done");
-		System.out.println(explored.toString());
-		System.out.println(obstacle.toString());
+		//System.out.println("string buffer done");
+		//System.out.println(explored.toString());
+		//System.out.println(obstacle.toString());
 		
 		
 		String exploredMap = explored.toString();
 		genDescFile(exploredMap, true);
 		genHexFile(exploredMap, true);
-		System.out.println("explored map complete");
+		//System.out.println("explored map complete");
 		
 		String obstacleMap = obstacle.toString();
 		genDescFile(obstacleMap, false);
@@ -204,7 +204,7 @@ public class Map extends JPanel{
 	}
 		
 	public void genDescFile(String s, boolean exp) throws IOException{
-		System.out.println("gendescfile entered");
+		//System.out.println("gendescfile entered");
 	      File file;
 	      int count = 0;
 		
@@ -212,15 +212,15 @@ public class Map extends JPanel{
 			file = new File("exploredMap.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			System.out.println("gendesc file initialization");
+			//System.out.println("gendesc file initialization");
 			if(!file.exists()){
 				file.createNewFile();
-				System.out.println("gendescfile new file created");
+				//System.out.println("gendescfile new file created");
 			}
 			//apend 11 in front 
 			bw.write("11");
 			//bw.newLine();
-			System.out.println("11 appended in front ");
+			//System.out.println("11 appended in front ");
 			
 			
 			for(int i=0; i<Constants.MAP_SIZE; i++){
@@ -230,12 +230,12 @@ public class Map extends JPanel{
 			//append 11 at the back
 			bw.write("11");
 			bw.close();
-			System.out.println("11 appended at the back");
+			//System.out.println("11 appended at the back");
 		}else if(!exp){	//obstacle file
 			file = new File("obstacleMap.txt");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
-			System.out.println("obstacle file gen initialization");
+			//System.out.println("obstacle file gen initialization");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -245,12 +245,12 @@ public class Map extends JPanel{
 	}
 	
 	public void genHexFile(String s, boolean exp){
-		System.out.println("genhexfile entered");
+		//System.out.println("genhexfile entered");
 		StringBuilder convert = new StringBuilder();
 		StringBuilder converted = new StringBuilder();
 		int i=0;
 		File file;
-		System.out.println("genhexfile initiated");
+		//System.out.println("genhexfile initiated");
 		
 		//padding bits at the back (if needed) 		
 		int remainder = s.length()%4;
@@ -259,9 +259,9 @@ public class Map extends JPanel{
 			for(int k = 0; k< remainder; k++){
 				s.concat("0"); 
 			}
-			System.out.println("concatenated: " + s);
+			//System.out.println("concatenated: " + s);
 		}
-		System.out.println(s);
+		//System.out.println(s);
 		//convert string to hex
 		while(i<s.length()){
 			for(int j = 0; j < 4; j++){
@@ -280,14 +280,14 @@ public class Map extends JPanel{
 		try{
 			
 			file = new File("HexMapExplored.txt");
-			System.out.println("hex file created");
+			//System.out.println("hex file created");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
 			bw.write(converted.toString());
-			System.out.println("hex file written");
+			//System.out.println("hex file written");
 			bw.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -295,14 +295,14 @@ public class Map extends JPanel{
 		}else{
 		try{
 			file = new File("HexMapObstacle.txt");
-			System.out.println("hex file created");
+			//System.out.println("hex file created");
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 			if(!file.exists()){
 				file.createNewFile();
 			}
 			bw.write(converted.toString());
-			System.out.println("hex file written");
+			//System.out.println("hex file written");
 			bw.close();
 		}catch(Exception e){
 			e.printStackTrace();

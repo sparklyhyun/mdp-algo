@@ -129,7 +129,8 @@ public class Robot {
     	int x = this.robotPos_X;
     	int y = this.robotPos_Y;
     	
-    	return (((x == Constants.START_X-1) || (x == Constants.START_X) )&& y == Constants.START_Y);    	
+    	return (x<2 && x>=0 && y<2 && y>=0);
+    			//(((x == 0 || (x == 1) )&& y == Constants.START_Y));    	
     }
     
     public void move(MOVEMENT m, int count, boolean toAndroid){		//add boolean send to android

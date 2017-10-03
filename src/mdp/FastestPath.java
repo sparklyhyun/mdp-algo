@@ -21,11 +21,11 @@ public class FastestPath {
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode
 
-    
-    public FastestPath(Map map, Robot robot) {
+    public FastestPath(Map map, Robot robot){
         this.realMap = null;
-        initObject(map, robot);
+        initObject(map,robot);
     }
+    
 
     public FastestPath(Map map, Robot robot, Map realMap) {
         this.realMap = realMap;
@@ -82,7 +82,7 @@ public class FastestPath {
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
-            double gCost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())];
+            double gCost = costG(nextVisit.get(i));
             double cost = gCost + costH(nextVisit.get(i), goalY, goalX);
             if (cost < minCost) {
                 minCost = cost;
@@ -91,6 +91,12 @@ public class FastestPath {
         }
 
         return result;
+    }
+    
+    //Returns the gcost from a current coordinates to nextVisit coordinates
+    private double costG(Coordinates c){
+        double gCostY = c.getY();
+        return gCostY;
     }
     
     
@@ -328,10 +334,11 @@ public class FastestPath {
                 }
             }
 
-            if (fCount > 0) {
+            /*if (fCount > 0) {
+                Movement x;
                 robot.move(x, fCount, false);
                 map.repaint();
-            }
+            }*/
         }
 
         System.out.println("\nMovements: " + outputString.toString());
