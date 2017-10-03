@@ -10,7 +10,7 @@ public class Exploration {
 	private final Map realMap;	//real map 
 	private final Robot robot;
     private final int coverageLimit;	
-    private final int timeLimit;	
+    public int timeLimit;	
     private int areaExplored;
     private long startTime;
     private long endTime;
@@ -49,9 +49,7 @@ public class Exploration {
     		
     	}
     	
-    	startTime = System.currentTimeMillis();
-    	endTime = startTime + (timeLimit + 1000);
-    	
+    	    	
     	if(explorationMode == 0){
     		explore(robot.getRobotPosX(), robot.getRobotPosY());
     		if(robot.getRealRobot()){
@@ -133,8 +131,16 @@ public class Exploration {
     }
     
     private void exploreTL(int x, int y){
-    	System.out.println("time limited exploration: " + endTime);
-    	robot.setSpeed(100); //<-delay time in miliseconds
+    	//System.out.println("exploreTL entered");
+    	startTime = System.currentTimeMillis();
+    	//System.out.println(startTime);
+    	//System.out.println(timeLimit);
+    	
+    	endTime = startTime + (timeLimit * 1000);
+    	//System.out.println(endTime);
+    	
+    	//System.out.println("time limited exploration: " + endTime);
+    	robot.setSpeed(50); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
     		
@@ -148,7 +154,7 @@ public class Exploration {
     			//}
     		//}
     	}
-    	long time = System.currentTimeMillis();
+    	long time = System.currentTimeMillis() - startTime;
     	System.out.println(time);
     }
     
@@ -212,16 +218,9 @@ public class Exploration {
     		//System.out.println("leftfree = " + leftFree());
     		//move left
     		moveRobot(Constants.MOVEMENT.L);
-    		/*
-    		if(frontFree()){
-    			//move forward
-    			moveRobot(Constants.MOVEMENT.F);  }
-    		
-    		*/
     	}   	
     	else{
     		//u turn
-    		
     		moveRobot(Constants.MOVEMENT.R);
     		moveRobot(Constants.MOVEMENT.R);
 

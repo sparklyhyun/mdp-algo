@@ -7,6 +7,7 @@ public class Constants {
 	public static final int MAX_X = 15;
 	public static final int MAX_Y = 20;
 	public static final int MAP_SIZE = 300;
+	public static final String MAP_ID = "MAP";
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
