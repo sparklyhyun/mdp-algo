@@ -28,7 +28,11 @@ public class Exploration {
     	this.coverageLimit = coverageLimit;
     	this.timeLimit = timeLimit;
     	this.explorationMode = explorationMode;
-    	this.robotDelay = robotDelay;
+    	if(robotDelay == 0){
+    		this.robotDelay = 100;
+    	}else{
+    		this.robotDelay = robotDelay;
+    	}
     };
     
     public void startExploration() throws IOException{

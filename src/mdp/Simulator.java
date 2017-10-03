@@ -131,7 +131,7 @@ public class Simulator {
 		    _mapButtons.add(LoadMap_btn);
 	}
         // FastestPath Class
-		/*
+		
         class FastestPath extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 robot.setRobotPos(Constants.START_X, Constants.START_Y);
@@ -152,10 +152,10 @@ public class Simulator {
                 return 222;
             }
         }
-        */	
+        
 		
         // Fastest Path Button
-        /*
+        
         JButton FastestPath_btn = new JButton("Fastest Path");
         formatButton(FastestPath_btn);
         FastestPath_btn.addMouseListener(new MouseAdapter() {
@@ -165,9 +165,9 @@ public class Simulator {
                 new FastestPath().execute();
             }
         });
-        _buttons.add(FastestPath_btn);	
-		*/
+        _mapButtons.add(FastestPath_btn);	
 		
+
         // Exploration Class
             
         class Explore extends SwingWorker<Integer, String> {
