@@ -7,7 +7,6 @@ public class Constants {
 	public static final int MAX_X = 15;
 	public static final int MAX_Y = 20;
 	public static final int MAP_SIZE = 300;
-	public static final String MAP_ID = "MAP";
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
@@ -16,7 +15,6 @@ public class Constants {
 	
 	
 	//robot related constants
-	public static final String ROBOT_ID = "ROBOT";
 	public static final int ROBOT_WIDTH = 3;
 	public static final int ROBOT_SIZE = 9;
 	public static final int ROBOT_SPEED = 5; //need to change 
