@@ -163,7 +163,7 @@ public class FastestPath {
     
     //Find the fastest path from the robot's current position to [goalY, goalX].
     
-    public String runFastestPath(int goalY, int goalX) {
+    public String runFastestPath(int goalY, int goalX)  {
         System.out.println("Calculating fastest path from (" + current.getY() + ", " + current.getX() + ") to goal (" + goalY + ", " + goalX + ")...");
 
         Stack<Coordinates> path;

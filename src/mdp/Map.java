@@ -15,14 +15,14 @@ public class Map extends JPanel{
 			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
 				//for testing purpose
-				//coordinates[i][j].setExplored();
+				coordinates[i][j].setExplored();
 				
 			}
 		}
 		
 		//set the starting position as explored (for testing)
-		for(int i=0; i<=2 ; i++){
-			for(int j=0; j<=2; j++){
+		for(int i=1; i<=2 ; i++){
+			for(int j=1; j<=2; j++){
 				coordinates[j][i].setExplored();
 			}
 		}
@@ -393,7 +393,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("testMap2.txt");
+			File file = new File("testMap3.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
