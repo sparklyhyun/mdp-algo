@@ -10,11 +10,13 @@ public class CommunicationMgr {
     public static final String MAP_STRINGS = "MAP";         // PC --> Android
     public static final String BOT_POS = "BOT_POS";         // PC --> Android
     public static final String BOT_START = "BOT_START";     // PC --> Arduino
-    public static final String INSTRUCTIONS = "INSTR";      // PC --> Arduino
+    public static final String BOT_MOVEMENT = "BOT_MOV";      // PC --> Arduino
+    public static final String BOT_DIRECTION = "BOT_DIR";
+    public static final String BOT_INSTR = "INSTR";
     public static final String SENSOR_DATA = "SDATA";       // Arduino --> PC
 
     private static CommunicationMgr commMgr = null;
-    private static Socket conn = null;
+    private static Socket connection = null;
 
     private BufferedWriter writer;
     private BufferedReader reader;
@@ -33,12 +35,12 @@ public class CommunicationMgr {
         System.out.println("Opening connection...");
 
         try {
-            String HOST = "192.168.2.1";
-            int PORT = 8008;
-            conn = new Socket(HOST, PORT);
+            String host = "192.168.9.254";
+            int port = 1338;
+            connection = new Socket(host, port);
 
-            writer = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(conn.getOutputStream())));
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(connection.getOutputStream())));
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             System.out.println("openConnection() --> " + "Connection established successfully!");
 
@@ -61,9 +63,9 @@ public class CommunicationMgr {
         try {
             reader.close();
 
-            if (conn != null) {
-                conn.close();
-                conn = null;
+            if (connection != null) {
+            	connection.close();
+            	connection = null;
             }
             System.out.println("Connection closed!");
         } catch (IOException e) {
@@ -123,6 +125,6 @@ public class CommunicationMgr {
     }
 
     public boolean isConnected() {
-        return conn.isConnected();
+        return connection.isConnected();
     }
 }

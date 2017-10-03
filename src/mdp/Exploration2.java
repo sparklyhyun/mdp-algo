@@ -18,7 +18,7 @@ public class Exploration2 {
     private int lastCalibrate;	//no of steps before calibration
     private boolean calibrationMode;	
     private boolean checkptRightTurn = false;
-    private int rightTurn = 0;
+    //private int rightTurn = 0;
 	
     public Exploration2(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
     	this.map = map;
@@ -67,11 +67,11 @@ public class Exploration2 {
 
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
-    	while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
+    	//while(areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
     		
     		areaExplored = getAreaExplored();
-    		System.out.println("Area explored = " + areaExplored);
+    		//System.out.println("Area explored = " + areaExplored);
     		
     		//??????????????
     		//if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
@@ -79,7 +79,7 @@ public class Exploration2 {
     				//break;
     			//}
     		//}
-    	}
+    	//}
     	
     	//returnToStartPos();
     	
@@ -119,43 +119,37 @@ public class Exploration2 {
     	}*/
     	
     	
-    	if(rightFree()){
+    	if(rightFree() && Constants.rightTurn <2){
+    		System.out.println("Right Turn : " + Constants.rightTurn);
     		System.out.println("rightfree = " + rightFree());
-    		//move right
     		moveRobot(Constants.MOVEMENT.R);
-
-    		
-    		System.out.println("Is front free after turning : " + frontFree());
-    		
+    		Constants.rightTurn++;
     		if(frontFree()){
-    			//move forward
     			moveRobot(Constants.MOVEMENT.F);   		    		
-    		    	
     		}
+    		
     	}else if(frontFree()){
-    		System.out.println("frontfree = " + frontFree());
-    		//move forward
     		moveRobot(Constants.MOVEMENT.F);
-        		
-
-
-    		
+    		Constants.rightTurn=0;
     	}else if(leftFree()){
-    		System.out.println("leftfree = " + leftFree());
-    		//move left
     		moveRobot(Constants.MOVEMENT.L);
+    		Constants.rightTurn=0;
+    	}  
+    	else if(rightFree()){
+    		System.out.println("rightfree = " + rightFree());
+    		moveRobot(Constants.MOVEMENT.R);
 
-    		
-    		
-    	}   	
+    		if(frontFree()){
+    			moveRobot(Constants.MOVEMENT.F);   		    		
+    		}
+    		Constants.rightTurn++;
+    	}
     	else{
-    		//u turn
-    		
     		moveRobot(Constants.MOVEMENT.R);
     		moveRobot(Constants.MOVEMENT.R);
+    		Constants.rightTurn=0;
 
     	}
-    	
     	
 
 }

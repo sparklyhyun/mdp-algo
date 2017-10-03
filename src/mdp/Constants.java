@@ -3,6 +3,8 @@ package mdp;
 import java.awt.*;
 
 public class Constants {
+	public static int rightTurn = 0;
+	
 	//map related constants
 	public static final int MAX_X = 15;
 	public static final int MAX_Y = 20;
@@ -33,6 +35,23 @@ public class Constants {
 		public static DIRECTION prev(DIRECTION currentDir){	//get previous direction
 			return values()[((currentDir.ordinal()-1)+values().length) % values().length ];
 		}
+		
+		public static char print(DIRECTION d) {
+            switch (d) {
+                case N:
+                    return 'N';
+                case E:
+                    return 'E';
+                case S:
+                    return 'S';
+                case W:
+                    return 'W';
+                default:
+                    return 'X';
+            }
+		}
+		
+		
 	};	
     public enum MOVEMENT {
         F, B, R, L, CALIBRATE, ERROR;
