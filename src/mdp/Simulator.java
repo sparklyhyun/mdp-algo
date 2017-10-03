@@ -22,6 +22,7 @@ public class Simulator {
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
 	private static int explorationMode;
+	private static int robotDelay;
 	
 	//private static final CommMgr comm = CommMgr.getCommMgr();
 
@@ -179,7 +180,7 @@ public class Simulator {
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0 );
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 //for testing
                 //Exploration2 exploration = new Exploration2(exploredMap, realMap, robot, coverageLimit, timeLimit);
                 
@@ -222,7 +223,7 @@ public class Simulator {
         		robot.setRobotPos(Constants.START_X, Constants.START_Y);
         		exploredMap.repaint();
         		
-        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 1);
+        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 1, robotDelay);
         		explorationCL.startExploration();
         		
         		return 333; //<- need to change accordingly
@@ -266,7 +267,7 @@ public class Simulator {
         		robot.setRobotPos(Constants.START_X, Constants.START_Y);
         		exploredMap.repaint();
         		
-        		Exploration explorationTL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 2);
+        		Exploration explorationTL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 2, robotDelay);
         		explorationTL.startExploration();
         		
         		return 444; //<- need to change accordingly
@@ -306,7 +307,47 @@ public class Simulator {
         });
         
         _mapButtons.add(explorationTL_button);
+        
+        
+        //to set speed
+        class SetSpeed extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		return 555; //<- need to change accordingly
+        	}
 
+        }
+        JButton setSpeed_button = new JButton("Set Speed");
+        formatButton(setSpeed_button);
+        setSpeed_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog setSpeed_dialog = new JDialog(_mapFrame, "Set Robot Speed", true);
+                setSpeed_dialog.setSize(400, 60);
+                setSpeed_dialog.setLayout(new FlowLayout());
+                final JTextField setSpeed_text = new JTextField(5);
+                JButton set_button = new JButton("Set");
+        	
+                set_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		setSpeed_dialog.setVisible(false);
+                		robotDelay =  1000 / (int)(Integer.parseInt(setSpeed_text.getText())); 
+                		System.out.println(robotDelay);
+                		new SetSpeed().execute();
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		cl.show(_mapTiles , "SET SPEED");
+                	}
+                	
+                });
+                setSpeed_dialog.add(new JLabel("Robot Speed (in steps/second): "));
+                setSpeed_dialog.add(setSpeed_text);
+                setSpeed_dialog.add(set_button);
+                setSpeed_dialog.setVisible(true);
+        	}
+        	
+        });
+        _mapButtons.add(setSpeed_button);
 	}
 }
 

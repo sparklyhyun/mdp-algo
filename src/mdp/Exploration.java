@@ -19,14 +19,16 @@ public class Exploration {
     private boolean checkptRightTurn = false;
     private int rightTurn = 0;
     private int explorationMode = 0; //0=normal, 1=coverage, 2=time 
+    public int robotDelay = 100;
 	
-    public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit, int explorationMode ){
+    public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit, int explorationMode, int robotDelay ){
     	this.map = map;
     	this.realMap = realMap;
     	this.robot = robot;
     	this.coverageLimit = coverageLimit;
     	this.timeLimit = timeLimit;
     	this.explorationMode = explorationMode;
+    	this.robotDelay = robotDelay;
     };
     
     public void startExploration() throws IOException{
@@ -83,7 +85,7 @@ public class Exploration {
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
 
-    	robot.setSpeed(100); //<-delay time in miliseconds
+    	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(true  /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
     		moveNext(1, false);
     		if(robot.getReachedGoal() && robot.isInStartZone()){
@@ -108,7 +110,7 @@ public class Exploration {
     
     private void exploreCL(int x, int y){
     	System.out.println("coverage limited exploration: = " + coverageLimit);
-    	robot.setSpeed(50); //<-delay time in miliseconds
+    	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(getAreaExplored() <= coverageLimit){
     		moveNext(1, false);
     		
@@ -140,7 +142,7 @@ public class Exploration {
     	//System.out.println(endTime);
     	
     	//System.out.println("time limited exploration: " + endTime);
-    	robot.setSpeed(50); //<-delay time in miliseconds
+    	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
     		
@@ -166,34 +168,7 @@ public class Exploration {
     	//System.out.println("rightfree = " + rightFree());
     	//System.out.println("frontfree = " + frontFree());
     	//System.out.println("leftfree = " + leftFree());
-    	/*
-    	if(leftFree()){
-    		moveRobot(Constants.MOVEMENT.L);
-    		
-    		if(frontFree()){
-    			//move forward
-    			moveRobot(Constants.MOVEMENT.F);   		    		
-    		    	
-    		}
-    	}else if(frontFree()){
-    		moveRobot(Constants.MOVEMENT.F);
-
-    	}else if(rightFree()){
-    		System.out.println("leftfree = " + leftFree());
-    		//move left
-    		moveRobot(Constants.MOVEMENT.R);
-
-    		
-    		
-    	}   	
-    	else{
-    		//u turn
-    		
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-
-    	}
-    	*/
+    
     	
     	if(rightFree()){
     		//System.out.println("rightfree = " + rightFree());
