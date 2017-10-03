@@ -18,13 +18,15 @@ public class Exploration {
     private boolean calibrationMode;	
     private boolean checkptRightTurn = false;
     private int rightTurn = 0;
+    private int explorationMode = 0; //0=normal, 1=coverage, 2=time 
 	
-    public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit ){
+    public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit, int explorationMode ){
     	this.map = map;
     	this.realMap = realMap;
     	this.robot = robot;
     	this.coverageLimit = coverageLimit;
     	this.timeLimit = timeLimit;
+    	this.explorationMode = explorationMode;
     };
     
     public void startExploration() throws IOException{
@@ -46,19 +48,31 @@ public class Exploration {
     	
     		
     	}
+    	
     	startTime = System.currentTimeMillis();
     	endTime = startTime + (timeLimit + 1000);
-    	//explore(robot.getRobotPosX(), robot.getRobotPosY());
-    	//exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
-    	exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
     	
-    	if(robot.getRealRobot()){
-    		//set communication manager
+    	if(explorationMode == 0){
+    		explore(robot.getRobotPosX(), robot.getRobotPosY());
+    		if(robot.getRealRobot()){
+        		//set communication manager
+        	}
+        	paintAfterSense();
+        	
+        	//print out area calculated??
+    	}else if(explorationMode == 1){
+    		exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
+    		if(robot.getRealRobot()){
+        		//set communication manager
+        	}
+        	paintAfterSense();
+    	}else if(explorationMode == 2){
+    		exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
+    		if(robot.getRealRobot()){
+        		//set communication manager
+        	}
+        	paintAfterSense();
     	}
-    	paintAfterSense();
-    	
-    	//print out area calculated??
-    	
     	
     	System.out.println("explore function exited");
     	
@@ -70,7 +84,7 @@ public class Exploration {
 
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
-    	
+
     	robot.setSpeed(100); //<-delay time in miliseconds
     	while(true  /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
     		moveNext(1, false);

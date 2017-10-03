@@ -20,7 +20,8 @@ public class Simulator {
 	private static Map exploredMap;          // exploration map
 
 	private static int timeLimit = 3600;            // time limit
-	private static int coverageLimit = 100;         // coverage limit
+	private static int coverageLimit = 300;         // coverage limit
+	private static int explorationMode;
 	
 	//private static final CommMgr comm = CommMgr.getCommMgr();
 
@@ -178,7 +179,7 @@ public class Simulator {
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0 );
                 //for testing
                 //Exploration2 exploration = new Exploration2(exploredMap, realMap, robot, coverageLimit, timeLimit);
                 
@@ -189,9 +190,8 @@ public class Simulator {
                 }
 				*/
                 
-                //exploration.explore(x,y);
                 exploration.startExploration();
-               //generateMapDescriptor(exploredMap);
+                
                 if (realExecution) {
                     //new FastestPath().execute();
                 }
@@ -222,10 +222,10 @@ public class Simulator {
         		robot.setRobotPos(Constants.START_X, Constants.START_Y);
         		exploredMap.repaint();
         		
-        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
+        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 1);
         		explorationCL.startExploration();
         		
-        		return 444; //<- need to change accordingly
+        		return 333; //<- need to change accordingly
         	}
         }
         
@@ -246,7 +246,7 @@ public class Simulator {
                 		coverageLimit = (int) ((Integer.parseInt(coverage_text.getText())) * Constants.MAP_SIZE / 100.0); 
                 		new ExploreCoverageLimited().execute();
                 		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-                		 cl.show(_mapTiles, "EXPLORATION");
+                		cl.show(_mapTiles , "EXPLORATION");
                 	}
                 	
                 });
@@ -260,6 +260,52 @@ public class Simulator {
         _mapButtons.add(explorationCL_button);
         
         
+        //time limited exploration class
+        class ExplorationTimeLimited extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		Exploration explorationTL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 2);
+        		explorationTL.startExploration();
+        		
+        		return 444; //<- need to change accordingly
+        	}
+
+        }
+        
+        //time limited exploration button
+        JButton explorationTL_button = new JButton("Time Limited");
+        formatButton(explorationTL_button);
+        explorationTL_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog explorationTL_dialog = new JDialog(_mapFrame, "Coverage-Limited Exploration", true);
+                explorationTL_dialog.setSize(400, 60);
+                explorationTL_dialog.setLayout(new FlowLayout());
+                final JTextField time_text = new JTextField(5); //time in MM:SS format
+                JButton run_button = new JButton("Run");
+        	
+                run_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		explorationTL_dialog.setVisible(false);
+                		String time = time_text.getText();
+                		String[] timeSplit = time.split(":");
+                		timeLimit = (Integer.parseInt(timeSplit[0]) * 60) + Integer.parseInt(timeSplit[1]);
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		cl.show(_mapTiles , "EXPLORATION");
+                		new ExplorationTimeLimited().execute();
+                	}
+                });
+                explorationTL_dialog.add(new JLabel("Time Limit (in mm:ss):"));
+                explorationTL_dialog.add(time_text);
+                explorationTL_dialog.add(run_button);
+                explorationTL_dialog.setVisible(true);
+               }
+        	
+        
+        });
+        
+        _mapButtons.add(explorationTL_button);
 
 	}
 }
