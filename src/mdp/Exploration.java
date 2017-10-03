@@ -48,7 +48,9 @@ public class Exploration {
     	}
     	startTime = System.currentTimeMillis();
     	endTime = startTime + (timeLimit + 1000);
-    	explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	//explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	//exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
+    	exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
     	
     	if(robot.getRealRobot()){
     		//set communication manager
@@ -57,7 +59,7 @@ public class Exploration {
     	
     	//print out area calculated??
     	
-    	explore(robot.getRobotPosX(), robot.getRobotPosY());
+    	
     	System.out.println("explore function exited");
     	
     	map.genMapDescAfter();
@@ -69,8 +71,8 @@ public class Exploration {
     	//loop unless robot is back to its original position || area explored > coverage limit
     	// || System.currentTimeMills() > endTime
     	
-    	robot.setSpeed(30); //<-delay time in miliseconds
-    	while(true /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
+    	robot.setSpeed(100); //<-delay time in miliseconds
+    	while(true  /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
     		moveNext(1, false);
     		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
@@ -92,24 +94,61 @@ public class Exploration {
     	
     }
     
+    private void exploreCL(int x, int y){
+    	System.out.println("coverage limited exploration: = " + coverageLimit);
+    	robot.setSpeed(50); //<-delay time in miliseconds
+    	while(getAreaExplored() <= coverageLimit){
+    		moveNext(1, false);
+    		
+    		System.out.println("area explored" + getAreaExplored());
+    		if(robot.getReachedGoal() && robot.isInStartZone()){
+    			System.out.println("exploration done");
+    			break;
+    		}
+    		
+    		
+    		//??????????????
+    		//if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
+    			//if(areaExplored >= 100){
+    				//break;
+    			//}
+    		//}
+    	}
+    	areaExplored = getAreaExplored();
+		System.out.println("Area explored = " + areaExplored);
+    }
+    
+    private void exploreTL(int x, int y){
+    	System.out.println("time limited exploration: " + endTime);
+    	robot.setSpeed(100); //<-delay time in miliseconds
+    	while(System.currentTimeMillis() <= endTime){
+    		moveNext(1, false);
+    		
+    		
+    		
+    		
+    		//??????????????
+    		//if(robot.getRobotPosX() == x && robot.getRobotPosY() == y ){
+    			//if(areaExplored >= 100){
+    				//break;
+    			//}
+    		//}
+    	}
+    	long time = System.currentTimeMillis();
+    	System.out.println(time);
+    }
+    
     
     //THE MAIN PART****************************************************************************
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
 
     	
-    	System.out.println("rightfree = " + rightFree());
-    	System.out.println("frontfree = " + frontFree());
-    	System.out.println("leftfree = " + leftFree());
-    
-    	
-    	
-    	if(rightFree()){
-    		System.out.println("rightfree = " + rightFree());
-    		//move right
-    		moveRobot(Constants.MOVEMENT.R);
-
-    		
-    		System.out.println("Is front free after turning : " + frontFree());
+    	//System.out.println("rightfree = " + rightFree());
+    	//System.out.println("frontfree = " + frontFree());
+    	//System.out.println("leftfree = " + leftFree());
+    	/*
+    	if(leftFree()){
+    		moveRobot(Constants.MOVEMENT.L);
     		
     		if(frontFree()){
     			//move forward
@@ -117,20 +156,54 @@ public class Exploration {
     		    	
     		}
     	}else if(frontFree()){
-    		System.out.println("frontfree = " + frontFree());
+    		moveRobot(Constants.MOVEMENT.F);
+
+    	}else if(rightFree()){
+    		System.out.println("leftfree = " + leftFree());
+    		//move left
+    		moveRobot(Constants.MOVEMENT.R);
+
+    		
+    		
+    	}   	
+    	else{
+    		//u turn
+    		
+    		moveRobot(Constants.MOVEMENT.R);
+    		moveRobot(Constants.MOVEMENT.R);
+
+    	}
+    	*/
+    	
+    	if(rightFree()){
+    		//System.out.println("rightfree = " + rightFree());
+    		//move right
+    		moveRobot(Constants.MOVEMENT.R);
+
+    		
+    		//System.out.println("Is front free after turning : " + frontFree());
+    		
+    		if(frontFree()){
+    			//move forward
+    			moveRobot(Constants.MOVEMENT.F);   		    		
+    		    	
+    		}
+    	}else if(frontFree()){
+    		//System.out.println("frontfree = " + frontFree());
     		//move forward
     		moveRobot(Constants.MOVEMENT.F);
-        		
-
 
     		
     	}else if(leftFree()){
-    		System.out.println("leftfree = " + leftFree());
+    		//System.out.println("leftfree = " + leftFree());
     		//move left
     		moveRobot(Constants.MOVEMENT.L);
-
+    		/*
+    		if(frontFree()){
+    			//move forward
+    			moveRobot(Constants.MOVEMENT.F);  }
     		
-    		
+    		*/
     	}   	
     	else{
     		//u turn
@@ -308,8 +381,8 @@ public class Exploration {
     private boolean isWestFree(){
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
-    	System.out.println("x-1 y+1 free = " + notObstacleVirtualWall(x-1,y+1));
-    	System.out.println("x-1 y free = " + notObstacleVirtualWall(x-1, y));
+    	//System.out.println("x-1 y+1 free = " + notObstacleVirtualWall(x-1,y+1));
+    	//System.out.println("x-1 y free = " + notObstacleVirtualWall(x-1, y));
     	return(notObstacleVirtualWall(x-1,y+1) && notObstacleVirtualWall(x-1, y));
     	//return (notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2,y));
     }

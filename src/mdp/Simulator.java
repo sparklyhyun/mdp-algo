@@ -20,7 +20,7 @@ public class Simulator {
 	private static Map exploredMap;          // exploration map
 
 	private static int timeLimit = 3600;            // time limit
-	private static int coverageLimit = 300;         // coverage limit
+	private static int coverageLimit = 100;         // coverage limit
 	
 	//private static final CommMgr comm = CommMgr.getCommMgr();
 
@@ -196,7 +196,7 @@ public class Simulator {
                     //new FastestPath().execute();
                 }
 
-                return 111;
+                return 111; //<-- need to change accordingly 
             }
         }
 		
@@ -215,7 +215,52 @@ public class Simulator {
         });
         _mapButtons.add(Exploration_btn);
 		
-
-}
+        
+        //coverage limited exploration class
+        class ExploreCoverageLimited extends SwingWorker<Integer, String>{
+        	protected Integer doInBackground() throws Exception{
+        		robot.setRobotPos(Constants.START_X, Constants.START_Y);
+        		exploredMap.repaint();
+        		
+        		Exploration explorationCL = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit);
+        		explorationCL.startExploration();
+        		
+        		return 444; //<- need to change accordingly
+        	}
         }
+        
+        //coverage limited exploration button
+        JButton explorationCL_button = new JButton("Coverage Limited");
+        formatButton(explorationCL_button);
+        explorationCL_button.addMouseListener(new MouseAdapter(){
+        	public void mousePressed(MouseEvent e) {
+                JDialog explorationCL_dialog = new JDialog(_mapFrame, "Coverage-Limited Exploration", true);
+                explorationCL_dialog.setSize(400, 60);
+                explorationCL_dialog.setLayout(new FlowLayout());
+                final JTextField coverage_text = new JTextField(5);
+                JButton run_button = new JButton("Run");
+        	
+                run_button.addMouseListener(new MouseAdapter(){
+                	public void mousePressed(MouseEvent e){
+                		explorationCL_dialog.setVisible(false);
+                		coverageLimit = (int) ((Integer.parseInt(coverage_text.getText())) * Constants.MAP_SIZE / 100.0); 
+                		new ExploreCoverageLimited().execute();
+                		CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                		 cl.show(_mapTiles, "EXPLORATION");
+                	}
+                	
+                });
+                explorationCL_dialog.add(new JLabel("Coverage Limit (in %): "));
+                explorationCL_dialog.add(coverage_text);
+                explorationCL_dialog.add(run_button);
+                explorationCL_dialog.setVisible(true);
+        	}
+        	
+        });
+        _mapButtons.add(explorationCL_button);
+        
+        
+
+	}
+}
 

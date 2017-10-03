@@ -15,6 +15,7 @@ public class Constants {
 	
 	
 	//robot related constants
+	public static final String ROBOT_ID = "ROBOT";
 	public static final int ROBOT_WIDTH = 3;
 	public static final int ROBOT_SIZE = 9;
 	public static final int ROBOT_SPEED = 5; //need to change 

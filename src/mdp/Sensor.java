@@ -76,7 +76,7 @@ public class Sensor {
 	
 	private void sensorValFindObstacles(Map exploredMap, int sensorVal, int xInc, int yInc){
 		if(sensorVal == 0) {
-			System.out.println("sensor too close");
+			//System.out.println("sensor too close");
 			return; //obstacle too close to sensor
 		}
 		
