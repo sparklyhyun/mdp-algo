@@ -129,7 +129,7 @@ public class Exploration {
     	//areaExplored = getAreaExplored();
 		//System.out.println("Area explored = " + areaExplored);
     	
-    	//returnToStartPos();
+    	returnToStartPos();
     	
     }
     
@@ -543,7 +543,7 @@ public class Exploration {
 	    	//System.out.println("Is x+2 y+1 free : " + notObstacleVirtualWall(x+2,y+1));
 	    	//System.out.println("Is x+2 y free : " + notObstacleVirtualWall(x+2,y));
 	    	//System.out.println("Is x+2 y-1 free : " + notObstacleVirtualWall(x+2,y-1));
-	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y));
+	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y)&& notObstacleVirtualWall(x+2,y+1));
 
 	    }
 	    
@@ -814,15 +814,18 @@ private boolean isEastFree2(){	//for 2x2, outside
     private void returnToStartPos(){
     	System.out.println("return to start entered");
     	//**********************************need to change********************************
-    	if(!robot.getReachedGoal() && coverageLimit == 300 && timeLimit == 3600){// original exploration
-    		FastestPath toGoal = new FastestPath(map,robot ,realMap);
+    	if(!robot.getReachedGoal()){	//stopped halfway, go to goal before returning
+    		FastestPath toGoal = new FastestPath(map,robot );
     		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
     	System.out.println("return to start entered2");
-    	FastestPath toStart = new FastestPath(map, robot, realMap);
+    	FastestPath toStart = new FastestPath(map, robot, null);
+    	System.out.println("fastest path initialized");
+
     	toStart.runFastestPath(Constants.START_X, Constants.START_Y);
     	//exploration complete if return to starting position
-    	
+    	System.out.println("runFastestPath function done");
+
     	//print out exploration report
     	System.out.printf("%.2f%% Coverage", (areaExplored / 300.0) * 100.0);
         System.out.println(", " + areaExplored + " Cells");
