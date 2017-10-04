@@ -328,8 +328,8 @@ public class FastestPath {
 
         System.out.println("movement array list built");
         
-        //Robot tempRobot = new Robot(robot.getRobotPosX(), robot.getRobotPosY(), false);
-        Robot tempRobot = robot;
+        Robot tempRobot = new Robot(robot.getRobotPosX(), robot.getRobotPosY(), false);
+        //Robot tempRobot = robot;
         
         System.out.println("temprobot built");
         
@@ -365,7 +365,7 @@ public class FastestPath {
 
             System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempRobot.getRobotPosY() + ", " + tempRobot.getRobotPosX() + ") to (" + temp.getY() + ", " + temp.getX() + ")");
 
-            robot.move(m,1, false);
+            tempRobot.move(m,1, false);
             movements.add(m);
             outputString.append(MOVEMENT.print(m));
             System.out.println(outputString);
