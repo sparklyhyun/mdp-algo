@@ -850,7 +850,7 @@ private boolean isEastFree2(){	//for 2x2, outside
             rotateRobot(DIRECTION.W);
             robotMove(MOVEMENT.CALIBRATE,1,true);
         }*/
-        //rotateRobot(DIRECTION.N);
+        rotateRobot(DIRECTION.N);
         
     }
     
