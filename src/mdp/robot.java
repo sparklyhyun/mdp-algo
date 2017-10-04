@@ -184,7 +184,7 @@ public class Robot {
     	
     	//else 
     	//test
-    	System.out.println("Move: " + m);
+    	//System.out.println("Move: " + m);
     	updateReachedGoal();
     }
     
