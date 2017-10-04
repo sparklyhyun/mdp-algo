@@ -814,15 +814,17 @@ private boolean isEastFree2(){	//for 2x2, outside
     private void returnToStartPos(){
     	System.out.println("return to start entered");
     	//**********************************need to change********************************
+    	/*
     	if(!robot.getReachedGoal()){	//stopped halfway, go to goal before returning
     		FastestPath toGoal = new FastestPath(map,robot,null );
     		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
+    	*/
     	System.out.println("return to start entered2");
     	FastestPath toStart = new FastestPath(map, robot, null);
     	System.out.println("fastest path initialized");
 
-    	toStart.runFastestPath(Constants.START_X, Constants.START_Y);
+    	toStart.runFastestPath(Constants.START_Y, Constants.START_X);
     	//exploration complete if return to starting position
     	System.out.println("runFastestPath function done");
 

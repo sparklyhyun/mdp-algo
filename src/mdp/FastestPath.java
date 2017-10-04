@@ -87,9 +87,9 @@ public class FastestPath {
         boolean checkIsObstacle = c.getIsObstacle();
         //boolean checkIsVirtualWall = c.getIsVirtualWall();
         boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle; /*&& !checkIsVirtualWall*/
-        System.out.println("checkisexplored: " + checkIsExplored);
-        System.out.println("checkisobstacle: " + checkIsObstacle);
-        System.out.println("canbevisitedcheck: " + canBeVisitedCheck);
+        //System.out.println("checkisexplored: " + checkIsExplored);
+        //System.out.println("checkisobstacle: " + checkIsObstacle);
+        //System.out.println("canbevisitedcheck: " + canBeVisitedCheck);
         return canBeVisitedCheck;
     }
 
@@ -201,7 +201,7 @@ public class FastestPath {
             visited.add(current);       // add current to visited
             nextVisit.remove(current);    // remove current from nextVisit
 
-            if (visited.contains(map.getCoordinate(goalY, goalX))) {
+            if (visited.contains(map.getCoordinate(goalX, goalY))) {
                 System.out.println("Goal visited. Path found!");
                 path = getPath(goalY, goalX);
                 printFastestPath(path);
@@ -209,26 +209,26 @@ public class FastestPath {
             }
 
             // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
-            if (map.checkWithinRange(current.getY() + 1, current.getX())) {
-                neighbors[0] = map.getCoordinate(current.getY() + 1, current.getX());
+            if (map.checkWithinRange(current.getX() + 1, current.getY())) {
+                neighbors[0] = map.getCoordinate(current.getX() + 1, current.getY());
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
                 }
             }
-            if (map.checkWithinRange(current.getY() - 1, current.getX())) {
-                neighbors[1] = map.getCoordinate(current.getY() - 1, current.getX());
+            if (map.checkWithinRange(current.getX(), current.getY()-1)) {
+                neighbors[1] = map.getCoordinate(current.getX(), current.getY()-1);
                 if (!canBeVisited(neighbors[1])) {
                     neighbors[1] = null;
                 }
             }
-            if (map.checkWithinRange(current.getY(), current.getX() - 1)) {
-                neighbors[2] = map.getCoordinate(current.getY(), current.getX() - 1);
+            if (map.checkWithinRange(current.getX()-1, current.getY())) {
+                neighbors[2] = map.getCoordinate(current.getX()-1, current.getY());
                 if (!canBeVisited(neighbors[2])) {
                     neighbors[2] = null;
                 }
             }
-            if (map.checkWithinRange(current.getY(), current.getX() + 1)) {
-                neighbors[3] = map.getCoordinate(current.getY(), current.getX() + 1);
+            if (map.checkWithinRange(current.getX() +1, current.getY())) {
+                neighbors[3] = map.getCoordinate(current.getX()+1, current.getY());
                 if (!canBeVisited(neighbors[3])) {
                     neighbors[3] = null;
                 }
