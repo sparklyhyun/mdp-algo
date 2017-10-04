@@ -441,7 +441,6 @@ public class FastestPath {
 
         switch (robot.getRobotDir()) {
             case N:
-                
             	if(notObstacle(x, y+2) && notObstacle(x+1, y+2)){
             		return true;
             	}
