@@ -828,6 +828,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
     	*/
+    	
     	System.out.println("return to start entered2");
     	FastestPath toStart = new FastestPath(map, robot, null);
     	System.out.println("fastest path initialized");
