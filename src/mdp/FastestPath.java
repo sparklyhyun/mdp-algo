@@ -186,7 +186,7 @@ public class FastestPath {
 
             // Get coordinates with minimum cost from nextVisit and assign it to current.
             current = checkAndUpdateMinCost(goalY, goalX);
-           // System.out.println("check update min cost");
+           System.out.println("check update min cost");
             
             // Point the robot in the direction of current from the previous coordinates.
             if (parents.containsKey(current)) {
@@ -194,19 +194,20 @@ public class FastestPath {
                 System.out.println("curDir = " + curDir);
                 //System.out.println("if statement entered1");
             }
-            //System.out.println("if statement exited1");
+            System.out.println("if statement exited1");
             visited.add(current);       // add current to visited
-           // System.out.println("addcurrent done");
+            System.out.println("addcurrent done");
             nextVisit.remove(current);    // remove current from nextVisit
-            //System.out.println("removecurrent done");
+            System.out.println("removecurrent done");
             
             if (visited.contains(map.getCoordinate(goalX, goalY))) {
                 System.out.println("Goal visited. Path found!");
                 path = getPath(goalY, goalX);
+                //System.out.println("get path done" );
                 printFastestPath(path);
                 return executeFastestPath(path, goalY, goalX);
             }
-        	//System.out.println("if statement exit 0");
+        	System.out.println("if statement exit 0");
 
             // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
             if (map.checkWithinRange(current.getX() + 1, current.getY())) {
@@ -218,7 +219,7 @@ public class FastestPath {
                     //System.out.println("neighbour null");
                 }
             }
-           // System.out.println("if statement exit 1");
+            System.out.println("if statement exit 1");
             
             if (map.checkWithinRange(current.getX(), current.getY()-1)) {
             	//System.out.println("if statement entered3");
@@ -228,7 +229,7 @@ public class FastestPath {
                     neighbors[1] = null;
                 }
             }
-            //System.out.println("if statement exit 2");
+            System.out.println("if statement exit 2");
             if (map.checkWithinRange(current.getX()-1, current.getY())) {
             	//System.out.println("if statement entered4");
 
@@ -246,7 +247,7 @@ public class FastestPath {
                     neighbors[3] = null;
                 }
             }
-        	//System.out.println("if statement all done");
+        	System.out.println("if statement all done");
 
 
             // Iterate through neighbors and update the g(n) values of each.
@@ -305,6 +306,7 @@ public class FastestPath {
                 break;
             }
         }
+        System.out.println("get path while loop exited");
 
         return actualPath;
     }
@@ -326,8 +328,8 @@ public class FastestPath {
 
         System.out.println("movement array list built");
         
-        //Robot tempRobot = new Robot(1, 1, false);
-        Robot tempRobot = robot;
+        Robot tempRobot = new Robot(robot.getRobotPosX(), robot.getRobotPosY(), false);
+        //Robot tempRobot = robot;
         
         System.out.println("temprobot built");
         
@@ -376,6 +378,7 @@ public class FastestPath {
 
             for (MOVEMENT x : movements) {
             	System.out.println("for loop entered: " + x);
+            	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
                         System.out.println("Early termination of fastest path execution.");
@@ -438,7 +441,6 @@ public class FastestPath {
 
         switch (robot.getRobotDir()) {
             case N:
-                
             	if(notObstacle(x, y+2) && notObstacle(x+1, y+2)){
             		return true;
             	}

@@ -11,8 +11,8 @@ public class Robot {
 	private int startPos_Y = Constants.START_Y;
 	private int goalPos_X = Constants.GOAL_X;
 	private int goalPos_Y = Constants.GOAL_Y;
-	public int robotPos_X = Constants.START_X;
-	public int robotPos_Y = Constants.START_Y; //initial position	
+	public int robotPos_X;
+	public int robotPos_Y; 
 	private int speed;
 	
 	// change the sensor position accordingly

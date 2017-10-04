@@ -132,9 +132,10 @@ public class Simulator {
 	}
         // FastestPath Class
 		
-        class FastestPath extends SwingWorker<Integer, String> {
+        class FastestPathAlgo extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
-                robot.setRobotPos(Constants.START_X, Constants.START_Y);
+                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
+            	
                 exploredMap.repaint();
 
                 if (realExecution) {
@@ -145,9 +146,10 @@ public class Simulator {
                     }
                 }
 
-                //FastestPath fastestPath = new FastestPath(exploredMap, robot);
+               // FastestPath fastestPath = new FastestPath();
 
-                //fastestPath.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
+                FastestPath fastestP = new FastestPath(exploredMap, robot, null);
+                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
 
                 return 222;
             }
@@ -162,7 +164,7 @@ public class Simulator {
             public void mousePressed(MouseEvent e) {
                 CardLayout cl = ((CardLayout) _mapTiles.getLayout());
                 cl.show(_mapTiles, "EXPLORATION");
-                new FastestPath().execute();
+                new FastestPathAlgo().execute();
             }
         });
         _mapButtons.add(FastestPath_btn);	
