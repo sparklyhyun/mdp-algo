@@ -93,6 +93,9 @@ public class Exploration {
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}*/
+    		
+    		
+    		
     		exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
         	paintAfterSense();
     	}else if(explorationMode == 2){
@@ -100,6 +103,7 @@ public class Exploration {
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}*/
+    		
     		exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
         	paintAfterSense();
         	
@@ -107,7 +111,7 @@ public class Exploration {
     	
     	System.out.println("explore function exited");
     	
-    	//map.genMapDescAfter();
+    	map.genMapDescAfter();
     	//System.out.println("map desc generated");
     }
     
@@ -161,6 +165,10 @@ public class Exploration {
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
+    		int area = getAreaExplored();
+    		if(robot.isInStartZone() && area >= 70){
+    			break;
+    		}
     	}
     	long time = System.currentTimeMillis() - startTime;
     	System.out.println(time);
@@ -814,15 +822,17 @@ private boolean isEastFree2(){	//for 2x2, outside
     private void returnToStartPos(){
     	System.out.println("return to start entered");
     	//**********************************need to change********************************
+    	/*
     	if(!robot.getReachedGoal()){	//stopped halfway, go to goal before returning
     		FastestPath toGoal = new FastestPath(map,robot,null );
     		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
+    	*/
     	System.out.println("return to start entered2");
     	FastestPath toStart = new FastestPath(map, robot, null);
     	System.out.println("fastest path initialized");
 
-    	toStart.runFastestPath(Constants.START_X, Constants.START_Y);
+    	toStart.runFastestPath(Constants.START_Y, Constants.START_X);
     	//exploration complete if return to starting position
     	System.out.println("runFastestPath function done");
 
@@ -840,7 +850,7 @@ private boolean isEastFree2(){	//for 2x2, outside
             rotateRobot(DIRECTION.W);
             robotMove(MOVEMENT.CALIBRATE,1,true);
         }*/
-        rotateRobot(DIRECTION.N);
+        //rotateRobot(DIRECTION.N);
         
     }
     

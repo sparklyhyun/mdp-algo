@@ -27,6 +27,9 @@ public class Coordinates {
 	public void setExplored(){
 		isExplored = true;
 	}
+	public void setUnExplored(){
+		isExplored = false;
+	}
 
 	public void setIsVirtualWall(){
 		isVirtualWall = true;
