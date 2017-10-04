@@ -329,6 +329,7 @@ public class FastestPath {
         System.out.println("movement array list built");
         
         Robot tempRobot = new Robot(robot.getRobotPosX(), robot.getRobotPosY(), false);
+        tempRobot.setDirection(robot.getRobotDir());
         //Robot tempRobot = robot;
         
         System.out.println("temprobot built");
@@ -359,6 +360,7 @@ public class FastestPath {
             
             if (tempRobot.getRobotDir() != targetDir) {
                 m = getTargetMovement(tempRobot.getRobotDir(), targetDir);
+                System.out.println("robot dir: " + tempRobot.getRobotDir());
             } else {
                 m = MOVEMENT.F;
             }
@@ -379,13 +381,14 @@ public class FastestPath {
             for (MOVEMENT x : movements) {
             	System.out.println("for loop entered: " + x);
             	
+            	
+            	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
                         System.out.println("Early termination of fastest path execution.");
                         return "T";
                     }
-
-                }
+                   }
                 robot.move(x, 1, false);
                 this.map.repaint();
                 
