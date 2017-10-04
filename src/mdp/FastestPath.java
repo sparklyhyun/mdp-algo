@@ -314,22 +314,47 @@ public class FastestPath {
     
     private String executeFastestPath(Stack<Coordinates> path, int goalY, int goalX) {
         StringBuilder outputString = new StringBuilder();
-
+        
+        System.out.println("string builder built");
+        
         Coordinates temp = path.pop();
+        System.out.println("path inside temp");
+
         DIRECTION targetDir;
 
         ArrayList<MOVEMENT> movements = new ArrayList<>();
 
-        Robot tempRobot = new Robot(1, 1, false);
-        tempRobot.setSpeed(50);
+        System.out.println("movement array list built");
+        
+        //Robot tempRobot = new Robot(1, 1, false);
+        Robot tempRobot = robot;
+        
+        System.out.println("temprobot built");
+        
+        tempRobot.setSpeed(100);
+        
+        System.out.println("temprobot set speed");
+        System.out.println("temproboty: " + tempRobot.getRobotPosY() );
+        System.out.println("goalY: " + goalY);
+        System.out.println("temprobotx: " +tempRobot.getRobotPosX() );
+        System.out.println("goalX: " +goalX);
+        System.out.println("while loop condition:" +(tempRobot.getRobotPosY() != goalY) + (tempRobot.getRobotPosX() != goalX) );
         while ((tempRobot.getRobotPosY() != goalY) || (tempRobot.getRobotPosX() != goalX)) {
+        	
+        	System.out.println("while loop entered");
+        	
             if (tempRobot.getRobotPosY() == temp.getY() && tempRobot.getRobotPosX() == temp.getX()) {
                 temp = path.pop();
             }
 
             targetDir = getTargetDir(tempRobot.getRobotPosY(), tempRobot.getRobotPosX(), tempRobot.getRobotDir(), temp);
-
+            
+            System.out.println("target direction obtained");
+            
             MOVEMENT m;
+            
+            System.out.println("movement m created");
+            
             if (tempRobot.getRobotDir() != targetDir) {
                 m = getTargetMovement(tempRobot.getRobotDir(), targetDir);
             } else {
@@ -338,29 +363,38 @@ public class FastestPath {
 
             System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempRobot.getRobotPosY() + ", " + tempRobot.getRobotPosX() + ") to (" + temp.getY() + ", " + temp.getX() + ")");
 
-            tempRobot.move(m,0, false);
+            tempRobot.move(m,1, false);
             movements.add(m);
             outputString.append(MOVEMENT.print(m));
+            System.out.println(outputString);
         }
 
+        System.out.println("while loop exited");
+        
         if (!robot.getRealRobot() || explorationMode) {
+        	System.out.println("if statement entered");
+
             for (MOVEMENT x : movements) {
+            	System.out.println("for loop entered: " + x);
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
                         System.out.println("Early termination of fastest path execution.");
                         return "T";
                     }
-                }
 
-                robot.move(x, 0, false);
+                }
+                robot.move(x, 1, false);
                 this.map.repaint();
+                
 
                 // During exploration, use sensor data to update map.
+                /*
                 if (explorationMode) {
                     robot.setSentors();
                     robot.senseDist(this.map, this.realMap);
                     this.map.repaint();
-                }
+                }*/
+                System.out.println("for loop exited");
             }
         } else {
             int fCount = 0;
@@ -404,28 +438,57 @@ public class FastestPath {
 
         switch (robot.getRobotDir()) {
             case N:
-                if (!map.isObstacle(y + 2, x - 1) && !map.isObstacle(y + 2, x) && !map.isObstacle(y + 2, x + 1)) {
+                
+            	if(notObstacle(x, y+2) && notObstacle(x+1, y+2)){
+            		return true;
+            	}
+            	/*
+            	if (!map.isObstacle(y + 2, x - 1) && !map.isObstacle(y + 2, x) && !map.isObstacle(y + 2, x + 1)) {
                     return true;
-                }
+                }*/
                 break;
             case E:
+            	if(notObstacle(x+2, y+1) && notObstacle(x+2, y)){
+            		return true;
+            	}
+            	/*
                 if (!map.isObstacle(y + 1, x + 2) && !map.isObstacle(y, x + 2) && !map.isObstacle(y - 1, x + 2)) {
                     return true;
-                }
+                }*/
                 break;
             case S:
+            	if(notObstacle(x, y-1) && notObstacle(x+1, y-1)){
+            		return true;
+            	}
+            	/*
                 if (!map.isObstacle(y - 2, x - 1) && !map.isObstacle(y - 2, x) && !map.isObstacle(y - 2, x + 1)) {
                     return true;
-                }
+                }*/
                 break;
             case W:
+            	if(notObstacle(x-1, y+1) && notObstacle(x-1, y)){
+            		return true;
+            	}
+            	/*
                 if (!map.isObstacle(y + 1, x - 2) && !map.isObstacle(y, x - 2) && !map.isObstacle(y - 1, x - 2)) {
                     return true;
-                }
+                }*/
                 break;
         }
 
         return false;
+    }
+    
+    private boolean notObstacle(int x, int y){
+    	if(map.checkWithinRange(x, y)){
+    		if(!map.isExplored(x,y)){
+    			return false;
+    		}
+    		if(!map.isObstacle(x,y) &&  map.isExplored(x,y)){
+    			return true;
+    		}
+    	}
+		return false;
     }
 
     

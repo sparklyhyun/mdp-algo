@@ -43,9 +43,9 @@ public class Robot {
         topL_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X-1, robotPos_Y+1, "topL_L", this.robotDir);
         midL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y, "midL_S", DIRECTION.W);
         bottomL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y-1, "bottomL_S", DIRECTION.W);
-        topR_S = new Sensor(Constants.RANGE_SHORT_MIN_2, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "topR_S", DIRECTION.E);
-        midR_S = new Sensor(Constants.RANGE_SHORT_MIN_2, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y, "midR_S", DIRECTION.E);
-        bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN_2, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y-1, "bottomR_S", DIRECTION.E);
+        topR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "topR_S", DIRECTION.E);
+        midR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y, "midR_S", DIRECTION.E);
+        bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y-1, "bottomR_S", DIRECTION.E);
         
     }
 

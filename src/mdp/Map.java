@@ -139,6 +139,8 @@ public class Map extends JPanel{
 		}
 	}
 	
+	
+	
 	private boolean isStartZone(int x, int y){
 		return x>=0 && x<=2 && y>=0 && y<= 2; 
 	}

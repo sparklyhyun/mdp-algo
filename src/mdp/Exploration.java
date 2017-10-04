@@ -93,6 +93,9 @@ public class Exploration {
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}*/
+    		
+    		
+    		
     		exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
         	paintAfterSense();
     	}else if(explorationMode == 2){
@@ -100,6 +103,7 @@ public class Exploration {
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}*/
+    		
     		exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
         	paintAfterSense();
         	
@@ -846,7 +850,7 @@ private boolean isEastFree2(){	//for 2x2, outside
             rotateRobot(DIRECTION.W);
             robotMove(MOVEMENT.CALIBRATE,1,true);
         }*/
-        rotateRobot(DIRECTION.N);
+        //rotateRobot(DIRECTION.N);
         
     }
     

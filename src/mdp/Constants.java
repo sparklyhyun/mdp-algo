@@ -23,7 +23,7 @@ public class Constants {
 	
 	public static final int RANGE_LONG_MIN = 1;
 	public static final int RANGE_LONG_MAX = 15;
-	public static final int RANGE_SHORT_MIN = 1;
+	public static final int RANGE_SHORT_MIN = 0;
 	public static final int RANGE_SHORT_MAX = 8;
 	public static final int RANGE_SHORT_MIN_2 = 0;
 	
