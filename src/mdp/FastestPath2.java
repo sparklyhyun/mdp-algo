@@ -7,7 +7,7 @@ import java.lang.String;
 
 import mdp.Constants.*;
 
-public class FastestPath {
+public class FastestPath2 {
     private HashMap<Coordinates, Coordinates> parents;    // HashMap of Child Coordinates to Parent Coordinates
     private Coordinates current;                   // current position Coordinates
     private ArrayList<Coordinates> visited;        // array of visited Coordinates
@@ -28,7 +28,7 @@ public class FastestPath {
     */
     
 
-    public FastestPath(Map map, Robot robot, Map realMap) {
+    public FastestPath2(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
         this.realMap = realMap;
         this.explorationMode = true;
