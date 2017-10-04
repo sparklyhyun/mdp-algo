@@ -102,8 +102,9 @@ public class FastestPath {
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
-            double gCost = costG(nextVisit.get(i));
-            double cost = gCost + costH(nextVisit.get(i), goalY, goalX);
+            
+            
+        	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
             if (cost < minCost) {
                 minCost = cost;
                 result = nextVisit.get(i);
@@ -113,11 +114,6 @@ public class FastestPath {
         return result;
     }
     
-    //Returns the gcost from a current coordinates to nextVisit coordinates
-    private double costG(Coordinates c){
-        double gCostY = c.getY();
-        return gCostY;
-    }
     
     
     //Returns the heuristic cost i.e. h(n) from a given Coordinates to a given [goalY, goalX] in the maze.
@@ -192,69 +188,103 @@ public class FastestPath {
 
             // Get coordinates with minimum cost from nextVisit and assign it to current.
             current = checkAndUpdateMinCost(goalY, goalX);
-
+            System.out.println("check update min cost");
             // Point the robot in the direction of current from the previous coordinates.
             if (parents.containsKey(current)) {
                 curDir = getTargetDir(parents.get(current).getY(), parents.get(current).getX(), curDir, current);
+                System.out.println("if statement entered1");
             }
-
+            System.out.println("if statement exited1");
             visited.add(current);       // add current to visited
+            System.out.println("addcurrent done");
             nextVisit.remove(current);    // remove current from nextVisit
-
+            System.out.println("removecurrent done");
+            
             if (visited.contains(map.getCoordinate(goalX, goalY))) {
                 System.out.println("Goal visited. Path found!");
                 path = getPath(goalY, goalX);
                 printFastestPath(path);
                 return executeFastestPath(path, goalY, goalX);
             }
+        	System.out.println("if statement exit 0");
 
             // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
             if (map.checkWithinRange(current.getX() + 1, current.getY())) {
+            	System.out.println("if statement entered2");
                 neighbors[0] = map.getCoordinate(current.getX() + 1, current.getY());
+                System.out.println("neighbour done");
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
+                    System.out.println("neighbour null");
                 }
             }
+            System.out.println("if statement exit 1");
+            
             if (map.checkWithinRange(current.getX(), current.getY()-1)) {
+            	System.out.println("if statement entered3");
+
                 neighbors[1] = map.getCoordinate(current.getX(), current.getY()-1);
                 if (!canBeVisited(neighbors[1])) {
                     neighbors[1] = null;
                 }
             }
+            System.out.println("if statement exit 2");
             if (map.checkWithinRange(current.getX()-1, current.getY())) {
+            	System.out.println("if statement entered4");
+
                 neighbors[2] = map.getCoordinate(current.getX()-1, current.getY());
                 if (!canBeVisited(neighbors[2])) {
                     neighbors[2] = null;
                 }
             }
+            System.out.println("if statement exit 3");
             if (map.checkWithinRange(current.getX() +1, current.getY())) {
+            	System.out.println("if statement entered5");
+
                 neighbors[3] = map.getCoordinate(current.getX()+1, current.getY());
                 if (!canBeVisited(neighbors[3])) {
                     neighbors[3] = null;
                 }
             }
+        	System.out.println("if statement all done");
+
 
             // Iterate through neighbors and update the g(n) values of each.
+            
             for (int i = 0; i < 4; i++) {
+            	System.out.println("for loop entered");
                 if (neighbors[i] != null) {
                     if (visited.contains(neighbors[i])) {
+                    	System.out.println("contains neighbour[i]");
+
                         continue;
                     }
 
                     if (!(nextVisit.contains(neighbors[i]))) {
                         parents.put(neighbors[i], current);
+                        System.out.println("put parents");
                         gCost[neighbors[i].getY()][neighbors[i].getX()] = gCost[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
+                        System.out.println("print Gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
                         nextVisit.add(neighbors[i]);
+                        System.out.println("put neighbours");
                     } else {
                         double currentGScore = gCost[neighbors[i].getY()][neighbors[i].getX()];
                         double newGScore = gCost[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
+                        System.out.println("current gsocre: " + currentGScore);
+                        System.out.println("newGScore: " + newGScore);
                         if (newGScore < currentGScore) {
+                        	System.out.println("new gcosre< current gscore");
                             gCost[neighbors[i].getY()][neighbors[i].getX()] = newGScore;
+                            System.out.println("gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()] );
                             parents.put(neighbors[i], current);
+                            System.out.println("add neighbours ");
                         }
                     }
                 }
             }
+            System.out.println(parents.toString());
+            System.out.println(visited.toString());
+            System.out.println(nextVisit.toString());
         } while (!nextVisit.isEmpty());
 
         System.out.println("Path not found!");

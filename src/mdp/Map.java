@@ -418,7 +418,7 @@ public class Map extends JPanel{
 			//System.out.print("Test\n");
 			
 			
-			for (y = Constants.MAX_Y-1; y >= 0; y--){
+			for (y = 0; y<Constants.MAX_Y; y++){
 				for (x = 0; x < Constants.MAX_X; x++){
 					if (sb.charAt(i) == c){
 						setObstacles(x,y);

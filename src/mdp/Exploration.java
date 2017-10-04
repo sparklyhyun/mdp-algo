@@ -107,7 +107,7 @@ public class Exploration {
     	
     	System.out.println("explore function exited");
     	
-    	//map.genMapDescAfter();
+    	map.genMapDescAfter();
     	//System.out.println("map desc generated");
     }
     
@@ -161,6 +161,10 @@ public class Exploration {
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
     		moveNext(1, false);
+    		int area = getAreaExplored();
+    		if(robot.isInStartZone() && area >= 70){
+    			break;
+    		}
     	}
     	long time = System.currentTimeMillis() - startTime;
     	System.out.println(time);
