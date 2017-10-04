@@ -71,6 +71,11 @@ public class Exploration {
     		
     	}
     	
+    	//start, rotate the robot
+    	moveRobot(Constants.MOVEMENT.R);
+    	moveRobot(Constants.MOVEMENT.R);
+    	moveRobot(Constants.MOVEMENT.R);
+    	moveRobot(Constants.MOVEMENT.R);
     	    	
     	if(explorationMode == 0){
     		/*
@@ -111,16 +116,17 @@ public class Exploration {
     	//loop unless robot is back to its original position 
     	//System.out.println("explore entered");
     	//System.out.println("robotDelay = " + robotDelay);
+    	
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
-    	//while(true  /*areaExplored <= coverageLimit && System.currentTimeMillis() <= endTime*/){
+    	while(true){
     		moveNext(1, false);
     		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
-    			//break;
+    			break;
     		}
     		
-       	//}
-    	areaExplored = getAreaExplored();
+       	}
+    	//areaExplored = getAreaExplored();
 		//System.out.println("Area explored = " + areaExplored);
     	
     	//returnToStartPos();
@@ -383,10 +389,6 @@ public class Exploration {
     }
 
     	
-
-    private void waypointMove(){
-    	
-    }
     
     private void robotMove(MOVEMENT m, int count, boolean toAndroid){
     	robot.move(m, count, toAndroid);
