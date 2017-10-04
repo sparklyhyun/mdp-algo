@@ -20,17 +20,21 @@ public class FastestPath {
     private Robot robot;                    //robot object
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode
-
+    /*
     public FastestPath(Map map, Robot robot){
         this.realMap = null;
         initObject(map,robot);
     }
+    */
     
 
     public FastestPath(Map map, Robot robot, Map realMap) {
+    	System.out.println("fastest path entered");
         this.realMap = realMap;
         this.explorationMode = true;
+        System.out.println("fastest path before init");
         initObject(map, robot);
+        System.out.println("fastest path after init");
     }
   
     private void initObject(Map map, Robot robot) {
@@ -43,21 +47,34 @@ public class FastestPath {
         this.map = map;
         this.gCost = new double[Constants.MAX_Y][Constants.MAX_X];
         this.robot = robot;
+        System.out.println("init initialized");
         
 
         // Initialize gCost array
         for (int i = 0; i < Constants.MAX_Y; i++) {
             for (int j = 0; j < Constants.MAX_X; j++) {
-                Coordinates coordinates = map.getCoordinate(i, j);
+                Coordinates coordinates = map.getCoordinate(j, i);
                 if (!canBeVisited(coordinates)) {
+                	//System.out.println("init can be visited?: " + canBeVisited(coordinates) );
                     gCost[i][j] = robot.INFINITE_COST;
+                    System.out.println(gCost[i][j]);
                 } else {
                     gCost[i][j] = -1;
+                    
+                    System.out.println(gCost[i][j]);
                 }
-            }
+                System.out.println("x: "+ i+ "y: " +j);
+            }System.out.println("Gcostarray almost done");
+            printGCost();
+            
         }
+        
+        System.out.println("Gcostarray done");
+        
         nextVisit.add(current);
-
+        
+        System.out.println("nextvisit added");
+        
         // Initialize starting point
         gCost[robot.getRobotPosY()][robot.getRobotPosX()] = 0; 
         this.loopCount = 0;
@@ -68,8 +85,11 @@ public class FastestPath {
     private boolean canBeVisited(Coordinates c) {
         boolean checkIsExplored = c.getIsExplored();
         boolean checkIsObstacle = c.getIsObstacle();
-        boolean checkIsVirtualWall = c.getIsVirtualWall();
-        boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle && !checkIsVirtualWall;
+        //boolean checkIsVirtualWall = c.getIsVirtualWall();
+        boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle; /*&& !checkIsVirtualWall*/
+        System.out.println("checkisexplored: " + checkIsExplored);
+        System.out.println("checkisobstacle: " + checkIsObstacle);
+        System.out.println("canbevisitedcheck: " + canBeVisitedCheck);
         return canBeVisitedCheck;
     }
 

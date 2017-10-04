@@ -815,7 +815,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	System.out.println("return to start entered");
     	//**********************************need to change********************************
     	if(!robot.getReachedGoal()){	//stopped halfway, go to goal before returning
-    		FastestPath toGoal = new FastestPath(map,robot );
+    		FastestPath toGoal = new FastestPath(map,robot,null );
     		toGoal.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
     	}
     	System.out.println("return to start entered2");
