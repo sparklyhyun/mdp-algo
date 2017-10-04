@@ -182,7 +182,7 @@ public class Simulator {
 
                 //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 //for testing
-                Exploration2 exploration = new Exploration2(exploredMap, realMap, robot, coverageLimit, timeLimit);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
                 
                 
                 /*
