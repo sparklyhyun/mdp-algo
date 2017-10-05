@@ -410,7 +410,7 @@ public class FastestPath {
                    }
                 robot.move(x, 1, false);
                 this.map.repaint();
-                
+                //
 
                 // During exploration, use sensor data to update map.
                 /*
