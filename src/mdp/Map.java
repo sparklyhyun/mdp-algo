@@ -28,7 +28,7 @@ public class Map extends JPanel{
 			}
 		}*/
 		setBoundary();
-		//readMapDesc(); 	//set obstacles from the map descriptor
+		readMapDesc(); 	//set obstacles from the map descriptor
 		//genMapDescBefore();
 		
 		
@@ -109,7 +109,7 @@ public class Map extends JPanel{
 		//sets boundary virtual wall
 		for(int i=0; i < Constants.MAX_Y; i++){
 			for(int j=0; j<Constants.MAX_X; j++){
-				if(i==0 || j==0 || i==Constants.MAX_X-1|| j==Constants.MAX_Y-1){
+				if(i==0 || j==0 || i==Constants.MAX_Y-1|| j==Constants.MAX_X-1){
 					coordinates[i][j].setIsVirtualWall();
 				}
 				
