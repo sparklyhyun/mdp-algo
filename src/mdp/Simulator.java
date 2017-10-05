@@ -24,14 +24,14 @@ public class Simulator {
 	private static int explorationMode;
 	private static int robotDelay;
 	
-	//private static final CommMgr comm = CommMgr.getCommMgr();
+	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = true; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
-		//if (realExecution) comm.openConnection();   //connection function to be added!!!
-
+		if (realExecution) comm.openConnection();   //connection function to be added!!!
+		
 		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution); 
 
 		if (!realExecution) {
@@ -140,9 +140,10 @@ public class Simulator {
 
                 if (realExecution) {
                     while (true) {
-                        System.out.println("Waiting for FP_START...");
-                       // String msg = comm.recvMsg();
-                       // if (msg.equals(CommMgr.FP_START)) break;
+                    	System.out.println("Waiting for FP_START...");
+                        String msg = comm.recvMsg();
+                        if (msg.equals(CommunicationMgr.FP_START)) break;
+
                     }
                 }
 
@@ -187,16 +188,16 @@ public class Simulator {
                 Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
                 
                 
-                /*
-                if (realRun) {
-                    //CommMgr.getCommMgr().sendMsg(null, CommMgr.ROBOT_START);
+                
+                 if (realExecution) {
+                    CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
                 }
-				*/
+				
                 
                 exploration.startExploration();
                 
                 if (realExecution) {
-                    //new FastestPath().execute();
+                    new FastestPathAlgo().execute();
                 }
 
                 return 111; //<-- need to change accordingly 

@@ -31,7 +31,8 @@ public class FastestPath {
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
         this.realMap = realMap;
-        this.explorationMode = true;
+        this.map = map;
+        this.explorationMode = false;
         System.out.println("fastest path before init");
         initObject(map, robot);
         System.out.println("fastest path after init");
@@ -200,11 +201,19 @@ public class FastestPath {
             nextVisit.remove(current);    // remove current from nextVisit
             System.out.println("removecurrent done");
             
+            //Coordinates coord = map.getCoordinate(goalX, goalY);
+            
+            //trapped here 
+            boolean bool = visited.contains(map.getCoordinate(goalX, goalY));
+            System.out.println("if condition: "+ bool);
+            
+            
             if (visited.contains(map.getCoordinate(goalX, goalY))) {
-                System.out.println("Goal visited. Path found!");
+            	System.out.println("Goal visited. Path found!");
                 path = getPath(goalY, goalX);
-                //System.out.println("get path done" );
+                System.out.println("get path done" );
                 printFastestPath(path);
+                System.out.println("printfastestpath done");
                 return executeFastestPath(path, goalY, goalX);
             }
         	System.out.println("if statement exit 0");
@@ -295,7 +304,7 @@ public class FastestPath {
     
     private Stack<Coordinates> getPath(int goalY, int goalX) {
         Stack<Coordinates> actualPath = new Stack<>();
-        Coordinates temp = map.getCoordinate(goalY, goalX);
+        Coordinates temp = map.getCoordinate(goalX, goalY);
 
         while (true) {
             actualPath.push(temp);
