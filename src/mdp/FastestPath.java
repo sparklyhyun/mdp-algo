@@ -106,10 +106,11 @@ public class FastestPath {
         	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
             if (cost < minCost) {
                 minCost = cost;
+                System.out.println("minCost: " + minCost);
                 result = nextVisit.get(i);
             }
         }
-
+        
         return result;
     }
     
@@ -219,9 +220,9 @@ public class FastestPath {
         	System.out.println("if statement exit 0");
 
             // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
-            if (map.checkWithinRange(current.getX() + 1, current.getY())) {
+            if (map.checkWithinRange(current.getX(), current.getY()+1)) {	//top
             	//System.out.println("if statement entered2");
-                neighbors[0] = map.getCoordinate(current.getX() + 1, current.getY());
+                neighbors[0] = map.getCoordinate(current.getX(), current.getY()+1);
                // System.out.println("neighbour done");
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
@@ -230,7 +231,7 @@ public class FastestPath {
             }
             System.out.println("if statement exit 1");
             
-            if (map.checkWithinRange(current.getX(), current.getY()-1)) {
+            if (map.checkWithinRange(current.getX(), current.getY()-1)) {	//bottom
             	//System.out.println("if statement entered3");
 
                 neighbors[1] = map.getCoordinate(current.getX(), current.getY()-1);
@@ -239,7 +240,7 @@ public class FastestPath {
                 }
             }
             System.out.println("if statement exit 2");
-            if (map.checkWithinRange(current.getX()-1, current.getY())) {
+            if (map.checkWithinRange(current.getX()-1, current.getY())) {	//left
             	//System.out.println("if statement entered4");
 
                 neighbors[2] = map.getCoordinate(current.getX()-1, current.getY());
@@ -248,7 +249,7 @@ public class FastestPath {
                 }
             }
             System.out.println("if statement exit 3");
-            if (map.checkWithinRange(current.getX() +1, current.getY())) {
+            if (map.checkWithinRange(current.getX() +1, current.getY())) {	//right
             	//System.out.println("if statement entered5");
 
                 neighbors[3] = map.getCoordinate(current.getX()+1, current.getY());
@@ -257,7 +258,7 @@ public class FastestPath {
                 }
             }
         	System.out.println("if statement all done");
-
+        	System.out.println("neighbours: " + neighbors);
 
             // Iterate through neighbors and update the g(n) values of each.
             
@@ -273,8 +274,10 @@ public class FastestPath {
                     if (!(nextVisit.contains(neighbors[i]))) {
                         parents.put(neighbors[i], current);
                         System.out.println("put parents");
+                        
                         gCost[neighbors[i].getY()][neighbors[i].getX()] = gCost[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
                         System.out.println("print Gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
+                       
                         nextVisit.add(neighbors[i]);
                         System.out.println("put neighbours");
                     } else {

@@ -6,7 +6,7 @@ import mdp.Constants.*;
 
 
 public class Exploration {
-	private final Map map;	// for exploration
+	public final Map map;	// for exploration
 	private final Map realMap;	//real map 
 	private final Robot robot;
     private final int coverageLimit;	
@@ -86,7 +86,7 @@ public class Exploration {
     	}
     	
     	
-    	    	
+    	map.readMapDesc();
     	if(explorationMode == 0){
     		
     		if(robot.getRealRobot()){
@@ -970,7 +970,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	*/
     	
     	System.out.println("return to start entered2");
-    	FastestPath toStart = new FastestPath(map, robot, null);
+    	FastestPath toStart = new FastestPath(map, robot, realMap);
     	System.out.println("fastest path initialized");
 
     	toStart.runFastestPath(Constants.START_Y, Constants.START_X);
