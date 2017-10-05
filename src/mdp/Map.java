@@ -28,7 +28,7 @@ public class Map extends JPanel{
 			}
 		}*/
 		setBoundary();
-		//readMapDesc(); 	//set obstacles from the map descriptor
+		readMapDesc(); 	//set obstacles from the map descriptor
 		//genMapDescBefore();
 		
 		
