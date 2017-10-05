@@ -35,6 +35,7 @@ public class Robot {
 	 
 	private DIRECTION robotDir = DIRECTION.N;	// can change later
 	public static final int INFINITE_COST = 9999;
+	public static final int VIRTUAL_COST = 1000;
 	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
 	public static final int TURN_COST = 20;                         // cost of RIGHT, LEFT movement
 	
