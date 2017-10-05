@@ -22,11 +22,13 @@ public class Simulator {
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
 	private static int explorationMode;
-	private static int robotDelay;
+	private static int robotDelay = 20;
+	
+	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = true; //for now, not real map
+	private static final boolean realExecution = false; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -37,7 +39,10 @@ public class Simulator {
 		if (!realExecution) {
 		    realMap = new Map(robot); 
 		}
-
+		if(!started){
+			exploredMap = new Map(robot);
+			started = true;
+		}
 		exploredMap = new Map(robot);
 		viewFullMap();
 	}	
@@ -114,8 +119,7 @@ public class Simulator {
 			    loadMapButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 				    loadMapDialog.setVisible(false);
-				    //loadMapFromDisk(realMap, loadText.getText());
-				    //exploredMap.readMapDesc();
+				    Map.loadMapFromDisk(realMap, loadText.getText());
 				    CardLayout cl = ((CardLayout) _mapTiles.getLayout());
 				    cl.show(_mapTiles, "REAL_MAP");
 				    realMap.repaint();
@@ -132,6 +136,40 @@ public class Simulator {
 	}
         // FastestPath Class
 		
+		  class FastestPathAlgo extends SwingWorker<Integer, String> {
+	            protected Integer doInBackground() throws Exception {
+	                robot.setRobotPos(Constants.START_X, Constants.START_Y);
+	                exploredMap.repaint();
+
+	                if (realExecution) {
+	                    while (true) {
+	                        System.out.println("Waiting for FP_START...");
+	                        String msg = comm.recvMsg();
+	                        if (msg.equals(CommunicationMgr.FP_START)) break;
+	                    }
+	                }
+
+	                FastestPath fastestPath;
+	                fastestPath = new FastestPath(exploredMap, robot, realMap);
+
+//	                fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
+	                fastestPath.runFastestPath(18,13);
+
+	                return 222;
+	            }
+	        }
+		// Fastest Path Button
+	        JButton btn_FastestPath = new JButton("Fastest Path");
+	        formatButton(btn_FastestPath);
+	        btn_FastestPath.addMouseListener(new MouseAdapter() {
+	            public void mousePressed(MouseEvent e) {
+	                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+	                cl.show(_mapTiles, "EXPLORATION");
+	                new FastestPathAlgo().execute();
+	            }
+	        });
+	        _mapButtons.add(btn_FastestPath);
+		/*
         class FastestPathAlgo extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
                 //robot.setRobotPos(Constants.START_X, Constants.START_Y);
@@ -147,9 +185,9 @@ public class Simulator {
                     }
                 }
 
-               // FastestPath fastestPath = new FastestPath();
+                //exploredMap.readMapDesc();
 
-                FastestPath fastestP = new FastestPath(exploredMap, robot, null);
+                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
                 fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
 
                 return 222;
@@ -165,11 +203,13 @@ public class Simulator {
             public void mousePressed(MouseEvent e) {
                 CardLayout cl = ((CardLayout) _mapTiles.getLayout());
                 cl.show(_mapTiles, "EXPLORATION");
-                new FastestPathAlgo().execute();
+                //new FastestPathAlgo().execute();
+                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
+                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
             }
         });
         _mapButtons.add(FastestPath_btn);	
-		
+		*/
 
         // Exploration Class
             

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Map extends JPanel{
-	private final Coordinates[][] coordinates = new Coordinates[Constants.MAX_Y][Constants.MAX_X];
+	public final Coordinates[][] coordinates = new Coordinates[Constants.MAX_Y][Constants.MAX_X];
 	private Robot robot = null;
 
 	public Map(Robot robot) throws IOException{
@@ -21,16 +21,28 @@ public class Map extends JPanel{
 		}
 		
 		//set the starting position as explored (for testing)
+		/*
 		for(int i=1; i<=2 ; i++){
 			for(int j=1; j<=2; j++){
 				coordinates[j][i].setExplored();
 			}
-		}
+		}*/
 		setBoundary();
-		readMapDesc(); 	//set obstacles from the map descriptor
+		//readMapDesc(); 	//set obstacles from the map descriptor
 		//genMapDescBefore();
 		
 		
+	}
+	
+	public void setExploredAll(){
+		for(int i = 0; i<Constants.MAX_Y; i++){
+			for(int j = 0; j<Constants.MAX_X; j++){
+				//coordinates[i][j] = new Coordinates(i,j);
+				//for testing purpose
+				coordinates[i][j].setExplored();
+				
+			}
+		}
 	}
 	
 	public void setObstacles(int x, int y){
@@ -127,8 +139,24 @@ public class Map extends JPanel{
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}
 	
-	public Coordinates getCoordinate(int x, int y){
+	public boolean checkValidCoordinates(int y, int x) {
+		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
+		
+	}
+	
+	public Coordinates getCoordinateTwo(int y, int x) {
 		return coordinates[y][x];
+	}
+	public Coordinates getCoordinate(int x, int y){
+		//System.out.println("hello");
+		//System.out.println(x + " , "+y );
+		/*
+		if(coordinates[y][x] == null){
+			System.out.println("coordinate null");
+		}
+		*/
+		return coordinates[y][x];
+		
 	}
 	
 	public void setAllExplored(){
@@ -395,7 +423,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("SampleArena5.txt");
+			File file = new File("testMap2.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
@@ -438,6 +466,33 @@ public class Map extends JPanel{
 			e.printStackTrace();
 		}
 	}
+	 public static void loadMapFromDisk(Map map, String filename) {
+	        try {
+	            InputStream inputStream = new FileInputStream( filename + ".txt");
+	            BufferedReader buf = new BufferedReader(new InputStreamReader(inputStream));
+
+	            String line = buf.readLine();
+	            StringBuilder sb = new StringBuilder();
+	            while (line != null) {
+	                sb.append(line);
+	                line = buf.readLine();
+	            }
+
+	            String bin = sb.toString();
+	            int binPtr = 0;
+	            for (int row = Constants.MAX_Y - 1; row >= 0; row--) {
+	                for (int col = 0; col < Constants.MAX_X; col++) {
+	                    if (bin.charAt(binPtr) == '1') map.setObstacles(col, row);
+	                    binPtr++;
+	                }
+	            }
+
+	            map.setAllExplored();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
 	
 	//map desc for communication mgr
 	 public static String[] generateMapDescriptor(Map map) {
