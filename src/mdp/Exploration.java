@@ -18,7 +18,7 @@ public class Exploration {
     private boolean calibrationMode;	
     private boolean checkptRightTurn = false;
     private int explorationMode = 0; //0=normal, 1=coverage, 2=time 
-    public int robotDelay = 100;
+    public int robotDelay;
     private int[][] previousCoord;
     private boolean expStarted = false;
 	
