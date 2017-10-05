@@ -101,7 +101,9 @@ public class Sensor {
 			
 		}
 		
-		/*
+		
+		//update map according to sensor value 
+		
 		for(int i=this.minRange; i<=this.maxRange; i++){
 			int x = this.x + (xInc * i);
 			int y = this.y + (yInc * i);
@@ -115,12 +117,18 @@ public class Sensor {
 				exploredMap.setObstacles(x, y);
 				break;
 			}
+		}
 			
+			// Override previous obstacle value if front sensors detect no obstacle.
+			/*
 			if(exploredMap.getCoordinate(x, y).getIsObstacle()){
-				
+				if (id.equals("SRFL") || id.equals("SRFC") || id.equals("SRFR")) {
+                    exploredMap.setObstacleCell(row, col, false);
+                } else {
+                    break;
 			}
 			*/
-			
+		
 
 				
 
