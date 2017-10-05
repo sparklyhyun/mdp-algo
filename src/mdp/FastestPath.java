@@ -16,7 +16,7 @@ public class FastestPath {
     private DIRECTION curDir;               // current direction of robot
     private Map map;
     private Map realMap;  
-    private double[][] gCost;              // array of real cost from START to [y-coordinate][x-coordinate]
+    private static double[][] gCost;              // array of real cost from START to [y-coordinate][x-coordinate]
     private Robot robot;                    //robot object
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode
@@ -78,10 +78,10 @@ public class FastestPath {
         printGCost();
         nextVisit.add(current);
         
-        //System.out.println("nextvisit added");
+        System.out.println("nextvisit added");
         
         // Initialize starting point
-        gCost[robot.getRobotPosY()][robot.getRobotPosX()] = 0; 
+        //gCost[robot.getRobotPosY()][robot.getRobotPosX()] = 0; 
         this.loopCount = 0;
     }  
     
@@ -111,11 +111,12 @@ public class FastestPath {
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
-        	System.out.println("gCost test: " + gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())]);
+        	//System.out.println("gCost test: " + gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())]);
         	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
-            if (cost < minCost) {
+            //System.out.println("cost test: " + cost);
+        	if (cost < minCost) {
                 minCost = cost;
-                System.out.println("minCost: " + minCost);
+                //System.out.println("minCost: " + minCost);
                 result = nextVisit.get(i);
             }
         }
@@ -281,11 +282,10 @@ public class FastestPath {
                     }
 
                     if (!(nextVisit.contains(neighbors[i]))) {
-                        parents.put(neighbors[i], current);
-                       // System.out.println("put parents");
-                        
-                        gCost[neighbors[i].getY()][neighbors[i].getX()] = gCost[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
-                        System.out.println("print Gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
+                        parents.put(neighbors[i], current);      
+                        System.out.println("gCost[neighbors[i].getY(][neighbors[i].getX()]: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
+                        gCost[neighbors[i].getY()][neighbors[i].getX()] = gCost[neighbors[i].getY()][neighbors[i].getX()] + costG(current, neighbors[i], curDir);
+                        System.out.println("Gcost after: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
                        
                         nextVisit.add(neighbors[i]);
                        // System.out.println("put neighbours");
@@ -295,7 +295,7 @@ public class FastestPath {
                         System.out.println("current gsocre: " + currentGScore);
                         System.out.println("newGScore: " + newGScore);
                         if (newGScore < currentGScore) {
-                        	System.out.println("new gcosre< current gscore");
+                        	//System.out.println("new gcosre< current gscore");
                             gCost[neighbors[i].getY()][neighbors[i].getX()] = newGScore;
                             System.out.println("gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()] );
                             parents.put(neighbors[i], current);
