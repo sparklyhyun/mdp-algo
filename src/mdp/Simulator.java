@@ -22,7 +22,7 @@ public class Simulator {
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
 	private static int explorationMode;
-	private static int robotDelay = 20;
+	private static int robotDelay = 100;
 	
 	private static boolean started = false;
 	
@@ -138,7 +138,7 @@ public class Simulator {
 		
 		  class FastestPathAlgo extends SwingWorker<Integer, String> {
 	            protected Integer doInBackground() throws Exception {
-	                robot.setRobotPos(Constants.START_X, Constants.START_Y);
+	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
 	                exploredMap.repaint();
 
 	                if (realExecution) {
@@ -153,7 +153,10 @@ public class Simulator {
 	                fastestPath = new FastestPath(exploredMap, robot, realMap);
 
 //	                fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
-	                fastestPath.runFastestPath(18,13);
+	                fastestPath.runFastestPath(11,0);
+	                System.out.println("robot x simulator: " + robot.getRobotPosX());
+	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
+	                fastestPath.runFastestPath(18,13); //going back to (1,1) 
 
 	                return 222;
 	            }
@@ -169,49 +172,7 @@ public class Simulator {
 	            }
 	        });
 	        _mapButtons.add(btn_FastestPath);
-		/*
-        class FastestPathAlgo extends SwingWorker<Integer, String> {
-            protected Integer doInBackground() throws Exception {
-                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
-            	
-                exploredMap.repaint();
-
-                if (realExecution) {
-                    while (true) {
-                    	System.out.println("Waiting for FP_START...");
-                        String msg = comm.recvMsg();
-                        if (msg.equals(CommunicationMgr.FP_START)) break;
-
-                    }
-                }
-
-                //exploredMap.readMapDesc();
-
-                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
-                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
-
-                return 222;
-            }
-        }
-        
-		
-        // Fastest Path Button
-        
-        JButton FastestPath_btn = new JButton("Fastest Path");
-        formatButton(FastestPath_btn);
-        FastestPath_btn.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-                cl.show(_mapTiles, "EXPLORATION");
-                //new FastestPathAlgo().execute();
-                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
-                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
-            }
-        });
-        _mapButtons.add(FastestPath_btn);	
-		*/
-
-        // Exploration Class
+	
             
         class Explore extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
@@ -393,4 +354,3 @@ public class Simulator {
         _mapButtons.add(setSpeed_button);
 	}
 }
-

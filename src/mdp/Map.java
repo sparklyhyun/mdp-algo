@@ -186,7 +186,6 @@ public class Map extends JPanel{
 			if(!file.exists()){
 				file.createNewFile();
 			}
-
 			for(int i = 0; i<Constants.MAX_X; i++){
 				for(int j = 0; j<Constants.MAX_Y-1; i++){
 					bw.write("0");
