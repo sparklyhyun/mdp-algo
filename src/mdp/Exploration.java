@@ -40,8 +40,11 @@ public class Exploration {
     public void startExploration() throws IOException{
     	if(robot.getRealRobot()){	
     		System.out.println("Starting calibration");
-            CommunicationMgr.getCommMgr().recvMsg();
             
+    		//for testing
+    		String msg;
+    		msg = CommunicationMgr.getCommMgr().recvMsg();
+            System.out.println(msg);
     		if(robot.getRealRobot()){
     			
     			robot.move(MOVEMENT.L,1, false);
@@ -64,8 +67,9 @@ public class Exploration {
     		while(true){
         		//print out communication message
     			 System.out.println("Waiting for EX_START");
-                 String msg = CommunicationMgr.getCommMgr().recvMsg();
-                 String[] msgArr = msg.split(";");
+                 String msg1 = CommunicationMgr.getCommMgr().recvMsg();
+                 System.out.println(msg1);
+                 String[] msgArr = msg1.split(";");
                  if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
     		}
     		

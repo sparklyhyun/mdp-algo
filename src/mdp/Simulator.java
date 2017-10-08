@@ -2,10 +2,13 @@ package mdp;
 
 import javax.swing.*;
 
+import mdp.Constants.MOVEMENT;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class Simulator {
@@ -151,12 +154,16 @@ public class Simulator {
 
 	                FastestPath fastestPath;
 	                fastestPath = new FastestPath(exploredMap, robot, realMap);
+	                
+	                
 
-//	                fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
+	                //fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
 	                fastestPath.runFastestPath(11,0);
 	                System.out.println("robot x simulator: " + robot.getRobotPosX());
+	                
+	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
-	                fastestPath.runFastestPath(18,13); //going back to (1,1) 
+	                wayptFP.runFastestPath(18,13); //going back to (1,1) 
 
 	                return 222;
 	            }
@@ -191,7 +198,26 @@ public class Simulator {
                 
                 
                  if (realExecution) {
-                    CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+                	 /*
+                	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+                	 CommunicationMgr.getCommMgr().recvMsg(); // wait here
+                	 */
+                	 
+                     //for testing 
+                	 /*
+                	  * 
+                     TimeUnit.MILLISECONDS.sleep(1000);
+                     CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
+                	 */
+                	 /*
+                	 
+                     }*/
                 }
 				
                 
