@@ -2,10 +2,13 @@ package mdp;
 
 import javax.swing.*;
 
+import mdp.Constants.MOVEMENT;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class Simulator {
@@ -22,7 +25,7 @@ public class Simulator {
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
 	private static int explorationMode;
-	private static int robotDelay = 20;
+	private static int robotDelay = 100;
 	
 	private static boolean started = false;
 	
@@ -138,7 +141,7 @@ public class Simulator {
 		
 		  class FastestPathAlgo extends SwingWorker<Integer, String> {
 	            protected Integer doInBackground() throws Exception {
-	                robot.setRobotPos(Constants.START_X, Constants.START_Y);
+	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
 	                exploredMap.repaint();
 
 	                if (realExecution) {
@@ -151,9 +154,16 @@ public class Simulator {
 
 	                FastestPath fastestPath;
 	                fastestPath = new FastestPath(exploredMap, robot, realMap);
+	                
+	                
 
-//	                fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
-	                fastestPath.runFastestPath(18,13);
+	                //fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
+	                fastestPath.runFastestPath(11,0);
+	                System.out.println("robot x simulator: " + robot.getRobotPosX());
+	                
+	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
+	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
+	                wayptFP.runFastestPath(18,13); //going back to (1,1) 
 
 	                return 222;
 	            }
@@ -169,49 +179,7 @@ public class Simulator {
 	            }
 	        });
 	        _mapButtons.add(btn_FastestPath);
-		/*
-        class FastestPathAlgo extends SwingWorker<Integer, String> {
-            protected Integer doInBackground() throws Exception {
-                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
-            	
-                exploredMap.repaint();
-
-                if (realExecution) {
-                    while (true) {
-                    	System.out.println("Waiting for FP_START...");
-                        String msg = comm.recvMsg();
-                        if (msg.equals(CommunicationMgr.FP_START)) break;
-
-                    }
-                }
-
-                //exploredMap.readMapDesc();
-
-                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
-                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
-
-                return 222;
-            }
-        }
-        
-		
-        // Fastest Path Button
-        
-        JButton FastestPath_btn = new JButton("Fastest Path");
-        formatButton(FastestPath_btn);
-        FastestPath_btn.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-                cl.show(_mapTiles, "EXPLORATION");
-                //new FastestPathAlgo().execute();
-                FastestPath fastestP = new FastestPath(exploredMap, robot, realMap);
-                fastestP.runFastestPath(Constants.GOAL_X, Constants.GOAL_Y);
-            }
-        });
-        _mapButtons.add(FastestPath_btn);	
-		*/
-
-        // Exploration Class
+	
             
         class Explore extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
@@ -230,7 +198,26 @@ public class Simulator {
                 
                 
                  if (realExecution) {
-                    CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+                	 /*
+                	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+                	 CommunicationMgr.getCommMgr().recvMsg(); // wait here
+                	 */
+                	 
+                     //for testing 
+                	 /*
+                	  * 
+                     TimeUnit.MILLISECONDS.sleep(1000);
+                     CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
+                	 TimeUnit.MILLISECONDS.sleep(1000);
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
+                	 */
+                	 /*
+                	 
+                     }*/
                 }
 				
                 
@@ -393,4 +380,3 @@ public class Simulator {
         _mapButtons.add(setSpeed_button);
 	}
 }
-
