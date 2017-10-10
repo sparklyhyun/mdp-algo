@@ -400,7 +400,7 @@ public class FastestPath {
 
             System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempRobot.getRobotPosY() + ", " + tempRobot.getRobotPosX() + ") to (" + temp.getY() + ", " + temp.getX() + ")");
 
-            tempRobot.move(m,1, false);
+            tempRobot.move(m,1, robot.getRealRobot());
             movements.add(m);
             outputString.append(MOVEMENT.print(m));
             System.out.println(outputString);
@@ -422,7 +422,7 @@ public class FastestPath {
                         return "T";
                     }
                    }
-                robot.move(x, 1, false);
+                robot.move(x, 1, robot.getRealRobot());
                 this.map.repaint();
                 
 
@@ -441,18 +441,18 @@ public class FastestPath {
                 if (x == MOVEMENT.F) {
                     fCount++;
                     if (fCount == 10) {
-                        robot.move(x, fCount, false);
+                        robot.move(x, fCount, robot.getRealRobot());
                         fCount = 0;
                         map.repaint();
                     }
                 } else if (x == MOVEMENT.R || x == MOVEMENT.L) {
                     if (fCount > 0) {
-                        robot.move(x, fCount, false);
+                        robot.move(x, fCount, robot.getRealRobot());
                         fCount = 0;
                         map.repaint();
                     }
 
-                    robot.move(x, 0, false);
+                    robot.move(x, 0, robot.getRealRobot());
                     map.repaint();
                 }
             }

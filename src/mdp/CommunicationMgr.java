@@ -80,7 +80,7 @@ public class CommunicationMgr {
 
     public void sendMsg(String msg, String msgType) {
         System.out.println("Sending a message...");
-
+        
         try {
             String outputMsg;
             if (msg == null) {
@@ -104,7 +104,7 @@ public class CommunicationMgr {
 
     public String recvMsg() {
         System.out.println("Receiving a message...");
-
+        
         try {
             StringBuilder sb = new StringBuilder();
             String input = reader.readLine();

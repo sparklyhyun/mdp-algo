@@ -27,6 +27,9 @@ public class Simulator {
 	private static int explorationMode;
 	private static int robotDelay = 100;
 	
+	private static int waypointX = 0;	//for now
+	private static int waypointY = 11; 	//for now
+	
 	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -37,7 +40,7 @@ public class Simulator {
 	public static void main(String[] args) throws IOException {
 		if (realExecution) comm.openConnection();   //connection function to be added!!!
 		
-		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution); 
+		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);  
 
 		if (!realExecution) {
 		    realMap = new Map(robot); 
@@ -55,7 +58,7 @@ public class Simulator {
 		_mapFrame = new JFrame();
 		_mapFrame.setTitle("Group 9 MDP Simulator");
 		_mapFrame.setSize(new Dimension(690, 700));
-		_mapFrame.setResizable(false);
+		_mapFrame.setResizable(true);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
@@ -158,12 +161,15 @@ public class Simulator {
 	                
 
 	                //fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
-	                fastestPath.runFastestPath(11,0);
+	                
+	                //testing out waypoint
+	                
+	                fastestPath.runFastestPath(waypointY,waypointX);
 	                System.out.println("robot x simulator: " + robot.getRobotPosX());
 	                
 	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
-	                wayptFP.runFastestPath(18,13); //going back to (1,1) 
+	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
 
 	                return 222;
 	            }
@@ -218,6 +224,14 @@ public class Simulator {
                 	 /*
                 	 
                      }*/
+                	 
+                	 /*while(true){
+        		 System.out.println("Waiting for EX_START");
+                 String msg1 = CommunicationMgr.getCommMgr().recvMsg();
+                 System.out.println(msg1);
+                 String[] msgArr = msg1.split(";");
+                 if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
+    		}*/
                 }
 				
                 
@@ -378,5 +392,45 @@ public class Simulator {
         	
         });
         _mapButtons.add(setSpeed_button);
+        
+        //get waypoint
+        class Waypoint extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+                 if (realExecution) {
+                	 while(true){
+                		 System.out.println("Waiting for Waypoint");
+                         String msg = CommunicationMgr.getCommMgr().recvMsg();
+                         System.out.println(msg);
+                         if(msg != null){
+                        	 String[] msgArr = msg.split(",");	 //waypoint arriving x,y
+                        	 waypointX = Integer.parseInt(msgArr[0]);
+                        	 waypointY = Integer.parseInt(msgArr[1]);
+                        	 break;
+                         }
+                         		
+            		}
+                	
+                }
+
+
+                return 666; //<-- need to change accordingly 
+            }
+        }
+		
+        // Waypoint Button
+        JButton waypoint_btn = new JButton("Get Waypoint");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "Get Waypoint");
+                
+                new Waypoint().execute();
+                
+            }
+        });
+        _mapButtons.add(waypoint_btn);
 	}
 }

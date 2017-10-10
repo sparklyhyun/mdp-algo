@@ -47,19 +47,19 @@ public class Exploration {
             System.out.println(msg);
     		if(robot.getRealRobot()){
     			
-    			robot.move(MOVEMENT.L,1, false);
+    			 robot.move(MOVEMENT.L,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, false);
+                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.L,1, false);
+                 robot.move(MOVEMENT.L,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, false);
+                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, false);
+                 robot.move(MOVEMENT.R,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, false);
+                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, false);
+                 robot.move(MOVEMENT.R,1, robot.getRealRobot());
                  
     		}
     		
@@ -145,7 +145,7 @@ public class Exploration {
     	
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(true){
-    		moveNext(1, false);
+    		moveNext(1, robot.getRealRobot());
     		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
     			break;
@@ -163,7 +163,7 @@ public class Exploration {
     	//System.out.println("coverage limited exploration: = " + coverageLimit);
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(getAreaExplored() <= coverageLimit){
-    		moveNext(1, false);
+    		moveNext(1, robot.getRealRobot());
     		
     		System.out.println("area explored" + getAreaExplored());
     		if(robot.getReachedGoal() && robot.isInStartZone()){
@@ -186,7 +186,7 @@ public class Exploration {
     	//System.out.println("time limited exploration: " + endTime);
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
-    		moveNext(1, false);
+    		moveNext(1, robot.getRealRobot());
     		int area = getAreaExplored();
     		if(robot.isInStartZone() && area >= 70){
     			break;
@@ -545,13 +545,13 @@ public class Exploration {
 		
 		if(turns == 1){	//after modulus
 			if(DIRECTION.next(robot.getRobotDir()) == targetDir){	//if clockwise
-				robotMove(MOVEMENT.R, 1, false);
+				robotMove(MOVEMENT.R, 1, robot.getRealRobot());
 			}else{
-				robotMove(MOVEMENT.L, 1, false);
+				robotMove(MOVEMENT.L, 1, robot.getRealRobot());
 			}
 		}else if(turns == 2){	//if turns 2, left 2 turns and right 2 turns are the same
-			robotMove(MOVEMENT.R, 1, false);
-			robotMove(MOVEMENT.R, 1, false);
+			robotMove(MOVEMENT.R, 1, robot.getRealRobot());
+			robotMove(MOVEMENT.R, 1, robot.getRealRobot());
 		}
 	
 		
@@ -1008,7 +1008,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
-    	robot.move(m, 1, false); 		//for the time being
+    	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	map.repaint();
     	
     	if(m!= MOVEMENT.CALIBRATE){
