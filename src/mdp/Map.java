@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Map extends JPanel{
 	public final Coordinates[][] coordinates = new Coordinates[Constants.MAX_Y][Constants.MAX_X];
-	private Robot robot = null;
+	private static Robot robot = null;
 
 	public Map(Robot robot) throws IOException{
 		this.robot = robot;
@@ -495,7 +495,7 @@ public class Map extends JPanel{
 	
 	//map desc for communication mgr
 	 public static String[] generateMapDescriptor(Map map) {
-	        String[] ret = new String[2];
+	        String[] ret = new String[1];//new String[2];
 
 	        StringBuilder Part1 = new StringBuilder();
 	        StringBuilder Part1_bin = new StringBuilder();
@@ -513,11 +513,18 @@ public class Map extends JPanel{
 	                }
 	            }
 	        }
-	        Part1_bin.append("11");
+	        
+	        String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
+	    	String y = Integer.toString(robot.getRobotPosY());
+	    	x = "POS_" + x + "," + y + ";";
+	    	
+	        Part1_bin.append(x);
+	        Part1_bin.append("11\n");
 	        Part1.append(binToHex(Part1_bin.toString()));
 	        System.out.println("P1: " + Part1.toString());
 	        ret[0] = Part1.toString();
-
+	        
+	        /*
 	        StringBuilder Part2 = new StringBuilder();
 	        StringBuilder Part2_bin = new StringBuilder();
 	        for (int i = 0; i < Constants.MAX_Y; i++) {
@@ -533,11 +540,14 @@ public class Map extends JPanel{
 	                        Part2_bin.setLength(0);
 	                    }
 	                }
-	            }
-	        }
+	            }	//only need explored map without obstacles 
+	        }*/
+	        /*
 	        if (Part2_bin.length() > 0) Part2.append(binToHex(Part2_bin.toString()));
 	        System.out.println("P2: " + Part2.toString());
 	        ret[1] = Part2.toString();
+	        */
+	        String msg1 = CommunicationMgr.getCommMgr().recvMsg();
 
 	        return ret;
 	    }

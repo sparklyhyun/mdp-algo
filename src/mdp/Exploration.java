@@ -8,7 +8,7 @@ import mdp.Constants.*;
 public class Exploration {
 	public final Map map;	// for exploration
 	private final Map realMap;	//real map 
-	private final Robot robot;
+	final Robot robot;
     private final int coverageLimit;	
     public int timeLimit;	
     private int areaExplored;
@@ -45,6 +45,7 @@ public class Exploration {
     		String msg;
     		msg = CommunicationMgr.getCommMgr().recvMsg();
             System.out.println(msg);
+            
     		if(robot.getRealRobot()){
     			
     			robot.move(MOVEMENT.L,1, false);
@@ -52,16 +53,20 @@ public class Exploration {
                  robot.move(MOVEMENT.CALIBRATE,1, false);
                  CommunicationMgr.getCommMgr().recvMsg();
                  robot.move(MOVEMENT.L,1, false);
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, false);
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, false);
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, false);
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, false);
+                 //CommunicationMgr.getCommMgr().recvMsg();
+                 //robot.move(MOVEMENT.CALIBRATE,1, false);
+                 //CommunicationMgr.getCommMgr().recvMsg();
+                 //robot.move(MOVEMENT.R,1, false);
+                 //CommunicationMgr.getCommMgr().recvMsg();
+                 //robot.move(MOVEMENT.CALIBRATE,1, false);
+                 //CommunicationMgr.getCommMgr().recvMsg();
+                 //robot.move(MOVEMENT.R,1, false);
                  
     		}
+    		Map.generateMapDescriptor(map);
+		    String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
+		    String y = Integer.toString(robot.getRobotPosY());
+		    x = "POS_" + x + "," + y;
     		
     		
     		//while(true){
@@ -133,7 +138,7 @@ public class Exploration {
         System.out.println("Explored Area: " + areaExplored);
     	
     	//map.genMapDescAfter();
-    	Map.generateMapDescriptor(map);
+    	//Map.generateMapDescriptor(map);
         System.out.println("map desc generated");
     }
     
@@ -1039,6 +1044,13 @@ private boolean isEastFree2(){	//for 2x2, outside
     		}
     		calibrationMode = false;
     	}
+    	Map.generateMapDescriptor(map);
+    	String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
+    	String y = Integer.toString(robot.getRobotPosY());
+    	x = "POS_" + x + "," + y;
+    	CommunicationMgr.getCommMgr().sendMsg(x, "robot positions");
+
+    	
     }
 
     

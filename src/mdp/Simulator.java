@@ -225,10 +225,10 @@ public class Simulator {
                 
                 exploration.startExploration();
                 
-                if (realExecution) {
+                /*if (realExecution) {
                     new FastestPathAlgo().execute();
-                }
-
+                }*/
+                 CommunicationMgr.getCommMgr().recvMsg();
                 return 111; //<-- need to change accordingly 
             }
         }
