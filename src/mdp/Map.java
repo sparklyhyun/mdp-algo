@@ -496,6 +496,7 @@ public class Map extends JPanel{
 	//map desc for communication mgr
 	 public static String[] generateMapDescriptor(Map map) {
 	        String[] ret = new String[1];//new String[2];
+	        String[] temp = new String[1];
 
 	        StringBuilder Part1 = new StringBuilder();
 	        StringBuilder Part1_bin = new StringBuilder();
@@ -514,16 +515,18 @@ public class Map extends JPanel{
 	            }
 	        }
 	        
+	        
 	        String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
 	    	String y = Integer.toString(robot.getRobotPosY());
 	    	x = "POS_" + x + "," + y + ";";
 	    	
-	        Part1_bin.append(x);
 	        Part1_bin.append("11\n");
 	        Part1.append(binToHex(Part1_bin.toString()));
 	        System.out.println("P1: " + Part1.toString());
-	        ret[0] = Part1.toString();
 	        
+	        ret[0] = Part1.toString();
+	        x = x + ret[0];
+	        temp[0] = x;
 	        /*
 	        StringBuilder Part2 = new StringBuilder();
 	        StringBuilder Part2_bin = new StringBuilder();
@@ -547,9 +550,10 @@ public class Map extends JPanel{
 	        System.out.println("P2: " + Part2.toString());
 	        ret[1] = Part2.toString();
 	        */
-	        String msg1 = CommunicationMgr.getCommMgr().recvMsg();
-
-	        return ret;
+	        //String msg1 = CommunicationMgr.getCommMgr().recvMsg();
+	        
+	        //return ret;
+	        return temp;
 	    }
 	 
 	 private static String binToHex(String bin) {

@@ -64,10 +64,11 @@ public class Exploration {
                  
     		}
     		Map.generateMapDescriptor(map);
-		    String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
+		   /*
+    		String x = Integer.toString(robot.getRobotPosX());	//POS_x,y
 		    String y = Integer.toString(robot.getRobotPosY());
 		    x = "POS_" + x + "," + y;
-    		
+    		*/
     		
     		//while(true){
         		//print out communication message
