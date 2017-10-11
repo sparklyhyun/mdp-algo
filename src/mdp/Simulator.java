@@ -31,7 +31,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = true; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -198,16 +198,18 @@ public class Simulator {
                 
                 
                  if (realExecution) {
-                	 /*
+                	 
                 	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
                 	 CommunicationMgr.getCommMgr().recvMsg(); // wait here
-                	 */
+                	 
                 	 
                      //for testing 
+                	 
+                	 
+                     //TimeUnit.MILLISECONDS.sleep(1000);
+                     
+                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
                 	 /*
-                	  * 
-                     TimeUnit.MILLISECONDS.sleep(1000);
-                     CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
                 	 TimeUnit.MILLISECONDS.sleep(1000);
                 	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
                 	 TimeUnit.MILLISECONDS.sleep(1000);

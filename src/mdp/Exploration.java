@@ -64,14 +64,14 @@ public class Exploration {
     		}
     		
     		
-    		while(true){
+    		//while(true){
         		//print out communication message
     			 System.out.println("Waiting for EX_START");
                  String msg1 = CommunicationMgr.getCommMgr().recvMsg();
                  System.out.println(msg1);
                  String[] msgArr = msg1.split(";");
-                 if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
-    		}
+                 //if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
+    		//}
     		
     	
     		

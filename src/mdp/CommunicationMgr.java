@@ -12,7 +12,7 @@ public class CommunicationMgr {
     public static final String BOT_START = "BOT_START";     // PC --> Arduino
     public static final String BOT_MOVEMENT = "BOT_MOV";      // PC --> Arduino
     public static final String BOT_DIRECTION = "BOT_DIR";
-    public static final String BOT_INSTR = "INSTR";
+    public static final String BOT_INSTR = "";
     public static final String SENSOR_DATA = "SDATA";       // Arduino --> PC
 
     private static CommunicationMgr commMgr = null;
@@ -86,9 +86,9 @@ public class CommunicationMgr {
             if (msg == null) {
                 outputMsg = msgType + "\n";
             } else if (msgType.equals(MAP_STRINGS) || msgType.equals(BOT_POS)) {
-                outputMsg = msgType + " " + msg + "\n";
+                outputMsg = msgType + "_" + msg + "\n";
             } else {
-                outputMsg = msgType + "\n" + msg + "\n";
+                outputMsg = msg + "\n";
             }
 
             System.out.println("Sending out message:\n" + outputMsg);
