@@ -432,5 +432,78 @@ public class Simulator {
             }
         });
         _mapButtons.add(waypoint_btn);
+        
+        //FOR TESTING ONLY******************************************************************************
+        
+        //BUTTON IN FRONT 
+        class test1 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test1_btn = new JButton("F");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "F");
+                
+                new test1().execute();
+                
+            }
+        });
+        _mapButtons.add(test1_btn);
+        
+      //BUTTON RIGHT 
+        class test2 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test2_btn = new JButton("R");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "R");
+                
+                new test2().execute();
+                
+            }
+        });
+        _mapButtons.add(test2_btn);
+        
+      //BUTTON LEFT 
+        class test3 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test3_btn = new JButton("L");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "L");
+                
+                new test3().execute();
+                
+            }
+        });
+        _mapButtons.add(test3_btn);
+        
+        
 	}
 }
