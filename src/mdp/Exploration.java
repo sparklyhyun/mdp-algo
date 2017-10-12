@@ -80,7 +80,8 @@ public class Exploration {
 
          startTime = System.currentTimeMillis();
          endTime = startTime + (timeLimit * 1000);
-    	//start, rotate the robot
+    	
+         //start, rotate the robot FOR SIMULATOR ONLY**************************
     	
     	if(!expStarted){
     		moveRobot(Constants.MOVEMENT.R);
@@ -648,24 +649,40 @@ public class Exploration {
 	    	//System.out.println("Is x+2 y+1 free : " + notObstacleVirtualWall(x+2,y+1));
 	    	//System.out.println("Is x+2 y free : " + notObstacleVirtualWall(x+2,y));
 	    	//System.out.println("Is x+2 y-1 free : " + notObstacleVirtualWall(x+2,y-1));
-	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y)&& notObstacleVirtualWall(x+2,y+1));
+	    	
+	    	//2X2
+	    	//return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y);
+	    	
+	    	//3X3
+	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y)&& notObstacleVirtualWall(x+2,y-1));
+	    	
 
 	    }
 	    
 	    private boolean isWestFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	System.out.println("x-1 y+1 free = " + notObstacleVirtualWall(x-1,y+1));
-	    	System.out.println("x-1 y free = " + notObstacleVirtualWall(x-1, y));
-	    	return(notObstacleVirtualWall(x-1,y+1) && notObstacleVirtualWall(x-1, y));
+	    	//System.out.println("x-1 y+1 free = " + notObstacleVirtualWall(x-1,y+1));
+	    	//System.out.println("x-1 y free = " + notObstacleVirtualWall(x-1, y));
+	    	
+	    	//2X2
+	    	//return(notObstacleVirtualWall(x-1,y+1) && notObstacleVirtualWall(x-1, y));
 	    	//return (notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2,y));
+	    	
+	    	//3X3
+	    	return (notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2,y) && notObstacleVirtualWall(x-2, y-1));
 	    }
 	    
 	    private boolean isSouthFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return(notObstacleVirtualWall(x, y-1) && notObstacleVirtualWall(x+1, y-1));
+	    	
+	    	//2X2
+	    	//return(notObstacleVirtualWall(x, y-1) && notObstacleVirtualWall(x+1, y-1));
 	    	//return (notObstacleVirtualWall(x,y-1) && notObstacleVirtualWall(x-1,y-1));
+	    	
+	    	//3X3
+	    	return (notObstacleVirtualWall(x-1,y-2) && notObstacleVirtualWall(x,y-2) && notObstacleVirtualWall(x+1, y-2));
 	    }
 	    
 	    private boolean isNorthFree(){
@@ -673,11 +690,16 @@ public class Exploration {
 	    	int y = robot.getRobotPosY();
 	    	//System.out.println("Current Robot x position : " + x);
 	    	//System.out.println("Current Robot y position : " + y);
-	    	System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
-	    	System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
+	    	//System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
+	    	//System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
 	    	//System.out.println("Is x-1 y+2 true : " + notObstacleVirtualWall(x-1, y+2));
-	    	return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2));
+	    	
+	    	//2X2
+	    	//return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2));
 	    	//return(notObstacleVirtualWall(x,y+2) && notObstacleVirtualWall(x-1, y+2));
+	    	
+	    	//3X3
+	    	return (notObstacleVirtualWall(x-1,y+2) && notObstacleVirtualWall(x,y+2) && notObstacleVirtualWall(x+1, y+2));
 	    }
     
 
