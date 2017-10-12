@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
@@ -34,7 +35,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = true; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -199,15 +200,38 @@ public class Simulator {
 
                 //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 //for testing
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
+                //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
                 
                 
                 
                  if (realExecution) {
-                	 /*
+                	 
+                	 int[] distance = new int[6]; 
                 	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
-                	 CommunicationMgr.getCommMgr().recvMsg(); // wait here
-                	 */
+
+                		 System.out.println("Waiting");
+                         String msg1 = CommunicationMgr.getCommMgr().recvMsg();
+                         System.out.println(msg1);
+
+                         String[] msgArr = msg1.split(";");
+                         
+                         if(msgArr[0].equals(CommunicationMgr.SENSOR_DATA)){
+                         	distance[0] = Integer.parseInt(msgArr[1].split("_")[1]);
+                         	distance[1] = Integer.parseInt(msgArr[2].split("_")[1]);
+                         	distance[2] = Integer.parseInt(msgArr[3].split("_")[1]);
+                         	distance[3] = Integer.parseInt(msgArr[4].split("_")[1]);
+                         	distance[4] = Integer.parseInt(msgArr[5].split("_")[1]);
+                         	distance[5] = Integer.parseInt(msgArr[6].split("_")[1]);
+                         }
+ 
+
+
+
+
+                	 System.out.println(Arrays.toString(distance));
+                	 
+                	 //CommunicationMgr.getCommMgr().recvMsg(); // wait here
+                	 
                 	 
                      //for testing 
                 	 /*
@@ -235,11 +259,12 @@ public class Simulator {
                 }
 				
                 
-                exploration.startExploration();
-                
+                //exploration.startExploration();
+                /*
                 if (realExecution) {
                     new FastestPathAlgo().execute();
-                }
+                }*/
+                 
 
                 return 111; //<-- need to change accordingly 
             }
@@ -398,18 +423,20 @@ public class Simulator {
             protected Integer doInBackground() throws Exception {
 
                  if (realExecution) {
-                	 while(true){
+                	 /*
                 		 System.out.println("Waiting for Waypoint");
                          String msg = CommunicationMgr.getCommMgr().recvMsg();
                          System.out.println(msg);
-                         if(msg != null){
-                        	 String[] msgArr = msg.split(",");	 //waypoint arriving x,y
-                        	 waypointX = Integer.parseInt(msgArr[0]);
-                        	 waypointY = Integer.parseInt(msgArr[1]);
-                        	 break;
-                         }
+                      
+                         String[] msgArr = msg.split(",");	 //waypoint arriving x,y
+                         waypointX = Integer.parseInt(msgArr[0]);
+                         waypointY = Integer.parseInt(msgArr[1]);
+                         System.out.println("waypointX: " + waypointX);
+                         System.out.println("waypointY: " + waypointY); 
+                        	*/
+                         
                          		
-            		}
+            	
                 	
                 }
 
@@ -462,7 +489,7 @@ public class Simulator {
         class test2 extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
 
-            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+            	//CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
                 return 000; //<-- need to change accordingly 
             }
         }
@@ -485,7 +512,7 @@ public class Simulator {
         class test3 extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
 
-            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
+            	//CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
                 return 000; //<-- need to change accordingly 
             }
         }
