@@ -28,9 +28,10 @@ public class Map extends JPanel{
 			}
 		}*/
 		setBoundary();
-		readMapDesc(); 	//set obstacles from the map descriptor
-		//genMapDescBefore();
-		
+		if(!robot.getRealRobot()){
+			//for testing simulator only 
+			readMapDesc();
+		}
 		
 	}
 	

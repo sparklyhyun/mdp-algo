@@ -78,17 +78,28 @@ public class CommunicationMgr {
         }
     }
 
+    public void sendMap(String position, String map) {
+        try {
+            writer.write("POS_" + position + ":" + map);
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+    
     public void sendMsg(String msg, String msgType) {
         System.out.println("Sending a message...");
         
         try {
-            String outputMsg;
+            String outputMsg = "";
             if (msg == null) {
-                outputMsg = msgType + "\n";
+                //outputMsg = msgType + "\n";
             } else if (msgType.equals(MAP_STRINGS) || msgType.equals(BOT_POS)) {
-                outputMsg = msgType + " " + msg + "\n";
+                //outputMsg = msgType + " " + msg + "\n";
             } else {
-                outputMsg = msgType + "\n" + msg + "\n";
+                //outputMsg = msgType + "\n" + msg + "\n";
+            	outputMsg = msg + "\n";
             }
 
             System.out.println("Sending out message:\n" + outputMsg);

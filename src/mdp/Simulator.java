@@ -35,7 +35,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = true; //for now, not real map
+	private static final boolean realExecution = false; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -198,72 +198,27 @@ public class Simulator {
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
-                //for testing
-                //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 
-                
-                
-                 if (realExecution) {
-                	 
-                	 int[] distance = new int[6]; 
-                	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
-
-                		 System.out.println("Waiting");
-                         String msg1 = CommunicationMgr.getCommMgr().recvMsg();
-                         System.out.println(msg1);
-
-                         String[] msgArr = msg1.split(";");
-                         
-                         if(msgArr[0].equals(CommunicationMgr.SENSOR_DATA)){
-                         	distance[0] = Integer.parseInt(msgArr[1].split("_")[1]);
-                         	distance[1] = Integer.parseInt(msgArr[2].split("_")[1]);
-                         	distance[2] = Integer.parseInt(msgArr[3].split("_")[1]);
-                         	distance[3] = Integer.parseInt(msgArr[4].split("_")[1]);
-                         	distance[4] = Integer.parseInt(msgArr[5].split("_")[1]);
-                         	distance[5] = Integer.parseInt(msgArr[6].split("_")[1]);
-                         }
- 
-
-
-
-
-                	 System.out.println(Arrays.toString(distance));
-                	 
-                	 //CommunicationMgr.getCommMgr().recvMsg(); // wait here
-                	 
-                	 
-                     //for testing 
-                	 /*
-                	  * 
-                     TimeUnit.MILLISECONDS.sleep(1000);
-                     CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
-                	 */
-                	 /*
-                	 
-                     }*/
-                	 
-                	 /*while(true){
-        		 System.out.println("Waiting for EX_START");
-                 String msg1 = CommunicationMgr.getCommMgr().recvMsg();
-                 System.out.println(msg1);
-                 String[] msgArr = msg1.split(";");
-                 if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
-    		}*/
-                }
-				
-                
-                //exploration.startExploration();
-                /*
                 if (realExecution) {
+                	 comm.openConnection();
+                	 while(true) {
+                         System.out.println("Waiting for Android Explore");
+                         String msg = comm.recvMsg();
+                         if(msg.equals("E")) break;   
+                     }
+                	 String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
+                     comm.sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+                
+                }
+                 
+                exploration.startExploration();
+                
+                if (realExecution) {
+                	comm.sendMsg("BOT_START", null);
+                    Map.generateMapDescriptor(exploredMap);
                     new FastestPathAlgo().execute();
-                }*/
+                }
                  
 
                 return 111; //<-- need to change accordingly 
@@ -461,7 +416,7 @@ public class Simulator {
         _mapButtons.add(waypoint_btn);
         
         //FOR TESTING ONLY******************************************************************************
-        
+        /*
         //BUTTON IN FRONT 
         class test1 extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
@@ -530,7 +485,7 @@ public class Simulator {
             }
         });
         _mapButtons.add(test3_btn);
-        
+        */
         
 	}
 }

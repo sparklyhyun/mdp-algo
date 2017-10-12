@@ -25,7 +25,7 @@ public class FastestPath {
     	System.out.println("fastest path entered");
         this.realMap = realMap;
         this.map = map;
-        this.explorationMode = false;
+        this.explorationMode = robot.getRealRobot();
         System.out.println("fastest path before init");
         initObject(map, robot);
         System.out.println("fastest path after init");
@@ -410,11 +410,9 @@ public class FastestPath {
         
         if (!robot.getRealRobot() || explorationMode) {
         	//System.out.println("if statement entered");
-
+        	
             for (MOVEMENT x : movements) {
             	//System.out.println("for loop entered: " + x);
-            	
-            	
             	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
@@ -427,12 +425,12 @@ public class FastestPath {
                 
 
                 // During exploration, use sensor data to update map.
-                /*
+                
                 if (explorationMode) {
                     robot.setSentors();
                     robot.senseDist(this.map, this.realMap);
                     this.map.repaint();
-                }*/
+                }
               //  System.out.println("for loop exited");
             }
         } else {
@@ -452,22 +450,22 @@ public class FastestPath {
                         map.repaint();
                     }
 
-                    robot.move(x, 0, robot.getRealRobot());
+                    robot.move(x, 1, robot.getRealRobot());
                     map.repaint();
                 }
             }
-
-            /*if (fCount > 0) {
-                Movement x;
-                robot.move(x, fCount, false);
+            
+            //SEE IF NEED ANY CHANGES
+            if (fCount > 0) {
+                robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
                 map.repaint();
-            }*/
+            }
         }
         
         
         System.out.println("\nMovements: " + outputString.toString());
-        System.out.println("robot x: "+ robot.getRobotPosX());
-        System.out.println("robot y: "+ robot.getRobotPosY());
+       //System.out.println("robot x: "+ robot.getRobotPosX());
+       //System.out.println("robot y: "+ robot.getRobotPosY());
         return outputString.toString();
         
     }

@@ -58,13 +58,22 @@ public class Robot {
         bottomL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y, "bottomL_S", DIRECTION.E);
         bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y-1, "bottomR_S", DIRECTION.E);
     */
+        //2X2
+        /*
         topLF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "topLF_S", this.robotDir);
         topRF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "topRF_S", this.robotDir);
         topLR_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X, robotPos_Y+1, "topLR_L", DIRECTION.E);
         topRL_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X+1, robotPos_Y+1, "topRL_L", DIRECTION.W);
         bottomL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y, "bottomL_S", DIRECTION.W);
         bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y, "bottomR_S", DIRECTION.E);
-        
+        */
+        //3X3
+        topLF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y+1, "topLF_S", this.robotDir);
+        topRF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "topRF_S", this.robotDir);
+        topLR_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X-1, robotPos_Y, "topLR_L", DIRECTION.E);
+        topRL_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X+1, robotPos_Y, "topRL_L", DIRECTION.W);
+        bottomL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y-1, "bottomL_S", DIRECTION.W);
+        bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y-1, "bottomR_S", DIRECTION.E);
         
     
     }
@@ -85,6 +94,8 @@ public class Robot {
     public void setSentors(){
     	//after adding sensor 
     	
+    	//2X2
+    	/*
     	switch(robotDir){
     	case N:
     		topLF_S.setSensor(this.robotPos_X, this.robotPos_Y+1, this.robotDir);
@@ -118,7 +129,44 @@ public class Robot {
     		bottomL_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
     		bottomR_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
     		break;
+    	}*/
+    	
+    	//3X3
+    	switch(robotDir){
+    	case N:
+    		topLF_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
+    		topRF_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
+    		topLR_L.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		topRL_L.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		bottomL_S.setSensor(this.robotPos_X-1, this.robotPos_Y-1, dirToRotate(MOVEMENT.L));
+    		bottomR_S.setSensor(this.robotPos_X+1, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
+    		break;
+    	case E:
+    		topLF_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
+    		topRF_S.setSensor(this.robotPos_X+1, this.robotPos_Y, this.robotDir);
+    		topLR_L.setSensor(this.robotPos_X+1, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		topRL_L.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		bottomL_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		bottomR_S.setSensor(this.robotPos_X, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		break;
+    	case W:
+    		topLF_S.setSensor(this.robotPos_X-1, this.robotPos_Y, this.robotDir);
+    		topRF_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
+    		topLR_L.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		topRL_L.setSensor(this.robotPos_X-1, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		bottomL_S.setSensor(this.robotPos_X, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		bottomR_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		break;
+    	case S:
+    		topLF_S.setSensor(this.robotPos_X+1, this.robotPos_Y, this.robotDir);
+    		topRF_S.setSensor(this.robotPos_X, this.robotPos_Y, this.robotDir);
+    		topLR_L.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		topRL_L.setSensor(this.robotPos_X, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		bottomL_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		bottomR_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		break;
     	}
+    	
     	
     }
     
