@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
@@ -27,6 +28,9 @@ public class Simulator {
 	private static int explorationMode;
 	private static int robotDelay = 100;
 	
+	private static int waypointX = 0;	//for now
+	private static int waypointY = 11; 	//for now
+	
 	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -37,7 +41,7 @@ public class Simulator {
 	public static void main(String[] args) throws IOException {
 		if (realExecution) comm.openConnection();   //connection function to be added!!!
 		
-		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution); 
+		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);  
 
 		if (!realExecution) {
 		    realMap = new Map(robot); 
@@ -55,7 +59,7 @@ public class Simulator {
 		_mapFrame = new JFrame();
 		_mapFrame.setTitle("Group 9 MDP Simulator");
 		_mapFrame.setSize(new Dimension(690, 700));
-		_mapFrame.setResizable(false);
+		_mapFrame.setResizable(true);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
@@ -158,12 +162,15 @@ public class Simulator {
 	                
 
 	                //fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
-	                fastestPath.runFastestPath(11,0);
+	                
+	                //testing out waypoint
+	                
+	                fastestPath.runFastestPath(waypointY,waypointX);
 	                System.out.println("robot x simulator: " + robot.getRobotPosX());
 	                
 	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
-	                wayptFP.runFastestPath(18,13); //going back to (1,1) 
+	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
 
 	                return 222;
 	            }
@@ -191,41 +198,28 @@ public class Simulator {
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
-                //Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
-                //for testing
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay);
+                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 
+                if (realExecution) {
+                	 comm.openConnection();
+                	 while(true) {
+                         System.out.println("Waiting for Android Explore");
+                         String msg = comm.recvMsg();
+                         if(msg.equals("E")) break;   
+                     }
+                	 String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
+                     comm.sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
                 
-                
-                 if (realExecution) {
-                	 /*
-                	 CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
-                	 CommunicationMgr.getCommMgr().recvMsg(); // wait here
-                	 */
-                	 
-                     //for testing 
-                	 /*
-                	  * 
-                     TimeUnit.MILLISECONDS.sleep(1000);
-                     CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
-                	 TimeUnit.MILLISECONDS.sleep(1000);
-                	 CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
-                	 */
-                	 /*
-                	 
-                     }*/
                 }
-				
-                
+                 
                 exploration.startExploration();
                 
                 if (realExecution) {
+                	comm.sendMsg("BOT_START", null);
+                    Map.generateMapDescriptor(exploredMap);
                     new FastestPathAlgo().execute();
                 }
+                 
 
                 return 111; //<-- need to change accordingly 
             }
@@ -378,5 +372,120 @@ public class Simulator {
         	
         });
         _mapButtons.add(setSpeed_button);
+        
+        //get waypoint
+        class Waypoint extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+                 if (realExecution) {
+                	 /*
+                		 System.out.println("Waiting for Waypoint");
+                         String msg = CommunicationMgr.getCommMgr().recvMsg();
+                         System.out.println(msg);
+                      
+                         String[] msgArr = msg.split(",");	 //waypoint arriving x,y
+                         waypointX = Integer.parseInt(msgArr[0]);
+                         waypointY = Integer.parseInt(msgArr[1]);
+                         System.out.println("waypointX: " + waypointX);
+                         System.out.println("waypointY: " + waypointY); 
+                        	*/
+                         
+                         		
+            	
+                	
+                }
+
+
+                return 666; //<-- need to change accordingly 
+            }
+        }
+		
+        // Waypoint Button
+        JButton waypoint_btn = new JButton("Get Waypoint");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "Get Waypoint");
+                
+                new Waypoint().execute();
+                
+            }
+        });
+        _mapButtons.add(waypoint_btn);
+        
+        //FOR TESTING ONLY******************************************************************************
+        /*
+        //BUTTON IN FRONT 
+        class test1 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.F.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test1_btn = new JButton("F");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "F");
+                
+                new test1().execute();
+                
+            }
+        });
+        _mapButtons.add(test1_btn);
+        
+      //BUTTON RIGHT 
+        class test2 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	//CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.R.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test2_btn = new JButton("R");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "R");
+                
+                new test2().execute();
+                
+            }
+        });
+        _mapButtons.add(test2_btn);
+        
+      //BUTTON LEFT 
+        class test3 extends SwingWorker<Integer, String> {
+            protected Integer doInBackground() throws Exception {
+
+            	//CommunicationMgr.getCommMgr().sendMsg(MOVEMENT.L.toString(), CommunicationMgr.BOT_INSTR);
+                return 000; //<-- need to change accordingly 
+            }
+        }
+		
+        JButton test3_btn = new JButton("L");
+        formatButton(waypoint_btn);
+        
+        Exploration_btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+                cl.show(_mapTiles, "L");
+                
+                new test3().execute();
+                
+            }
+        });
+        _mapButtons.add(test3_btn);
+        */
+        
 	}
 }

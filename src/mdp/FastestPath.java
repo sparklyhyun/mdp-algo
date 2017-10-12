@@ -25,7 +25,7 @@ public class FastestPath {
     	System.out.println("fastest path entered");
         this.realMap = realMap;
         this.map = map;
-        this.explorationMode = false;
+        this.explorationMode = robot.getRealRobot();
         System.out.println("fastest path before init");
         initObject(map, robot);
         System.out.println("fastest path after init");
@@ -400,7 +400,7 @@ public class FastestPath {
 
             System.out.println("Movement " + MOVEMENT.print(m) + " from (" + tempRobot.getRobotPosY() + ", " + tempRobot.getRobotPosX() + ") to (" + temp.getY() + ", " + temp.getX() + ")");
 
-            tempRobot.move(m,1, false);
+            tempRobot.move(m,1, robot.getRealRobot());
             movements.add(m);
             outputString.append(MOVEMENT.print(m));
             System.out.println(outputString);
@@ -410,11 +410,9 @@ public class FastestPath {
         
         if (!robot.getRealRobot() || explorationMode) {
         	//System.out.println("if statement entered");
-
+        	
             for (MOVEMENT x : movements) {
             	//System.out.println("for loop entered: " + x);
-            	
-            	
             	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
@@ -422,17 +420,17 @@ public class FastestPath {
                         return "T";
                     }
                    }
-                robot.move(x, 1, false);
+                robot.move(x, 1, robot.getRealRobot());
                 this.map.repaint();
                 
 
                 // During exploration, use sensor data to update map.
-                /*
+                
                 if (explorationMode) {
                     robot.setSentors();
                     robot.senseDist(this.map, this.realMap);
                     this.map.repaint();
-                }*/
+                }
               //  System.out.println("for loop exited");
             }
         } else {
@@ -441,33 +439,33 @@ public class FastestPath {
                 if (x == MOVEMENT.F) {
                     fCount++;
                     if (fCount == 10) {
-                        robot.move(x, fCount, false);
+                        robot.move(x, fCount, robot.getRealRobot());
                         fCount = 0;
                         map.repaint();
                     }
                 } else if (x == MOVEMENT.R || x == MOVEMENT.L) {
                     if (fCount > 0) {
-                        robot.move(x, fCount, false);
+                        robot.move(x, fCount, robot.getRealRobot());
                         fCount = 0;
                         map.repaint();
                     }
 
-                    robot.move(x, 0, false);
+                    robot.move(x, 1, robot.getRealRobot());
                     map.repaint();
                 }
             }
-
-            /*if (fCount > 0) {
-                Movement x;
-                robot.move(x, fCount, false);
+            
+            //SEE IF NEED ANY CHANGES
+            if (fCount > 0) {
+                robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
                 map.repaint();
-            }*/
+            }
         }
         
         
         System.out.println("\nMovements: " + outputString.toString());
-        System.out.println("robot x: "+ robot.getRobotPosX());
-        System.out.println("robot y: "+ robot.getRobotPosY());
+       //System.out.println("robot x: "+ robot.getRobotPosX());
+       //System.out.println("robot y: "+ robot.getRobotPosY());
         return outputString.toString();
         
     }
