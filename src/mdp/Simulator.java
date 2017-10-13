@@ -201,7 +201,7 @@ public class Simulator {
                 Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 
                 if (realExecution) {
-                	 comm.openConnection();
+                	// comm.openConnection();
                 	 while(true) {
                          System.out.println("Waiting for Android Explore");
                          String msg = comm.recvMsg();

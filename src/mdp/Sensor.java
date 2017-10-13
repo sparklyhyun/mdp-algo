@@ -74,7 +74,8 @@ public class Sensor {
 		
 	}
 	
-	private void sensorValFindObstacles(Map exploredMap, int sensorVal, int xInc, int yInc){
+	private void sensorValFindObstacles(Map exploredMap, int sensorValue, int xInc, int yInc){
+		int sensorVal = sensorValue/10;	//scaling to one digit number
 		if(sensorVal == 0) {
 			System.out.println("sensor too close");
 			return; //obstacle too close to sensor
@@ -120,9 +121,9 @@ public class Sensor {
 		}
 			
 			// Override previous obstacle value if front sensors detect no obstacle.
-			/*
+		/*
 			if(exploredMap.getCoordinate(x, y).getIsObstacle()){
-				if (id.equals("SRFL") || id.equals("SRFC") || id.equals("SRFR")) {
+				if (id.equals("topLF_S") || id.equals("topMF_S") || id.equals("topRF_S")) {
                     exploredMap.setObstacleCell(row, col, false);
                 } else {
                     break;
