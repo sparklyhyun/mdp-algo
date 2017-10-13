@@ -20,6 +20,7 @@ public class Map extends JPanel{
 			}
 		}
 		
+		//coordinates[0][14].setExplored();
 		//set the starting position as explored (for testing)
 		/*
 		for(int i=1; i<=2 ; i++){
@@ -45,6 +46,11 @@ public class Map extends JPanel{
 			}
 		}
 	}
+	
+	/*
+	public void removeObstacle(int x, int y){
+		coordinates[y][x]
+	}*/
 	
 	public void setObstacles(int x, int y){
 		//set obstacle
@@ -423,7 +429,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("testMap2.txt");
+			File file = new File("SampleArena2.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();

@@ -1,6 +1,7 @@
 package mdp;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import mdp.Constants.*;
 
@@ -22,6 +23,8 @@ public class Exploration {
     private int[][] previousCoord;
     private boolean expStarted = false;
     //private boolean waypointMode = true;
+    
+    
 	
     public Exploration(Map map, Map realMap, Robot robot, int coverageLimit, int timeLimit, int explorationMode, int robotDelay ){
     	this.map = map;
@@ -40,13 +43,20 @@ public class Exploration {
     public void startExploration() throws IOException{
     	if(robot.getRealRobot()){	
     		System.out.println("Starting calibration");
-            
-    		//for testing
     		String msg;
-    		msg = CommunicationMgr.getCommMgr().recvMsg();
-            System.out.println(msg);
+    		//for testing
+    		while(true){
+    			msg = CommunicationMgr.getCommMgr().recvMsg();
+    			if(msg.equals("C_DONE")){
+    				break;
+    			}
+    		}
+    		
+            paintAfterSense();	//to sense before exploration 
+            
+            //Auto calibration on the robot side 
+            /*
     		if(robot.getRealRobot()){
-    			
     			 robot.move(MOVEMENT.L,1, robot.getRealRobot());
                  CommunicationMgr.getCommMgr().recvMsg();
                  robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
@@ -62,6 +72,7 @@ public class Exploration {
                  robot.move(MOVEMENT.R,1, robot.getRealRobot());
                  
     		}
+    		*/
     		
     		/*
     		while(true){
@@ -71,10 +82,7 @@ public class Exploration {
                  System.out.println(msg1);
                  String[] msgArr = msg1.split(";");
                  if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
-    		}*/
-    		
-    	
-    		
+    		}*/    		
     	}
     	 System.out.println("Starting exploration...");
 
@@ -82,32 +90,38 @@ public class Exploration {
          endTime = startTime + (timeLimit * 1000);
     	
          //start, rotate the robot FOR SIMULATOR ONLY**************************
-    	if(!robot.getRealRobot()){
+    	
+         /*
+         if(!robot.getRealRobot()){
     		if(!expStarted){
         		moveRobot(Constants.MOVEMENT.R);
             	moveRobot(Constants.MOVEMENT.R);
             	moveRobot(Constants.MOVEMENT.R);
             	moveRobot(Constants.MOVEMENT.R);
+            	map.readMapDesc();
             	expStarted = false;
         	}
-    	}
+    	}*/
     	
     	
     	
-    	map.readMapDesc();
+    	//map.readMapDesc();
+    	
+    	
     	if(explorationMode == 0){
     		
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+    			//paintAfterSense();	//to sense before exploration 
+    			
     			//send map data
-    			//CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.MAP_STRINGS);
     			String descriptor = String.join(";", Map.generateMapDescriptor(map));
                 CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
         	}
         	
     		System.out.println("explore");
     		explore(robot.getRobotPosX(), robot.getRobotPosY());
-        	paintAfterSense();
+        	paintAfterSense();	//getting the sensor data 
         	
         	//print out area calculated??
     	}else if(explorationMode == 1){   
@@ -141,7 +155,7 @@ public class Exploration {
     	//System.out.println("robotDelay = " + robotDelay);
     	
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
-    	while(true){
+    	while(/*true*/ getAreaExplored() != 300){
     		moveNext(1, robot.getRealRobot());
     		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
@@ -149,8 +163,8 @@ public class Exploration {
     		}
     		
        	}
-    	//areaExplored = getAreaExplored();
-		//System.out.println("Area explored = " + areaExplored);
+    	areaExplored = getAreaExplored();
+		System.out.println("Area explored = " + areaExplored);
        	returnToStartPos();
        	System.out.println("return to start position");
     	
@@ -500,25 +514,33 @@ public class Exploration {
     		//System.out.println("rightfree = " + rightFree());
     		moveRobot(Constants.MOVEMENT.R);
     		Constants.rightTurn++;
+    		Constants.front = 0;
     		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);   		    		
-    		}
-    		
-    	}else if(frontFree()){
+    			moveRobot(Constants.MOVEMENT.F);
+    			Constants.front++;
+    		}    		
+    	}else if(frontFree() && Constants.front < 3){
     		moveRobot(Constants.MOVEMENT.F);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
+    		Constants.front++;
     	}else if(leftFree()){
     		moveRobot(Constants.MOVEMENT.L);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
-    	}  
+    		Constants.front = 0;
+
+    	} 
+    	
     	else if(rightFree() && Constants.rightTurn2<2){
     		System.out.println("rightfree = " + rightFree());
     		moveRobot(Constants.MOVEMENT.R);
+    		Constants.front = 0;
+
 
     		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);   		    		
+    			moveRobot(Constants.MOVEMENT.F);
+    			Constants.front++;
     		}
     		Constants.rightTurn2++;
     		Constants.rightTurn++;
@@ -528,7 +550,9 @@ public class Exploration {
     		moveRobot(Constants.MOVEMENT.R);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
-    		}
+    		Constants.front = 0;
+	
+    	}
     	
     }
 
@@ -1043,7 +1067,7 @@ private boolean isEastFree2(){	//for 2x2, outside
         System.out.println(", " + areaExplored + " Cells");
         System.out.println((System.currentTimeMillis() - startTime) / 1000 + " Seconds");
 
-        
+        /* calibration done on the robot side 
         if (robot.getRealRobot()) {
         	rotateRobot(DIRECTION.W);
         	robotMove(MOVEMENT.CALIBRATE,1,true);
@@ -1051,9 +1075,9 @@ private boolean isEastFree2(){	//for 2x2, outside
             robotMove(MOVEMENT.CALIBRATE,1,true);
             rotateRobot(DIRECTION.W);
             robotMove(MOVEMENT.CALIBRATE,1,true);
-        }
-        rotateRobot(DIRECTION.N);
+        }*/
         
+        rotateRobot(DIRECTION.N);
     }
     
     //trying gui
@@ -1068,6 +1092,14 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
+    	/*
+    	try {
+			TimeUnit.MILLISECONDS.sleep(5000); //5 seconds delay for the testing 
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	map.repaint();
     	
