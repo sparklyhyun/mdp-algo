@@ -1,6 +1,7 @@
 package mdp;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import mdp.Constants.*;
 
@@ -512,7 +513,8 @@ public class Exploration {
     		moveRobot(Constants.MOVEMENT.L);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
-    	}  
+    	} 
+    	/*
     	else if(rightFree() && Constants.rightTurn2<2){
     		System.out.println("rightfree = " + rightFree());
     		moveRobot(Constants.MOVEMENT.R);
@@ -522,7 +524,7 @@ public class Exploration {
     		}
     		Constants.rightTurn2++;
     		Constants.rightTurn++;
-    	}
+    	}*/
     	else{
     		moveRobot(Constants.MOVEMENT.R);
     		moveRobot(Constants.MOVEMENT.R);
@@ -1068,6 +1070,13 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
+    	try {
+			TimeUnit.MILLISECONDS.sleep(5000); //5 seconds delay for the testing 
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	map.repaint();
     	
