@@ -56,27 +56,30 @@ public class Sensor {
 	}
 	
 	public void findAndSetObstacleOnMap(Map exploredMap, int sensorVal ){
-		
+		System.out.println("findAndSetObstacle entered");
 		switch(dir){
 		case N: 
-			//System.out.println(sensorVal);
+			System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 0, 1); break; //see forward
 		case E: 
-			//System.out.println(sensorVal);
+			System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 1, 0); break; //see right
 		case S: 
-			//System.out.println(sensorVal);
+			System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, 0, -1); break; //see south
 		case W: 
-			//System.out.println(sensorVal);
+			System.out.println(sensorVal);
 			sensorValFindObstacles(exploredMap, sensorVal, -1, 0); break; //see left
 		}
 		
 	}
 	
 	private void sensorValFindObstacles(Map exploredMap, int sensorValue, int xInc, int yInc){
-		int sensorVal = sensorValue/10;	//scaling to one digit number
-		if(sensorVal == 0) {
+		System.out.println("sensorvalfindobs entered");
+		
+		//int sensorVal = sensorValue/10;	//scaling to one digit number
+		
+		if(sensorValue == 0) {
 			System.out.println("sensor too close");
 			return; //obstacle too close to sensor
 		}
@@ -86,15 +89,15 @@ public class Sensor {
 			int y = this.y + (yInc * i);
 			
 			if(!exploredMap.checkWithinRange(x, y)){ 
-				//System.out.println("testing");
+				System.out.println("testing1");
 				return;	//seeing outside maze
 			}
 			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
-			//System.out.println("testing");
+			System.out.println("testing2");
 			
 			
 			
-			if(sensorVal == i){		//obstacle detected by the real sensor
+			if(sensorValue == i){		//obstacle detected by the real sensor
 				exploredMap.setObstacles(x, y);
 				return;
 			}
@@ -108,13 +111,14 @@ public class Sensor {
 		for(int i=this.minRange; i<=this.maxRange; i++){
 			int x = this.x + (xInc * i);
 			int y = this.y + (yInc * i);
-			
+			System.out.println("testing3");
 			if(!exploredMap.checkWithinRange(x, y)){ 
+				System.out.println("testing outside maze");
 				continue;	//seeing outside maze
 			}
 			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
 			
-			if(sensorVal == i){		//obstacle detected by the real sensor
+			if(sensorValue == i){		//obstacle detected by the real sensor
 				exploredMap.setObstacles(x, y);
 				break;
 			}

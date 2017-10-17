@@ -14,7 +14,7 @@ public class Exploration {
     public int timeLimit;	
     private int areaExplored;
     private long startTime;
-    private long endTime;
+    private long endTime = 3600;
     private int lastCalibrate;	//no of steps before calibration
     private boolean calibrationMode;	
     private boolean checkptRightTurn = false;
@@ -23,6 +23,8 @@ public class Exploration {
     private int[][] previousCoord;
     private boolean expStarted = false;
     //private boolean waypointMode = true;
+    
+    private int calibrate = 0;
     
     
 	
@@ -45,13 +47,15 @@ public class Exploration {
     		System.out.println("Starting calibration");
     		String msg;
     		//for testing
+    		
+    		/*
     		while(true){
     			msg = CommunicationMgr.getCommMgr().recvMsg();
-    			if(msg.equals("C_DONE")){
+    			if(msg.equals("E")){	
     				break;
     			}
     		}
-    		
+    		*/
             paintAfterSense();	//to sense before exploration 
             
             //Auto calibration on the robot side 
@@ -111,7 +115,7 @@ public class Exploration {
     	if(explorationMode == 0){
     		
     		if(robot.getRealRobot()){
-    			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
+    			//CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);  //no need to send any ack on my side? 
     			//paintAfterSense();	//to sense before exploration 
     			
     			//send map data
@@ -155,7 +159,10 @@ public class Exploration {
     	//System.out.println("robotDelay = " + robotDelay);
     	
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
-    	while(/*true*/ getAreaExplored() != 300){
+    	
+    	//paintAfterSense(); //update map using sensor value before exploring 
+    	
+    	while(/*true*/ getAreaExplored() != 300 && System.currentTimeMillis() <= endTime){
     		moveNext(1, robot.getRealRobot());
     		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
@@ -165,6 +172,8 @@ public class Exploration {
        	}
     	areaExplored = getAreaExplored();
 		System.out.println("Area explored = " + areaExplored);
+		long time = System.currentTimeMillis() - startTime;
+    	System.out.println(time);
        	returnToStartPos();
        	System.out.println("return to start position");
     	
@@ -507,33 +516,47 @@ public class Exploration {
     		Constants.rightTurn2=0;
     		}
 		*/
+    	/*
+    	if(calibrate < steps){
+    		//move
+    		
+    	}else{
+    		//send calibration command
+    		//CommunicationMgr commMgr = CommunicationMgr.getCommMgr();
+            //commMgr.recvMsg();
+    		moveRobot(Constants.MOVEMENT.CALIBRATE);
+    		calibrate = 0;
+    	}
+    	*/ 
+    	
+    	//auto calibration on arduino side 
     	
     	//3X3 i think need to change sensor alr 
     	if(rightFree() && Constants.rightTurn <2){
-    		//System.out.println("Right Turn : " + Constants.rightTurn);
-    		//System.out.println("rightfree = " + rightFree());
     		moveRobot(Constants.MOVEMENT.R);
     		Constants.rightTurn++;
     		Constants.front = 0;
     		if(frontFree()){
     			moveRobot(Constants.MOVEMENT.F);
     			Constants.front++;
-    		}    		
-    	}else if(frontFree() && Constants.front < 3){
+    		}
+
+    	}else if(frontFree() /*&& Constants.front < 3*/){
     		moveRobot(Constants.MOVEMENT.F);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
     		Constants.front++;
-    	}else if(leftFree()){
+    		   		
+    	}    	
+    	else if(leftFree()){
     		moveRobot(Constants.MOVEMENT.L);
     		Constants.rightTurn=0;
     		Constants.rightTurn2=0;
     		Constants.front = 0;
-
     	} 
     	
     	else if(rightFree() && Constants.rightTurn2<2){
-    		System.out.println("rightfree = " + rightFree());
+    		//System.out.println("rightfree = " + rightFree());
     		moveRobot(Constants.MOVEMENT.R);
     		Constants.front = 0;
 
@@ -542,6 +565,7 @@ public class Exploration {
     			moveRobot(Constants.MOVEMENT.F);
     			Constants.front++;
     		}
+    		
     		Constants.rightTurn2++;
     		Constants.rightTurn++;
     	}
@@ -1082,10 +1106,15 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     //trying gui
     private void paintAfterSense(){
+    	System.out.println("paintAfterSense entered");
     	
     	robot.setSentors();
     	
+    	System.out.println("setSensors exited");
+    	
     	robot.senseDist(map, realMap);
+    	
+    	System.out.println("sensedist exited");
     	
     	map.repaint();
     }
@@ -1099,7 +1128,11 @@ private boolean isEastFree2(){	//for 2x2, outside
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-
+    	if(robot.getRealRobot()){
+    		CommunicationMgr comm1 = CommunicationMgr.getCommMgr(); 	//recieve ack before moving 
+    		comm1.recvMsg();
+    	}
+    	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	map.repaint();
     	
@@ -1108,10 +1141,16 @@ private boolean isEastFree2(){	//for 2x2, outside
     		paintAfterSense();
     		//System.out.println("testing");
     	}else{
+    		//calibration command 
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
-    		comm.recvMsg();
+        	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
+        	
+        	
+    		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
+    		//comm.recvMsg(); 		//wait for ack 
     	}
     	
+    	/*
     	if(robot.getRealRobot() && !calibrationMode){
     		calibrationMode = true;
     		
@@ -1130,7 +1169,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     			}
     		}
     		calibrationMode = false;
-    	}
+    	}*/
     }
 
     

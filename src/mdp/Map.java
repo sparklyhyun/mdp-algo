@@ -429,7 +429,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("SampleArena2.txt");
+			File file = new File("testMap3.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
@@ -506,7 +506,7 @@ public class Map extends JPanel{
 
 	        StringBuilder Part1 = new StringBuilder();
 	        StringBuilder Part1_bin = new StringBuilder();
-	        Part1_bin.append("11");
+	        Part1_bin.append("11"); //remove padding
 	        for (int i = 0; i < Constants.MAX_Y; i++) {
 	            for (int j = 0; j < Constants.MAX_X; j++) {
 	                if (map.getCoordinate(j, i).getIsExplored())
@@ -527,6 +527,7 @@ public class Map extends JPanel{
 
 	        StringBuilder Part2 = new StringBuilder();
 	        StringBuilder Part2_bin = new StringBuilder();
+	        /*
 	        for (int i = 0; i < Constants.MAX_Y; i++) {
 	            for (int j = 0; j < Constants.MAX_X; j++) {
 	                if (map.getCoordinate(j, i).getIsExplored()) {
@@ -539,6 +540,27 @@ public class Map extends JPanel{
 	                        Part2.append(binToHex(Part2_bin.toString()));
 	                        Part2_bin.setLength(0);
 	                    }
+	                }else{//set 0
+	                	Part2_bin.append("0");
+	                }
+	            }
+	        }
+	        */
+	        for (int i = 0; i < Constants.MAX_Y; i++) {
+	            for (int j = 0; j < Constants.MAX_X; j++) {
+	                if (map.getCoordinate(j, i).getIsExplored()) {
+	                	if(map.getCoordinate(j, i).getIsObstacle()) 
+	                		Part2_bin.append("1");
+	                	else
+	                		Part2_bin.append("0");
+	                		
+	                }
+	                else
+	                    Part2_bin.append("0");
+
+	                if (Part2_bin.length() == 4) {
+	                    Part2.append(binToHex(Part2_bin.toString()));
+	                    Part2_bin.setLength(0);
 	                }
 	            }
 	        }

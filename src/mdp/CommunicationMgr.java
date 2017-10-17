@@ -80,7 +80,7 @@ public class CommunicationMgr {
 
     public void sendMap(String position, String map) {
         try {
-            writer.write("POS_" + position + ":" + map);
+            writer.write("POS_" + position + ";" + map);
             writer.flush();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
