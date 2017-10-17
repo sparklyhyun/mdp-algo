@@ -35,7 +35,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = true; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -205,7 +205,7 @@ public class Simulator {
                 	 while(true) {
                          System.out.println("Waiting for Android Explore");
                          String msg = comm.recvMsg();
-                         if(msg.equals("E")) break;   
+                         if(msg.equals("E")) break;   	//change rcv msg if needed 
                      }
                 	 String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
                      comm.sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
