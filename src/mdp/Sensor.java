@@ -80,7 +80,7 @@ public class Sensor {
 		//int sensorVal = sensorValue/10;	//scaling to one digit number
 		
 		int remainder = sensorValue % 10;
-		if(remainder < 7){
+		if(remainder < 5){
 			sensorVal = sensorValue/10;
 		}else{
 			sensorVal = sensorValue/10 + 1;
@@ -103,24 +103,25 @@ public class Sensor {
 			}
 			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
 			//System.out.println("testing2");
-			
-			
-			
 			if(sensorVal == i){		//obstacle detected by the real sensor
 				exploredMap.setObstacles(x, y);
+				
+				System.out.println("sensor position: " + this.x + ", " + this.y);
+				System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 				return;
 			}
 			
 			//if obstacle is set but not correct, remove
 			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal){
 				exploredMap.getCoordinate(x, y).removeObstacle();
+				System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 			}
 			
 		}
 		
 		
 		//update map according to sensor value 
-		
+		/*
 		for(int i=this.minRange; i<=this.maxRange; i++){
 			int x = this.x + (xInc * i);
 			int y = this.y + (yInc * i);
@@ -134,8 +135,8 @@ public class Sensor {
 			if(sensorVal == i){		//obstacle detected by the real sensor
 				exploredMap.setObstacles(x, y);
 				break;
-			}
-		}
+			}			
+		}*/
 			
 			// Override previous obstacle value if front sensors detect no obstacle.
 			/*

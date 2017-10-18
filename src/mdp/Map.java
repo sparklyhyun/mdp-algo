@@ -52,6 +52,15 @@ public class Map extends JPanel{
 		coordinates[y][x]
 	}*/
 	
+
+	public void clearObs(){
+		for(int i = 0; i<Constants.MAX_Y; i++){
+			for(int j = 0; j<Constants.MAX_X; j++){
+				coordinates[i][j] = new Coordinates(i,j);				
+			}
+		}
+	}
+	
 	public void setObstacles(int x, int y){
 		//set obstacle
 		//System.out.print("Obstacle at y " + y + "\n");
