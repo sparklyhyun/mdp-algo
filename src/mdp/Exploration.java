@@ -1078,7 +1078,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	}
     	*/
     	
-    	System.out.println("return to start entered2");
+    	//System.out.println("return to start entered2");
     	FastestPath toStart = new FastestPath(map, robot, realMap);
     	System.out.println("fastest path initialized");
 
@@ -1106,15 +1106,15 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     //trying gui
     private void paintAfterSense(){
-    	System.out.println("paintAfterSense entered");
+    	//System.out.println("paintAfterSense entered");
     	
     	robot.setSentors();
     	
-    	System.out.println("setSensors exited");
+    	//System.out.println("setSensors exited");
     	
     	robot.senseDist(map, realMap);
     	
-    	System.out.println("sensedist exited");
+    	//System.out.println("sensedist exited");
     	
     	map.repaint();
     }
@@ -1129,11 +1129,17 @@ private boolean isEastFree2(){	//for 2x2, outside
 			e.printStackTrace();
 		}*/
     	if(robot.getRealRobot()){
+    		/*
     		CommunicationMgr comm1 = CommunicationMgr.getCommMgr(); 	//recieve ack before moving 
-    		comm1.recvMsg();
+    		comm1.recvMsg();*/
+    		
     	}
     	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
+    	
+    	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+        CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+    	
     	map.repaint();
     	
     	if(m!= MOVEMENT.CALIBRATE){
@@ -1142,9 +1148,10 @@ private boolean isEastFree2(){	//for 2x2, outside
     		//System.out.println("testing");
     	}else{
     		//calibration command 
+    		/*
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
-        	
+        	*/
         	
     		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
     		//comm.recvMsg(); 		//wait for ack 
@@ -1170,6 +1177,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     		}
     		calibrationMode = false;
     	}*/
+    	
     }
 
     

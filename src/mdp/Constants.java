@@ -25,10 +25,14 @@ public class Constants {
 	public static final int ROBOT_SIZE = 9;
 	public static final int ROBOT_SPEED = 5; //need to change 
 	
-	public static final int RANGE_LONG_MIN = 2;
+	public static final int RANGE_LONG_MIN = 1;
 	public static final int RANGE_LONG_MAX = 7;
 	public static final int RANGE_SHORT_MIN = 1;
 	public static final int RANGE_SHORT_MAX = 3;
+	
+	public static final int RANGE_B_MAX = 7;
+	public static final int RANGE_D_MAX = 4; 
+	
 	//public static final int RANGE_SHORT_MIN_2 = 0;
 	
 	public enum DIRECTION{N,E,S,W;	//clockwise direction
