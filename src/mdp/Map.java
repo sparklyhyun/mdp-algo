@@ -22,12 +22,12 @@ public class Map extends JPanel{
 		
 		//coordinates[0][14].setExplored();
 		//set the starting position as explored (for testing)
-		/*
+		
 		for(int i=1; i<=2 ; i++){
 			for(int j=1; j<=2; j++){
 				coordinates[j][i].setExplored();
 			}
-		}*/
+		}
 		setBoundary();
 		if(!robot.getRealRobot()){
 			//for testing simulator only 
@@ -51,6 +51,15 @@ public class Map extends JPanel{
 	public void removeObstacle(int x, int y){
 		coordinates[y][x]
 	}*/
+	
+
+	public void clearObs(){
+		for(int i = 0; i<Constants.MAX_Y; i++){
+			for(int j = 0; j<Constants.MAX_X; j++){
+				coordinates[i][j] = new Coordinates(i,j);				
+			}
+		}
+	}
 	
 	public void setObstacles(int x, int y){
 		//set obstacle
@@ -173,7 +182,6 @@ public class Map extends JPanel{
 			}
 		}
 	}
-	
 	
 	
 	private boolean isStartZone(int x, int y){
@@ -429,7 +437,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("testMap3.txt");
+			File file = new File("SampleArena5.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();

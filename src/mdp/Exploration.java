@@ -110,7 +110,10 @@ public class Exploration {
     	
     	
     	//map.readMapDesc();
-    	
+ 
+         //possible dummy
+        //CommunicationMgr comm = CommunicationMgr.getCommMgr();
+     	//comm.sendMsg(MOVEMENT.F + "", CommunicationMgr.BOT_INSTR);
     	
     	if(explorationMode == 0){
     		
@@ -164,7 +167,7 @@ public class Exploration {
     	
     	while(/*true*/ getAreaExplored() != 300 && System.currentTimeMillis() <= endTime){
     		moveNext(1, robot.getRealRobot());
-    		if(robot.getReachedGoal() && robot.isInStartZone()){
+    		if(/*robot.getReachedGoal() && robot.isInStartZone()*/ getAreaExplored() == 30){
     			System.out.println("exploration done");
     			break;
     		}
@@ -1078,7 +1081,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	}
     	*/
     	
-    	System.out.println("return to start entered2");
+    	//System.out.println("return to start entered2");
     	FastestPath toStart = new FastestPath(map, robot, realMap);
     	System.out.println("fastest path initialized");
 
@@ -1106,34 +1109,43 @@ private boolean isEastFree2(){	//for 2x2, outside
     
     //trying gui
     private void paintAfterSense(){
-    	System.out.println("paintAfterSense entered");
+    	//System.out.println("paintAfterSense entered");
     	
     	robot.setSentors();
     	
-    	System.out.println("setSensors exited");
+    	//System.out.println("setSensors exited");
     	
     	robot.senseDist(map, realMap);
     	
-    	System.out.println("sensedist exited");
+    	//System.out.println("sensedist exited");
     	
     	map.repaint();
     }
     
     private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
-    	/*
+    	
     	try {
 			TimeUnit.MILLISECONDS.sleep(5000); //5 seconds delay for the testing 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
     	if(robot.getRealRobot()){
+    		/*
     		CommunicationMgr comm1 = CommunicationMgr.getCommMgr(); 	//recieve ack before moving 
-    		comm1.recvMsg();
+    		comm1.recvMsg();*/
+    		
     	}
     	
+    	//for testing 
+    	map.clearObs();
+    	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
+    	
+    	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+        CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+    	
     	map.repaint();
     	
     	if(m!= MOVEMENT.CALIBRATE){
@@ -1142,9 +1154,10 @@ private boolean isEastFree2(){	//for 2x2, outside
     		//System.out.println("testing");
     	}else{
     		//calibration command 
+    		/*
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
-        	
+        	*/
         	
     		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
     		//comm.recvMsg(); 		//wait for ack 
@@ -1170,6 +1183,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     		}
     		calibrationMode = false;
     	}*/
+    	
     }
 
     

@@ -34,13 +34,24 @@ public class Robot {
 	private final Sensor bottomL_S;
 	private final Sensor bottomR_S;
 	*/
+	
+	/*
 	private final Sensor topLF_S; //c
 	private final Sensor topMF_L; //a
 	private final Sensor topRF_S;  //e
 	private final Sensor topMR_S;	//top middle facing right d
-	private final Sensor MidLL_S; //mid right facing right f
+	//private final Sensor MidLL_S; //mid right facing right f
 	private final Sensor MidLR_L; //mid right facing left b
-
+	
+	private final Sensor topMF_S;
+*/
+	
+	private final Sensor a;
+	private final Sensor b;
+	private final Sensor c;
+	private final Sensor d;
+	private final Sensor e;
+	private final Sensor f;
 	 
 	private DIRECTION robotDir = DIRECTION.N;	// can change later
 	public static final int INFINITE_COST = 9999;
@@ -77,16 +88,28 @@ public class Robot {
         bottomR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y, "bottomR_S", DIRECTION.E);
         */
         //3X3
+        
+        /*
         topLF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y+1, "topLF_S", this.robotDir);
         //topMF_L = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "topMF_L", this.robotDir);	//slightly to the left
-        topMF_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X, robotPos_Y+1, "topMF_L", DIRECTION.W);
+        topMF_L = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "topMF_L", DIRECTION.W);
         
         topRF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "topRF_S", this.robotDir);
-        topMR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "topMR_S", DIRECTION.E);
-        MidLL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y, "MidLL_S", DIRECTION.W);
-        MidLR_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X-1, robotPos_Y, "MidLR_L", DIRECTION.E);
+        topMR_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_D_MAX, robotPos_X, robotPos_Y+1, "topMR_S", DIRECTION.E);
+        //MidLL_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y, "MidLL_S", DIRECTION.W);
+        topMF_S = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "MidLL_S", this.robotDir);
         
-    
+        MidLR_L = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_B_MAX, robotPos_X-1, robotPos_Y, "MidLR_L", DIRECTION.E);
+        */
+        
+        a = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y+1, "a", this.robotDir);
+        b = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "b", this.robotDir);
+        c = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "c", this.robotDir);
+        d = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "d", DIRECTION.W);
+        e = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "e", DIRECTION.E);
+        f = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X-1, robotPos_Y, "f", DIRECTION.E);
+        
+        
     }
 
     public void setRobotPos(int x, int y) {
@@ -144,7 +167,8 @@ public class Robot {
     	
     	//3X3
     	
-    	System.out.println("set sensors entered");
+    	//System.out.println("set sensors entered");
+    	/*
     	switch(robotDir){
     	case N:
     		topLF_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
@@ -153,7 +177,9 @@ public class Robot {
     		
     		topRF_S.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
     		topMR_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
-    		MidLL_S.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		//MidLL_S.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		topMF_S.setSensor(this.robotPos_X, this.robotPos_Y+1, this.robotDir);
+    		
     		MidLR_L.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
     		break;
     	case E:
@@ -163,7 +189,9 @@ public class Robot {
     		
     		topRF_S.setSensor(this.robotPos_X+1, this.robotPos_Y-1, this.robotDir);
     		topMR_S.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
-    		MidLL_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		//MidLL_S.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		topMF_S.setSensor(this.robotPos_X+1, this.robotPos_Y, this.robotDir);
+    		
     		MidLR_L.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
     		break;
     	case W:
@@ -173,7 +201,9 @@ public class Robot {
     		
     		topRF_S.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
     		topMR_S.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
-    		MidLL_S.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.L));
+    		//MidLL_S.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.L));
+    		topMF_S.setSensor(this.robotPos_X-1, this.robotPos_Y, this.robotDir);
+    		
     		MidLR_L.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
     		break;
     	case S:
@@ -183,11 +213,46 @@ public class Robot {
     		
     		topRF_S.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
     		topMR_S.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
-    		MidLL_S.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		//MidLL_S.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		topMF_S.setSensor(this.robotPos_X, this.robotPos_Y-1, this.robotDir);
+    		
     		MidLR_L.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
     		break;
+    	}*/
+    	switch(robotDir){
+    	case N:
+    		//topLF_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
+    		a.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
+    		b.setSensor(this.robotPos_X, this.robotPos_Y+1, this.robotDir);
+    		c.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
+    		d.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.L));
+    		e.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		f.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		break;
+    	case E:
+    		a.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
+    		b.setSensor(this.robotPos_X+1, this.robotPos_Y, this.robotDir);
+    		c.setSensor(this.robotPos_X+1, this.robotPos_Y-1, this.robotDir);
+    		d.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		e.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		f.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));;
+    	case W:
+    		a.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
+    		b.setSensor(this.robotPos_X-1, this.robotPos_Y, this.robotDir);
+    		c.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
+    		d.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
+    		e.setSensor(this.robotPos_X-1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		f.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
+    		break;
+    	case S:
+    		a.setSensor(this.robotPos_X+1, this.robotPos_Y-1, this.robotDir);
+    		b.setSensor(this.robotPos_X, this.robotPos_Y-1, this.robotDir);
+    		c.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
+    		d.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.L));
+    		e.setSensor(this.robotPos_X, this.robotPos_Y-1, dirToRotate(MOVEMENT.R));
+    		f.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
+    		break;
     	}
-    	
     	
     }
     
@@ -276,6 +341,7 @@ public class Robot {
     	}
     	
     	if(realRobot) sendMovement(m, toAndroid);
+    	
     	//else 
     	//test
     	System.out.println("Move: " + m);
@@ -322,17 +388,17 @@ public class Robot {
     	CommunicationMgr comm = CommunicationMgr.getCommMgr();
     	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
         if (m != MOVEMENT.CALIBRATE && toAndroid) {
-            comm.sendMsg(this.getRobotPosY() + "," + this.getRobotPosX() + "," + DIRECTION.print(this.getRobotDir()), CommunicationMgr.BOT_POS);
+        	//comm.sendMsg(this.getRobotPosY() + "," + this.getRobotPosX() + "," + DIRECTION.print(this.getRobotDir()), CommunicationMgr.BOT_POS);
         }
 
     }
     
     public int[] senseDist(Map expMap, Map realMap){
-    	System.out.println("sensedist entered");
+    	//System.out.println("sensedist entered");
     	int[] distance = new int[6];	//stores dist. of obstacles from each sensor
     	
     	if(!realRobot){
-    		
+    		/*
     		distance[0] = topLF_S.distanceToObstacle(expMap, realMap);
     		//System.out.println(distance[0]);
     		distance[1] = topMF_L.distanceToObstacle(expMap, realMap);
@@ -341,10 +407,19 @@ public class Robot {
     		//System.out.println(distance[2]);
     		distance[3] = topMR_S.distanceToObstacle(expMap, realMap);
     		//System.out.println(distance[3]);
-    		distance[4] = MidLL_S.distanceToObstacle(expMap, realMap);
+    		//distance[4] = MidLL_S.distanceToObstacle(expMap, realMap);
+    		distance[4] = topMF_S.distanceToObstacle(expMap, realMap);
+    		
     		//System.out.println(distance[4]);
     		distance[5] = MidLR_L.distanceToObstacle(expMap, realMap);
     		//System.out.println(distance[5]);
+    		*/
+    		distance[0] = a.distanceToObstacle(expMap, realMap);
+    		distance[1] = b.distanceToObstacle(expMap, realMap);
+    		distance[2] = c.distanceToObstacle(expMap, realMap);
+    		distance[3] = d.distanceToObstacle(expMap, realMap);
+    		distance[4] = e.distanceToObstacle(expMap, realMap);
+    		distance[5] = f.distanceToObstacle(expMap, realMap);
     		
     	}else{
     		//comm mgr part
@@ -371,8 +446,8 @@ public class Robot {
             */
             
             String msg1[] = msg.split(";");
-            System.out.println("msg split");
-            printarr(msg1);
+           // System.out.println("msg split");
+            //printarr(msg1);
             
             
             try{
@@ -400,21 +475,33 @@ public class Robot {
             for(int i=0; i<distance.length ; i++){
             	System.out.print("distance " + i + ": " + distance[i] + ", ");
             }
+            
+            
             //printarr(distance);
           //set obstacles based on sensor values
-        	topLF_S.findAndSetObstacleOnMap(expMap, distance[2]);
+            /*
+        	topLF_S.findAndSetObstacleOnMap(expMap, distance[2]+10);
         	//System.out.println("Sensor 1 working");
-        	topMF_L.findAndSetObstacleOnMap(expMap, distance[4]);
+        	topMF_L.findAndSetObstacleOnMap(expMap, distance[4]+10);	//e
         	//System.out.println("Sensor 2 working");
-        	topRF_S.findAndSetObstacleOnMap(expMap, distance[0]);
+        	topRF_S.findAndSetObstacleOnMap(expMap, distance[0]+10);
         	//System.out.println("Sensor 3 working");
-        	topMR_S.findAndSetObstacleOnMap(expMap, distance[3]);
+        	topMR_S.findAndSetObstacleOnMap(expMap, distance[3]+20);
         	//System.out.println("Sensor 4 working");
-        	MidLL_S.findAndSetObstacleOnMap(expMap, distance[5]);
+        	//MidLL_S.findAndSetObstacleOnMap(expMap, distance[5]);
         	//System.out.println("Sensor 5 working");
-        	MidLR_L.findAndSetObstacleOnMap(expMap, distance[1]);
-        	//System.out.println("Sensor 6 working");
+        	topMF_S.findAndSetObstacleOnMap(expMap, distance[5]+10);
         	
+        	MidLR_L.findAndSetObstacleOnMap(expMap, distance[1]+30);
+        	//System.out.println("Sensor 6 working");
+        	*/
+            a.findAndSetObstacleOnMap(expMap, distance[0]+Constants.PAD_A);
+            b.findAndSetObstacleOnMap(expMap, distance[1]+Constants.PAD_B);
+            c.findAndSetObstacleOnMap(expMap, distance[2]+Constants.PAD_C);
+            d.findAndSetObstacleOnMap(expMap, distance[3]+Constants.PAD_D);
+            e.findAndSetObstacleOnMap(expMap, distance[4]+Constants.PAD_E);
+            f.findAndSetObstacleOnMap(expMap, distance[5]+Constants.PAD_F);
+            
         	//send msg to commMgr
         	
         	String[] mapStrings = Map.generateMapDescriptor(expMap);

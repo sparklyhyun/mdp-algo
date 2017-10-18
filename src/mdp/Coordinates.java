@@ -25,6 +25,10 @@ public class Coordinates {
 		isObstacle = true;
 	}
 	
+	public void removeObstacle(){
+		isObstacle = false;
+	}
+	
 	public void setExplored(){
 		isExplored = true;
 	}
