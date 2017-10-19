@@ -94,7 +94,7 @@ public class CommunicationMgr {
     //for fastest path
     public void fastestSendMap(String position, String map, DIRECTION a, String movement, int count){
     	try {
-            writer.write(movement + ";POS_" + position +"," + a + ";" + map );
+            writer.write(movement+ ";" + count + ";POS_" + position +"," + a + ";" + map);
             writer.flush();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

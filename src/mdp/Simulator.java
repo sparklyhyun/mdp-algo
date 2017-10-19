@@ -152,9 +152,16 @@ public class Simulator {
 	                    while (true) {
 	                        System.out.println("Waiting for FP_START...");
 	                        String msg = comm.recvMsg();
-	                        if (msg.equals(CommunicationMgr.FP_START)) break;
+	                        if (msg.equals(CommunicationMgr.FP_START)) break;	//can change accordingly 
 	                    }
 	                }
+	                
+	                //get waypoint here
+	               //String msgRcv = comm.recvMsg();
+	               //String msg1[] = msgRcv.split(",");  <- x, y coordinates
+	               //waypointX = msg1[0];
+	               //waypointY = msg1[1];
+	                
 
 	                FastestPath fastestPath;
 	                fastestPath = new FastestPath(exploredMap, robot, realMap);
@@ -374,11 +381,12 @@ public class Simulator {
         _mapButtons.add(setSpeed_button);
         
         //get waypoint
+        /*
         class Waypoint extends SwingWorker<Integer, String> {
             protected Integer doInBackground() throws Exception {
 
                  if (realExecution) {
-                	 /*
+                	 
                 		 System.out.println("Waiting for Waypoint");
                          String msg = CommunicationMgr.getCommMgr().recvMsg();
                          System.out.println(msg);
@@ -388,7 +396,7 @@ public class Simulator {
                          waypointY = Integer.parseInt(msgArr[1]);
                          System.out.println("waypointX: " + waypointX);
                          System.out.println("waypointY: " + waypointY); 
-                        	*/
+                        	
                          
                          		
             	
@@ -414,7 +422,7 @@ public class Simulator {
             }
         });
         _mapButtons.add(waypoint_btn);
-        
+        */
         //FOR TESTING ONLY******************************************************************************
         /*
         //BUTTON IN FRONT 

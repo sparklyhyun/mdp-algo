@@ -441,7 +441,9 @@ public class FastestPath {
                     if (fCount == 10) {
                         robot.move(x, fCount, robot.getRealRobot());
                         
-                        //insert the new send map here
+                      //insert the new send map here
+                        //String descriptor = String.join(";", Map.generateMapDescriptor(map));
+                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), fCount);
                         
                         
                         fCount = 0;
@@ -452,6 +454,8 @@ public class FastestPath {
                         robot.move(x, fCount, robot.getRealRobot());
                         
                         //insert new send map here
+                      //String descriptor = String.join(";", Map.generateMapDescriptor(map));
+                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), fCount);
                         
                         fCount = 0;
                         map.repaint();
@@ -460,7 +464,8 @@ public class FastestPath {
                     robot.move(x, 1, robot.getRealRobot());	//need to change here?
                     
                     //insert new send map here
-                    
+                  //String descriptor = String.join(";", Map.generateMapDescriptor(map));
+                	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), 1);
                     map.repaint();
                 }
             }
@@ -469,6 +474,9 @@ public class FastestPath {
             if (fCount > 0) {
                 robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
                 //insert new send map here
+                //String descriptor = String.join(";", Map.generateMapDescriptor(map));
+            	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), fCount);
+                
                 
                 map.repaint();
             }
@@ -478,7 +486,8 @@ public class FastestPath {
         /*communication part
          * CommunicationMgr comm = CommunicationMgr.getCommMgr();
     	String descriptor = String.join(";", Map.generateMapDescriptor(map));
-        comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
+    	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), fCount);
+        
          */
         
         System.out.println("\nMovements: " + outputString.toString());
