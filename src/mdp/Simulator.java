@@ -208,7 +208,7 @@ public class Simulator {
                          if(msg.equals("E")) break;   	//change rcv msg if needed 
                      }
                 	 String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
-                     comm.sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+                     comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(),null);
                 
                 }
                  

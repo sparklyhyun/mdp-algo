@@ -106,13 +106,14 @@ public class Sensor {
 			if(sensorVal == i){		//obstacle detected by the real sensor
 				exploredMap.setObstacles(x, y);
 				
-				System.out.println("sensor position: " + this.x + ", " + this.y);
+				System.out.println("sensor " + this.id + "position: " + this.x + ", " + this.y);
+				System.out.println("senfor " + this.id + "direction: " + this.dir);
 				System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 				return;
 			}
 			
 			//if obstacle is set but not correct, remove
-			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal){
+			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal && this.id != "b"){
 				exploredMap.getCoordinate(x, y).removeObstacle();
 				System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 			}
