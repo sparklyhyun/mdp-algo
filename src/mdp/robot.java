@@ -235,7 +235,8 @@ public class Robot {
     		c.setSensor(this.robotPos_X+1, this.robotPos_Y-1, this.robotDir);
     		d.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.L));
     		e.setSensor(this.robotPos_X+1, this.robotPos_Y, dirToRotate(MOVEMENT.R));
-    		f.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));;
+    		f.setSensor(this.robotPos_X, this.robotPos_Y+1, dirToRotate(MOVEMENT.R));
+    		break;
     	case W:
     		a.setSensor(this.robotPos_X-1, this.robotPos_Y-1, this.robotDir);
     		b.setSensor(this.robotPos_X-1, this.robotPos_Y, this.robotDir);
@@ -305,11 +306,12 @@ public class Robot {
             } else if (count < 10) {
                 comm.sendMsg(Integer.toString(count), CommunicationMgr.BOT_INSTR);
             }
-   		 	//add in comm manager part
+   		 	//add in comm manager part or ignore 
     		
         }
     	
     	//System.out.print("Current robot direction : " + robotDir + "\n");
+    	//System.out.println("Current robot position: " + robotPos_X + ", " + robotPos_Y);
     	switch(m){
     	case F:
     		switch(robotDir){
@@ -340,10 +342,16 @@ public class Robot {
     	case ERROR: break;	//print error message? 
     	}
     	
-    	if(realRobot) sendMovement(m, toAndroid);
+    	if(realRobot){
+    		//sendMovement(m, toAndroid);
+    		
+    	} 
     	
     	//else 
     	//test
+    	//System.out.print("Updated robot direction : " + robotDir + "\n");
+    	//System.out.println("Updated robot position: " + robotPos_X + ", " + robotPos_Y);
+    	
     	System.out.println("Move: " + m);
     	updateReachedGoal();
     }
@@ -386,12 +394,23 @@ public class Robot {
     private void sendMovement(MOVEMENT m, boolean toAndroid){
     	//fill in after commMgr 
     	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+    	
+    	
     	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
         if (m != MOVEMENT.CALIBRATE && toAndroid) {
         	//comm.sendMsg(this.getRobotPosY() + "," + this.getRobotPosX() + "," + DIRECTION.print(this.getRobotDir()), CommunicationMgr.BOT_POS);
         }
 
     }
+    
+    public String sendData(MOVEMENT m){
+    	//fill in after commMgr 
+    	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+    	
+    	String s = MOVEMENT.print(m)+"";
+    	return s;
+    }
+    
     
     public int[] senseDist(Map expMap, Map realMap){
     	//System.out.println("sensedist entered");

@@ -3,6 +3,9 @@ package mdp;
 import java.io.*;
 import java.net.*;
 
+import mdp.Constants.DIRECTION;
+import mdp.Constants.MOVEMENT;
+
 public class CommunicationMgr {
 
     public static final String EX_START = "EX_START";       // Android --> PC
@@ -78,14 +81,24 @@ public class CommunicationMgr {
         }
     }
 
-    public void sendMap(String position, String map) {
+    public void sendMap(String position, String map, DIRECTION a, String movement) {
         try {
-            writer.write("POS_" + position + ";" + map);
+            writer.write(movement + ";POS_" + position +"," + a + ";" + map );
             writer.flush();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
         
+    }
+    
+    //for fastest path
+    public void fastestSendMap(String position, String map, DIRECTION a, String movement, int count){
+    	try {
+            writer.write(movement + ";POS_" + position +"," + a + ";" + map );
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     
     public void sendMsg(String msg, String msgType) {

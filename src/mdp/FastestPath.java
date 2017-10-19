@@ -364,20 +364,20 @@ public class FastestPath {
         tempRobot.setDirection(robot.getRobotDir());
         //Robot tempRobot = robot;
         
-        System.out.println("temprobot built");
+        //System.out.println("temprobot built");
         
         tempRobot.setSpeed(100);
         
-        System.out.println("temprobot set speed");
-        System.out.println("temproboty: " + tempRobot.getRobotPosY() );
-        System.out.println("goalY: " + goalY);
-        System.out.println("temprobotx: " +tempRobot.getRobotPosX() );
-        System.out.println("goalX: " +goalX);
-        System.out.println("while loop condition:" +(tempRobot.getRobotPosY() != goalY) + (tempRobot.getRobotPosX() != goalX) );
+        //System.out.println("temprobot set speed");
+        //System.out.println("temproboty: " + tempRobot.getRobotPosY() );
+        //System.out.println("goalY: " + goalY);
+        //System.out.println("temprobotx: " +tempRobot.getRobotPosX() );
+        //System.out.println("goalX: " +goalX);
+        //System.out.println("while loop condition:" +(tempRobot.getRobotPosY() != goalY) + (tempRobot.getRobotPosX() != goalX) );
         while ((tempRobot.getRobotPosY() != goalY) || (tempRobot.getRobotPosX() != goalX)) {
         	
         	//System.out.println("while loop entered");
-        	System.out.println("temp x, y : " + temp.getX() + ", " + temp.getY());
+        	//System.out.println("temp x, y : " + temp.getX() + ", " + temp.getY());
             if (tempRobot.getRobotPosY() == temp.getY() && tempRobot.getRobotPosX() == temp.getX()) {
             	//System.out.println("if temp 1");
                 temp = path.pop();
@@ -440,17 +440,27 @@ public class FastestPath {
                     fCount++;
                     if (fCount == 10) {
                         robot.move(x, fCount, robot.getRealRobot());
+                        
+                        //insert the new send map here
+                        
+                        
                         fCount = 0;
                         map.repaint();
                     }
                 } else if (x == MOVEMENT.R || x == MOVEMENT.L) {
                     if (fCount > 0) {
                         robot.move(x, fCount, robot.getRealRobot());
+                        
+                        //insert new send map here
+                        
                         fCount = 0;
                         map.repaint();
                     }
 
-                    robot.move(x, 1, robot.getRealRobot());
+                    robot.move(x, 1, robot.getRealRobot());	//need to change here?
+                    
+                    //insert new send map here
+                    
                     map.repaint();
                 }
             }
@@ -458,10 +468,18 @@ public class FastestPath {
             //SEE IF NEED ANY CHANGES
             if (fCount > 0) {
                 robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
+                //insert new send map here
+                
                 map.repaint();
             }
         }
         
+        
+        /*communication part
+         * CommunicationMgr comm = CommunicationMgr.getCommMgr();
+    	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+        comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
+         */
         
         System.out.println("\nMovements: " + outputString.toString());
        //System.out.println("robot x: "+ robot.getRobotPosX());

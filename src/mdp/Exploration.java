@@ -123,7 +123,7 @@ public class Exploration {
     			
     			//send map data
     			String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+                CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(),null);
         	}
         	
     		System.out.println("explore");
@@ -167,7 +167,7 @@ public class Exploration {
     	
     	while(/*true*/ getAreaExplored() != 300 && System.currentTimeMillis() <= endTime){
     		moveNext(1, robot.getRealRobot());
-    		if(/*robot.getReachedGoal() && robot.isInStartZone()*/ getAreaExplored() == 30){
+    		if(/*robot.getReachedGoal() &&*/ robot.isInStartZone()){
     			System.out.println("exploration done");
     			break;
     		}
@@ -581,6 +581,7 @@ public class Exploration {
 	
     	}
     	
+    	
     }
 
     	
@@ -595,7 +596,7 @@ public class Exploration {
     		CommunicationMgr commMgr = CommunicationMgr.getCommMgr();
             commMgr.recvMsg();
     	}
-    	
+    	/*
     	if(robot.getRealRobot() && !calibrationMode){
     		calibrationMode = true;
     		if(canCalibrate(robot.getRobotDir())){
@@ -612,7 +613,7 @@ public class Exploration {
                 }
     		}
     		calibrationMode = false; //calibrated
-    	}
+    	}*/
     }
     
     private void calibrateBot(DIRECTION targetDir) {
@@ -1125,12 +1126,15 @@ private boolean isEastFree2(){	//for 2x2, outside
     private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
     	
+    	
     	try {
-			TimeUnit.MILLISECONDS.sleep(5000); //5 seconds delay for the testing 
+			TimeUnit.MILLISECONDS.sleep(500); //5 seconds delay for the testing 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+    	
     	if(robot.getRealRobot()){
     		/*
     		CommunicationMgr comm1 = CommunicationMgr.getCommMgr(); 	//recieve ack before moving 
@@ -1139,12 +1143,17 @@ private boolean isEastFree2(){	//for 2x2, outside
     	}
     	
     	//for testing 
-    	map.clearObs();
+    	//map.clearObs();
     	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	
+    	CommunicationMgr comm = CommunicationMgr.getCommMgr();
     	String descriptor = String.join(";", Map.generateMapDescriptor(map));
-        CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosY() + "," + robot.getRobotPosX(), descriptor);
+        comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
+    	
+    	
+    	//String descriptor = String.join(";", Map.generateMapDescriptor(map));
+        //CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir());
     	
     	map.repaint();
     	
