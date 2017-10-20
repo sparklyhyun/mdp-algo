@@ -220,9 +220,10 @@ public class Simulator {
                 }
                  
                 exploration.startExploration();
+                comm.sendMsg("END_E", null); 	//send end exploration msg 
                 
                 if (realExecution) {
-                	comm.sendMsg("BOT_START", null);
+                	//comm.sendMsg("BOT_START", null);
                     Map.generateMapDescriptor(exploredMap);
                     new FastestPathAlgo().execute();
                 }

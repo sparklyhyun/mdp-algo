@@ -113,7 +113,7 @@ public class Sensor {
 			}
 			
 			//if obstacle is set but not correct, remove
-			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal && this.id != "b"){
+			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal /*&& this.id != "b"*/){
 				exploredMap.getCoordinate(x, y).removeObstacle();
 				System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 			}
