@@ -590,12 +590,17 @@ public class Exploration {
     	robot.move(m, count, toAndroid);
     	map.repaint();
     	
+    	/*
     	if(m != MOVEMENT.CALIBRATE){
     		paintAfterSense();
     	}else{
     		CommunicationMgr commMgr = CommunicationMgr.getCommMgr();
             commMgr.recvMsg();
-    	}
+    	}*/
+    	
+    	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+    	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+        comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
     	/*
     	if(robot.getRealRobot() && !calibrationMode){
     		calibrationMode = true;
@@ -1106,6 +1111,9 @@ private boolean isEastFree2(){	//for 2x2, outside
         }*/
         
         rotateRobot(DIRECTION.N);
+        
+        
+        
     }
     
     //trying gui
