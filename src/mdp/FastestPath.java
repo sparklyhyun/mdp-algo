@@ -435,7 +435,7 @@ public class FastestPath {
                 }
               //  System.out.println("for loop exited");
             }
-        } else {
+        } else {	//real execution here
             int fCount = 0;
             for (MOVEMENT x : movements) {
                 if (x == MOVEMENT.F) {
@@ -451,6 +451,11 @@ public class FastestPath {
                         fCount = 0;
                         map.repaint();
                     }
+                    /*
+                    if(fCount == 11){
+                    	robot.move(x, fCount, robot.getRealRobot());
+                    	
+                    }*/
                 } else if (x == MOVEMENT.R || x == MOVEMENT.L) {
                     if (fCount > 0) {
                         robot.move(x, fCount, robot.getRealRobot());

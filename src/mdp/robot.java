@@ -53,7 +53,7 @@ public class Robot {
 	private final Sensor e;
 	private final Sensor f;
 	 
-	private DIRECTION robotDir = DIRECTION.E;	// can change later
+	private DIRECTION robotDir = DIRECTION.N;	// can change later
 	public static final int INFINITE_COST = 9999;
 	public static final int VIRTUAL_COST = 1000;
 	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement

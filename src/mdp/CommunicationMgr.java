@@ -93,12 +93,29 @@ public class CommunicationMgr {
     
     //for fastest path
     public void fastestSendMap(String position, String map, DIRECTION a, String movement, int count){
+    	String c = Integer.toString(count);
+
+    	if(count > 10){
+    		switch(count){
+    		case 11: c = "z"; break;
+    		case 12: c = "x"; break;
+    		case 13: c = "c"; break;
+    		case 14: c = "v"; break;
+    		case 15: c = "b"; break;
+    		case 16: c = "n"; break;
+    		case 17: c = "m"; break;
+    		default: break;
+    		}
+    	}
     	try {
-            writer.write("FP;" + movement+ ";" + count + ";POS_" + position +"," + a + ";" + map);
-            writer.flush();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+               writer.write("FP;" + movement+ ";" + count + ";POS_" + position +"," + a + ";" + map);
+               writer.flush();
+            }catch (IOException ex) {
+               System.out.println(ex.getMessage());
+            }
+    	
+    	
+    	
     }
     
     public void sendMsg(String msg, String msgType) {
