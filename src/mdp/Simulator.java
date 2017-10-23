@@ -35,7 +35,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = true; //for now, not real map
+	private static final boolean realExecution = false; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
