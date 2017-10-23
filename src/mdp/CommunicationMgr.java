@@ -9,7 +9,7 @@ import mdp.Constants.MOVEMENT;
 public class CommunicationMgr {
 
     public static final String EX_START = "EX_START";       // Android --> PC
-    public static final String FP_START = "FP_START";       // Android --> PC
+    public static final String FP_START = "FP";       // Android --> PC
     public static final String MAP_STRINGS = "MAP";         // PC --> Android
     public static final String BOT_POS = "BOT_POS";         // PC --> Android
     public static final String BOT_START = "BOT_START";     // PC --> Arduino
@@ -92,7 +92,7 @@ public class CommunicationMgr {
     }
     
     //for fastest path
-    public void fastestSendMap(String position, String map, DIRECTION a, String movement, int count){
+    public void fastestSendMap(String position, DIRECTION a, String movement, int count){
     	String c = Integer.toString(count);
 
     	if(count > 10){
@@ -108,7 +108,7 @@ public class CommunicationMgr {
     		}
     	}
     	try {
-               writer.write("FP;" + movement+ ";" + count + ";POS_" + position +"," + a + ";" + map);
+               writer.write("FP;" + movement+ ";" + count + ";POS_" + position +"," + a);
                writer.flush();
             }catch (IOException ex) {
                System.out.println(ex.getMessage());

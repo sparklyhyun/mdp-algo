@@ -29,7 +29,7 @@ public class Simulator {
 	private static int robotDelay = 100;
 	
 	private static int waypointX = 0;	//for now
-	private static int waypointY = 11; 	//for now
+	private static int waypointY = 0; 	//for now
 	
 	private static boolean started = false;
 	
@@ -147,21 +147,23 @@ public class Simulator {
 	            protected Integer doInBackground() throws Exception {
 	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
 	                exploredMap.repaint();
-
+	                String msg1[] = new String[2];
 	                if (realExecution) {
 	                    while (true) {
 	                        System.out.println("Waiting for FP_START...");
 	                        String msg = comm.recvMsg();
-	                        if (msg.equals(CommunicationMgr.FP_START)) break;	//can change accordingly 
+	                        msg1 = msg.split(";");
+	                        
+	                        if (msg1[0].equals(CommunicationMgr.FP_START)) break;	//can change accordingly 
 	                    }
 	                }
 	                
 	                //get waypoint here
-	               //String msgRcv = comm.recvMsg();
-	               //String msg1[] = msgRcv.split(",");  <- x, y coordinates
-	               //waypointX = msg1[0];
-	               //waypointY = msg1[1];
-	                
+	               String msgRcv[] = msg1[1].split(",");  
+	               waypointX = Integer.parseInt(msgRcv[0]);
+	               waypointY = Integer.parseInt(msgRcv[1]);
+	               System.out.println("waypoint x,y: " + waypointX + ", " + waypointY);
+	               
 
 	                FastestPath fastestPath;
 	                fastestPath = new FastestPath(exploredMap, robot, realMap);
@@ -208,7 +210,7 @@ public class Simulator {
                 Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
                 
                 if (realExecution) {
-                	// comm.openConnection();
+                	// send waypoint before               	
                 	 while(true) {
                          System.out.println("Waiting for Android Explore");
                          String msg = comm.recvMsg();
