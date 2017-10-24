@@ -551,19 +551,21 @@ public class Exploration {
     	}*/
     	//clearBox();
     	
-    	if(corner() && calCount == 0 ){
+    	if(corner() && calCount == 0 && Constants.front < 4 ){
     		Constants.rightTurn = 0;
     		moveRobot(Constants.MOVEMENT.CALIBRATE);
     		calCount++;
     		
     	}else{
-    		if(Constants.front >= 3 && gotWallonRight() && calCount == 0){
-    			/*
+    		
+    		if(Constants.front >= 4 && gotWallonRight() && calCount == 0){
+    			
     			moveRobot(Constants.MOVEMENT.CALIBRATE);
     			calCount=0;
-    			Constants.front = 0;*/
+    			Constants.front = 0;
     			
     		}else
+    		
     		if(frontFreeD()){
         		Constants.rightTurn = 0;
         		moveRobot(Constants.MOVEMENT.L);
@@ -917,6 +919,7 @@ public class Exploration {
 	    }
 	    
 	    public boolean corner(){
+	    	
 	    	if((robot.getRobotPosX() == 13 && robot.getRobotPosY() == 1) || (robot.getRobotPosX() == 13 && robot.getRobotPosY() == 18) || (robot.getRobotPosX() == 1 && robot.getRobotPosY()==18)){
 	    		return true;
 	    	}
