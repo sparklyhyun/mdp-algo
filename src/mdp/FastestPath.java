@@ -436,6 +436,7 @@ public class FastestPath {
               //  System.out.println("for loop exited");
             }
         } else {	//real execution here
+        	/*
             int fCount = 0;
             int sCount = 0;
             for (MOVEMENT x : movements) {
@@ -485,16 +486,17 @@ public class FastestPath {
                 
                 
                 map.repaint();
-            }
+            }*/
+        	
+        	//move one by one 
+        	for(MOVEMENT x: movements){
+        		robot.move(x, 1, robot.getRealRobot());
+        		comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), 1);
+        	}
         }
         
         
-        /*communication part
-         * CommunicationMgr comm = CommunicationMgr.getCommMgr();
-    	String descriptor = String.join(";", Map.generateMapDescriptor(map));
-    	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m), fCount);
-        
-         */
+ 
         
         System.out.println("\nMovements: " + outputString.toString());
        //System.out.println("robot x: "+ robot.getRobotPosX());

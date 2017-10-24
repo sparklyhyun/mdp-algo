@@ -101,21 +101,68 @@ public class Sensor {
 				//System.out.println("testing1");
 				return;	//seeing outside maze
 			}
-			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
+			
+			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor
+			
+			
+			if(this.id == "a" || this.id == "b" || this.id == "c" ){
+				exploredMap.getCoordinate(x, y).setFrontS();
+				//System.out.println("coordinate locked: " + x + ", " + y);
+			}
+			
+			
+			
 			//System.out.println("testing2");
 			if(sensorVal == i){		//obstacle detected by the real sensor
-				exploredMap.setObstacles(x, y);
+				//exploredMap.setObstacles(x, y);
 				
-				System.out.println("sensor " + this.id + "position: " + this.x + ", " + this.y);
-				System.out.println("senfor " + this.id + "direction: " + this.dir);
-				System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+				
+				if(!exploredMap.getCoordinate(x, y).getFrontS()){
+					exploredMap.setObstacles(x, y);
+					//System.out.println("sensor " + this.id + "position: " + this.x + ", " + this.y);
+					//System.out.println("senfor " + this.id + "direction: " + this.dir);
+					//System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+				}else{
+					if(this.id == "a" || this.id == "b" || this.id == "c"){
+						exploredMap.setObstacles(x, y);
+					}
+				}				
+				
+				
+				/*
+				if(this.id == "a" || this.id == "b" || this.id == "c"){
+					exploredMap.getCoordinate(x, y).setObstacle();
+				}
+				*/
+				//System.out.println("sensor " + this.id + "position: " + this.x + ", " + this.y);
+				//System.out.println("senfor " + this.id + "direction: " + this.dir);
+				//System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+				
 				return;
 			}
 			
 			//if obstacle is set but not correct, remove
 			if(exploredMap.getCoordinate(x, y).getIsObstacle() && i != sensorVal /*&& this.id != "b"*/){
-				exploredMap.getCoordinate(x, y).removeObstacle();
-				System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+				if(/*this.id == "d"*/ this.id == "a" || this.id == "b" || this.id == "c" ){
+					/*
+					if(!exploredMap.getCoordinate(x, y).getFrontS()){
+						exploredMap.getCoordinate(x, y).removeObstacle();
+					}*/
+					
+					exploredMap.getCoordinate(x, y).removeObstacle();
+				}
+				
+				/*else{
+					if(exploredMap.getCoordinate(x, y).getFrontS()){
+						return;
+					}*/
+					
+					
+					
+					//exploredMap.getCoordinate(x, y).removeObstacle();
+					//System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+				}
+				
 			}
 			
 		}
@@ -155,5 +202,4 @@ public class Sensor {
 
 		
 	}
-	
-}
+

@@ -105,7 +105,7 @@ public class Robot {
         a = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X-1, robotPos_Y+1, "a", this.robotDir);
         b = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "b", this.robotDir);
         c = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X+1, robotPos_Y+1, "c", this.robotDir);
-        d = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "d", DIRECTION.W);
+        d = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_D_MAX, robotPos_X, robotPos_Y+1, "d", DIRECTION.W);
         e = new Sensor(Constants.RANGE_SHORT_MIN, Constants.RANGE_SHORT_MAX, robotPos_X, robotPos_Y+1, "e", DIRECTION.E);
         f = new Sensor(Constants.RANGE_LONG_MIN, Constants.RANGE_LONG_MAX, robotPos_X-1, robotPos_Y, "f", DIRECTION.E);
         

@@ -15,7 +15,7 @@ public class Exploration {
     private int areaExplored;
     private long startTime;
     private long endTime = 3600;
-    private int lastCalibrate;	//no of steps before calibration
+    private int calCount = 0;	
     private boolean calibrationMode;	
     private boolean checkptRightTurn = false;
     private int explorationMode = 0; //0=normal, 1=coverage, 2=time 
@@ -128,7 +128,7 @@ public class Exploration {
         	
     		System.out.println("explore");
     		explore(robot.getRobotPosX(), robot.getRobotPosY());
-        	paintAfterSense();	//getting the sensor data 
+        	//paintAfterSense();	//paint after exploration done problem 
         	
         	//print out area calculated??
     	}else if(explorationMode == 1){   
@@ -136,13 +136,13 @@ public class Exploration {
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}
     		exploreCL(robot.getRobotPosX(), robot.getRobotPosY());	//coverage limited
-        	paintAfterSense();
+        	//paintAfterSense();
     	}else if(explorationMode == 2){
     		if(robot.getRealRobot()){
     			CommunicationMgr.getCommMgr().sendMsg(null, CommunicationMgr.BOT_START);
         	}
     		exploreTL(robot.getRobotPosX(), robot.getRobotPosY());	//time limited
-        	paintAfterSense();
+        	//paintAfterSense();
     	}
     	
     	System.out.println("explore function exited");
@@ -212,6 +212,7 @@ public class Exploration {
     	//System.out.println("time limited exploration: " + endTime);
     	robot.setSpeed(robotDelay); //<-delay time in miliseconds
     	while(System.currentTimeMillis() <= endTime){
+    		
     		moveNext(1, robot.getRealRobot());
     		int area = getAreaExplored();
     		if(robot.isInStartZone() && area >= 70){
@@ -548,61 +549,89 @@ public class Exploration {
 		Constants.rightTurn2=0;
 
     	}*/
+    	//clearBox();
     	
-    	
-    	if(rightFree() && Constants.rightTurn <2){
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn++;
-    		Constants.front = 0;
-    		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);
-    			Constants.front++;
-    		}
+    	if(corner() && calCount == 0 ){
+    		Constants.rightTurn = 0;
+    		moveRobot(Constants.MOVEMENT.CALIBRATE);
+    		calCount++;
+    		
+    	}else{
+    		if(Constants.front >= 3 && gotWallonRight() && calCount == 0){
+    			/*
+    			moveRobot(Constants.MOVEMENT.CALIBRATE);
+    			calCount=0;
+    			Constants.front = 0;*/
+    			
+    		}else
+    		if(frontFreeD()){
+        		Constants.rightTurn = 0;
+        		moveRobot(Constants.MOVEMENT.L);
+        		Constants.front = 0;
+        		calCount=0;
+        	}else
+        	if(rightFree() && Constants.rightTurn <2){
+        		moveRobot(Constants.MOVEMENT.R);
+        		Constants.rightTurn++;
+        		Constants.front = 0;
+        		if(frontFree()){
+        			moveRobot(Constants.MOVEMENT.F);
+        			Constants.front++;
+        		}
+        		calCount=0;
 
-    	}/*else if(frontFreeC()){
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
+        	}/*else if(frontFreeC()){
+        		moveRobot(Constants.MOVEMENT.R);
+        		moveRobot(Constants.MOVEMENT.R);
+        		Constants.rightTurn=0;
+        		Constants.rightTurn2=0;
 
-    	}*/
+        	}*/
+        	
+        	else if(frontFree() /*&& Constants.front < 3*/){
+        		moveRobot(Constants.MOVEMENT.F);
+        		Constants.rightTurn=0;
+        		Constants.rightTurn2=0;
+        		Constants.front++;
+        		calCount = 0;
+        	}    	
+        	else if(leftFree()){
+        		moveRobot(Constants.MOVEMENT.L);
+        		Constants.rightTurn=0;
+        		Constants.rightTurn2=0;
+        		Constants.front = 0;
+
+        	} 
+        	
+        	else if(rightFree() && Constants.rightTurn2<2){
+        		//System.out.println("rightfree = " + rightFree());
+        		moveRobot(Constants.MOVEMENT.R);
+        		Constants.front = 0;
+
+
+
+        		if(frontFree()){
+        			moveRobot(Constants.MOVEMENT.F);
+        			Constants.front++;
+        		}
+        		calCount=0;
+        		Constants.rightTurn2++;
+        		Constants.rightTurn++;
+        	}
+        	else{
+        		moveRobot(Constants.MOVEMENT.R);
+        		moveRobot(Constants.MOVEMENT.R);
+        		Constants.rightTurn=0;
+        		Constants.rightTurn2=0;
+        		Constants.front = 0;
+        		calCount=0;
+
     	
-    	else if(frontFree() /*&& Constants.front < 3*/){
-    		moveRobot(Constants.MOVEMENT.F);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    		Constants.front++;
-    		   		
-    	}    	
-    	else if(leftFree()){
-    		moveRobot(Constants.MOVEMENT.L);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    		Constants.front = 0;
+        	}
+    		
     	} 
     	
-    	else if(rightFree() && Constants.rightTurn2<2){
-    		//System.out.println("rightfree = " + rightFree());
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.front = 0;
-
-
-    		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);
-    			Constants.front++;
-    		}
-    		
-    		Constants.rightTurn2++;
-    		Constants.rightTurn++;
-    	}
-    	else{
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    		Constants.front = 0;
-	
-    	}
+    	
     	
     	
     }
@@ -761,6 +790,33 @@ public class Exploration {
 	    	}
 	    }
 	    
+	    public void clearBox(){
+	    	if(!isNorthFree() && !isEastFree() && !isSouthFree() && !isWestFree()){
+	    		int x = robot.getRobotPosX();
+	    		int y = robot.getRobotPosY();
+	    		
+	    		//north
+	    		map.getCoordinate(x+1, y+2).setUnExplored();
+	    		map.getCoordinate(x, y+2).setUnExplored();
+	    		map.getCoordinate(x-1, y+2).setUnExplored();
+	    		
+	    		//east
+	    		map.getCoordinate(x+2, y+1).setUnExplored();
+	    		map.getCoordinate(x+2, y).setUnExplored();
+	    		map.getCoordinate(x+2, y-1).setUnExplored();
+	    		
+	    		//west
+	    		map.getCoordinate(x-2, y+1).setUnExplored();
+	    		map.getCoordinate(x-2, y).setUnExplored();
+	    		map.getCoordinate(x-2, y-1).setUnExplored();
+	    		
+	    		//south
+	    		map.getCoordinate(x+1, y-2).setUnExplored();
+	    		map.getCoordinate(x, y-2).setUnExplored();
+	    		map.getCoordinate(x-1, y-2).setUnExplored();
+	    	}
+	    }
+	    
 	    public boolean frontFreeB(){// look in front
 	    	//System.out.print("Currently checking : Frontfree\n");
 	    	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
@@ -845,7 +901,56 @@ public class Exploration {
 	    	}
 	    }
 	    
-
+	    
+	    public boolean frontFreeD(){// look in front
+	    	//System.out.print("Currently checking : Frontfree\n");
+	    	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
+	    	switch(robot.getRobotDir()){
+	    	case N:	return !isNorthFreeD();
+	    	case E: return !isEastFreeD();
+	    	case S:	return !isSouthFreeD();
+	    	case W: return !isWestFreeD();
+	    	default: return false;
+	    	}
+	    	
+	    	
+	    }
+	    
+	    public boolean corner(){
+	    	if((robot.getRobotPosX() == 13 && robot.getRobotPosY() == 1) || (robot.getRobotPosX() == 13 && robot.getRobotPosY() == 18) || (robot.getRobotPosX() == 1 && robot.getRobotPosY()==18)){
+	    		return true;
+	    	}
+	    	
+	    	else if(robot.getRobotPosX()!= 1 && robot.getRobotPosY()!= 1){
+	    		switch(robot.getRobotDir()){
+		    	case N: return !(isEastFreeE() || isNorthFreeE());
+		    	case E: return !(isEastFreeE() || isSouthFreeE());
+		    	case S: return !(isSouthFreeE() || isWestFreeE());
+		    	case W: return !(isWestFreeE() || isNorthFreeE());
+		    	default: return false;
+		    	}
+	    	}else{
+	    		return false;
+	    	}
+	    	
+	    	
+	    	/*
+	    	if((robot.getRobotPosX() == 13 && robot.getRobotPosY() == 1) || (robot.getRobotPosX() == 13 && robot.getRobotPosY() == 18) || (robot.getRobotPosX() == 1 && robot.getRobotPosY()==18)){
+	    		return true;
+	    	}
+	    	return false;*/
+	    	//return false;
+	    }
+	   
+	    public boolean gotWallonRight(){
+	    	switch(robot.getRobotDir()){
+	    	case N: return !isEastFreeE();
+	    	case E: return !isSouthFreeE();
+	    	case S: return !isWestFreeE();
+	    	case W: return !isNorthFreeE();
+	    	default: return false;
+	    	}
+	    }
 	    
 	    private boolean isEastFree(){	//true if can move to east
 	    	
@@ -995,6 +1100,65 @@ public class Exploration {
 	    	return inner && outer && outer2 && sides;  
 	    }
 	    
+	    private boolean isNorthFreeD(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (map.checkWithinRange(x-1,y+2) && map.checkWithinRange(x,y+2) && map.checkWithinRange(x+1, y+2));
+
+	    }
+	    
+	    private boolean isEastFreeD(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (map.checkWithinRange(x+2,y-1) && map.checkWithinRange(x+2,y) && map.checkWithinRange(x+2, y+1));
+	    	
+	    }
+	    
+	    
+	    private boolean isSouthFreeD(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (map.checkWithinRange(x-1,y-2) && map.checkWithinRange(x,y-2) && map.checkWithinRange(x+1, y-2));
+	    	
+	    	
+	    }
+	    
+	    private boolean isWestFreeD(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (map.checkWithinRange(x-2,y-1) && map.checkWithinRange(x-2,y) && map.checkWithinRange(x-2, y+1));
+	    	
+	    }
+	    
+	    private boolean isNorthFreeE(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (notObstacleVirtualWall(x-1,y+2) && notObstacleVirtualWall(x,y+2));
+
+	    }
+	    
+	    private boolean isEastFreeE(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y));
+	    	
+	    }
+	    
+	    
+	    private boolean isSouthFreeE(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (notObstacleVirtualWall(x,y-2) && notObstacleVirtualWall(x+1, y-2));
+	    	
+	    	
+	    }
+	    
+	    private boolean isWestFreeE(){
+	    	int x = robot.getRobotPosX();
+	    	int y = robot.getRobotPosY();
+	    	return (notObstacleVirtualWall(x-2,y-1) && notObstacleVirtualWall(x-2,y) );
+	    	
+	    }
 	    
 	    
 	/*
@@ -1196,6 +1360,8 @@ private boolean isEastFree2(){	//for 2x2, outside
     }
     
     
+    
+    
     private boolean blindSpotsL(){
     	int x = robot.getRobotPosX();
     	int y = robot.getRobotPosY();
@@ -1354,7 +1520,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	//map.clearObs();
     	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
-    	if(robot.getRealRobot()){
+    	if(robot.getRealRobot() && m != MOVEMENT.CALIBRATE){
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	String descriptor = String.join(";", Map.generateMapDescriptor(map));
             comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
@@ -1373,11 +1539,10 @@ private boolean isEastFree2(){	//for 2x2, outside
     		//System.out.println("testing");
     	}else{
     		//calibration command 
-    		/*
+    		
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
-        	*/
-        	
+        	comm.sendMsg("K", CommunicationMgr.BOT_INSTR);
+        	paintAfterSense();
     		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
     		//comm.recvMsg(); 		//wait for ack 
     	}
