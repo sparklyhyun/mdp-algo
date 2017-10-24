@@ -7,6 +7,7 @@ public class Coordinates {
 	private boolean isExplored = false;
 	private boolean isVirtualWall = false;
 	private boolean isWayPoint = false;
+	private boolean frontS = false;
 	
 	public Coordinates(int i, int j){
 		this.x = j;
@@ -40,6 +41,10 @@ public class Coordinates {
 		isVirtualWall = true;
 	}
 	
+	public void setFrontS(){
+		frontS = true;
+	}
+	
 	public boolean getIsObstacle(){
 		return isObstacle;
 	}
@@ -60,4 +65,7 @@ public class Coordinates {
 		return isWayPoint;
 	}
 	
+	public boolean getFrontS(){
+		return frontS;
+	}
 }

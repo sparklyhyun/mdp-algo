@@ -35,7 +35,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = true; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -59,7 +59,7 @@ public class Simulator {
 		_mapFrame = new JFrame();
 		_mapFrame.setTitle("Group 9 MDP Simulator");
 		_mapFrame.setSize(new Dimension(690, 700));
-		_mapFrame.setResizable(true);
+		_mapFrame.setResizable(false);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		_mapFrame.setLocation(dimension.width / 2 - _mapFrame.getSize().width / 2, dimension.height / 2 - _mapFrame.getSize().height / 2);
         
@@ -216,8 +216,8 @@ public class Simulator {
                          String msg = comm.recvMsg();
                          if(msg.equals("E")) break;   	//change rcv msg if needed 
                      }
-                	 String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
-                     comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(),null);
+                	// String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
+                    // comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(),null);
                 
                 }
                  
@@ -230,6 +230,7 @@ public class Simulator {
                 	//comm.sendMsg("BOT_START", null);
                     Map.generateMapDescriptor(exploredMap);
                     
+                    System.out.println("here lol");
                     //end of exploration, start exploration
                     comm.sendMsg("END_E", null); 	//send end exploration msg 
                     new FastestPathAlgo().execute();
