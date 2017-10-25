@@ -146,6 +146,7 @@ public class Simulator {
 		  class FastestPathAlgo extends SwingWorker<Integer, String> {
 	            protected Integer doInBackground() throws Exception {
 	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
+	            	System.out.println("fastest path executed");
 	                exploredMap.repaint();
 	                String msg1[] = new String[2];
 	                if (realExecution) {
@@ -159,10 +160,13 @@ public class Simulator {
 	                }
 	                
 	                //get waypoint here
-	               String msgRcv[] = msg1[1].split(",");  
-	               waypointX = Integer.parseInt(msgRcv[0]);
-	               waypointY = Integer.parseInt(msgRcv[1]);
-	               System.out.println("waypoint x,y: " + waypointX + ", " + waypointY);
+	                if(realExecution){
+	                	String msgRcv[] = msg1[1].split(",");  
+	 	               waypointX = Integer.parseInt(msgRcv[0]);
+	 	               waypointY = Integer.parseInt(msgRcv[1]);
+	 	               System.out.println("waypoint x,y: " + waypointX + ", " + waypointY);
+	 	               
+	                }
 	               
 
 	                FastestPath fastestPath;
@@ -232,10 +236,10 @@ public class Simulator {
                     
                     System.out.println("here lol");
                     //end of exploration, start exploration
-                    comm.sendMsg("END_E", null); 	//send end exploration msg 
+                    comm.sendMsg("END_E", "endE"); 	//send end exploration msg 
                     new FastestPathAlgo().execute();
                 }
-                 
+                 System.out.println("exploration exit");
 
                 return 111; //<-- need to change accordingly 
             }

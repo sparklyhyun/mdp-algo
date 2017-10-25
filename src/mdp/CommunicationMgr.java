@@ -92,9 +92,9 @@ public class CommunicationMgr {
     }
     
     //for fastest path
-    public void fastestSendMap(String position, DIRECTION a, String movement, int count){
-    	String c = Integer.toString(count);
-
+    public void fastestSendMap(/*String position, DIRECTION a,*/ String movement/*, int count*/){
+    	//String c = Integer.toString(count);
+    	/*
     	if(count > 10){
     		switch(count){
     		case 11: c = "z"; break;
@@ -106,9 +106,9 @@ public class CommunicationMgr {
     		case 17: c = "m"; break;
     		default: break;
     		}
-    	}
+    	}*/
     	try {
-               writer.write("FP;" + movement+ ";" + count + ";POS_" + position +"," + a);
+               writer.write("FP;" + movement/*+ ";" + count*/ /*+ ";POS_" + position +"," + a*/);
                writer.flush();
             }catch (IOException ex) {
                System.out.println(ex.getMessage());
@@ -123,11 +123,14 @@ public class CommunicationMgr {
         
         try {
             String outputMsg = "";
+            System.out.println("msgType: " + msgType);
             if (msg == null) {
                 //outputMsg = msgType + "\n";
             } else if (msgType.equals(MAP_STRINGS) || msgType.equals(BOT_POS)) {
+            	
                 //outputMsg = msgType + " " + msg + "\n";
             } else {
+            	
                 //outputMsg = msgType + "\n" + msg + "\n";
             	outputMsg = msg + "\n";
             }

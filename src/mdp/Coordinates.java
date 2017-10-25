@@ -46,6 +46,7 @@ public class Coordinates {
 	}
 	
 	public boolean getIsObstacle(){
+		//System.out.println("so weird: " + isObstacle);
 		return isObstacle;
 	}
 	

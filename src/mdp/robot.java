@@ -449,7 +449,10 @@ public class Robot {
             
             System.out.println("sensor data received");
             
-    		
+    		if(msg.equals("K")) {
+    			++Constants.count2;
+    			return distance;
+    		}
             /*
             String[] msgArr = msg.split(";");
             

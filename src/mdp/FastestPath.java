@@ -409,7 +409,7 @@ public class FastestPath {
         
         
        // System.out.println("while loop exited");
-        CommunicationMgr comm = CommunicationMgr.getCommMgr();
+       // CommunicationMgr comm = CommunicationMgr.getCommMgr();
         if (!robot.getRealRobot() || explorationMode) {
         	//System.out.println("if statement entered");
         	
@@ -436,6 +436,8 @@ public class FastestPath {
               //  System.out.println("for loop exited");
             }
         } else {	//real execution here
+        	
+        	
         	/*
             int fCount = 0;
             int sCount = 0;
@@ -449,7 +451,7 @@ public class FastestPath {
                         
                       //insert the new send map here
                         //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                    	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), fCount);
+                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), fCount);
                         
                     	fCount = 0;
                         
@@ -462,7 +464,7 @@ public class FastestPath {
                         
                         //insert new send map here
                         //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                    	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(),  robot.getRobotDir(), robot.sendData(x), fCount);
+                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(),  robot.getRobotDir(), robot.sendData(x), fCount);
                         
                         fCount = 0;
                         map.repaint();
@@ -472,7 +474,7 @@ public class FastestPath {
                     
                     //insert new send map here
                     //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), 1);
+                	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), 1);
                     map.repaint();
                 }
             }
@@ -482,16 +484,18 @@ public class FastestPath {
                 robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
                 //insert new send map here
                 String descriptor = String.join(";", Map.generateMapDescriptor(map));
-            	comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(MOVEMENT.F), fCount);
+            	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(MOVEMENT.F), fCount);
                 
                 
                 map.repaint();
-            }*/
-        	
-        	//move one by one 
+            }
+        	*/
+        	//move one by one
+        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+
         	for(MOVEMENT x: movements){
         		robot.move(x, 1, robot.getRealRobot());
-        		comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), 1);
+        		comm.fastestSendMap(/*robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(),*/ robot.sendData(x)/*, 1*/);
         	}
         }
         
@@ -501,6 +505,17 @@ public class FastestPath {
         System.out.println("\nMovements: " + outputString.toString());
        //System.out.println("robot x: "+ robot.getRobotPosX());
        //System.out.println("robot y: "+ robot.getRobotPosY());
+       /* if(robot.getRealRobot()){
+        	for(int i = 0; i <= outputString.length()-1; i++){
+        		char c = outputString.charAt(i);
+        		char c2 = outputString.charAt(i+1);
+        		
+        	}
+        	
+        	
+        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+        	comm.fastestSendMap(outputString.toString());
+        }*/
         return outputString.toString();
         
     }

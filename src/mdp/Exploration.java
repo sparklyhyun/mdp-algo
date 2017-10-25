@@ -167,7 +167,7 @@ public class Exploration {
     	
     	while(true /*getAreaExplored() != 300 && System.currentTimeMillis() <= endTime*/ ){
     		moveNext(1, robot.getRealRobot());
-    		if(robot.getReachedGoal() && robot.isInStartZone()){
+    		if(/*robot.getReachedGoal() &&*/ robot.isInStartZone()){
     			System.out.println("exploration done");
     			break;
     		}
@@ -229,358 +229,46 @@ public class Exploration {
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
 
     	
-    	//System.out.println("rightfree = " + rightFree());
-    	//System.out.println("frontfree = " + frontFree());
-    	//System.out.println("leftfree = " + leftFree());
-    
-    	/*
-    	if(rightFree()){
-    		moveRobot(Constants.MOVEMENT.R);
-    		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);   		    		 	
-    		}
-    		rightTurn++;
-      	}else if(frontFree()){
-    		moveRobot(Constants.MOVEMENT.F);
-    		rightTurn = 0;
-    	}else if(leftFree()){
-    		moveRobot(Constants.MOVEMENT.L);
-    		rightTurn = 0;
-    	}   	
-    	else{
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    		rightTurn = 0;
-    	}
-    	if(rightFree2() || frontFree2() || leftFree2()){
-    		if(rightFree2() || rightFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-        		if(frontFree2() || frontFree3()){
-        			moveRobot(Constants.MOVEMENT.F);   		    		 	
-        		}
-        		rightTurn++;
-    		}else if(frontFree2() || frontFree3()){
-    			moveRobot(Constants.MOVEMENT.F); 
-    			rightTurn = 0;
-    		}else if(leftFree2() || leftFree3()){
-    			moveRobot(Constants.MOVEMENT.L);
-    			rightTurn = 0;
-    		}else{
-    			moveRobot(Constants.MOVEMENT.R);
-        		moveRobot(Constants.MOVEMENT.R);
-        		rightTurn = 0;
-    		}
-    	}
-    	*/
-    		
-    	
-    	
-    	/*
-    	if(rightFree2() || leftFree2() || frontFree2() ){
-    		if(rightFree2() && rightFree3() && Constants.rightTurn <2){
-    			moveRobot(Constants.MOVEMENT.R);
-    			if(frontFree3()){
-    				moveRobot(Constants.MOVEMENT.F);
-    			}
-    			Constants.rightTurn++;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(rightFree2() && !rightFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(frontFree2() && frontFree3()){
-    			moveRobot(Constants.MOVEMENT.F);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(frontFree2() && !frontFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(leftFree2() && leftFree3()){
-    			moveRobot(Constants.MOVEMENT.L);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(leftFree2() && !leftFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}else if(rightFree2() && rightFree3()){
-        			moveRobot(Constants.MOVEMENT.R);
-        			if(frontFree3()){
-        				moveRobot(Constants.MOVEMENT.F);
-        			}
-        			Constants.rightTurn++;
-        			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}
-    		else{
-    			moveRobot(Constants.MOVEMENT.R);
-    			moveRobot(Constants.MOVEMENT.R);
-    			Constants.rightTurn = 0;
-    			System.out.println("rightTurn = " + Constants.rightTurn);
-    		}
-    	}else if(rightFree() || leftFree() || frontFree()){
-    		if(rightFree() && Constants.rightTurn <2){
-        		moveRobot(Constants.MOVEMENT.R);
-        		if(frontFree()){
-        			moveRobot(Constants.MOVEMENT.F);   		    		
-        		}
-        		Constants.rightTurn++;
-        		System.out.println("rightTurn = " + Constants.rightTurn);
-        	}else if(frontFree()){
-        		moveRobot(Constants.MOVEMENT.F);
-        		Constants.rightTurn = 0;
-        		System.out.println("rightTurn = " + Constants.rightTurn);
-        	}else if(leftFree()){
-        		moveRobot(Constants.MOVEMENT.L);
-        		Constants.rightTurn = 0;
-        		System.out.println("rightTurn = " + Constants.rightTurn);
-        	}else if(rightFree() && Constants.rightTurn <2){
-        		moveRobot(Constants.MOVEMENT.R);
-        		if(frontFree()){
-        			moveRobot(Constants.MOVEMENT.F);   		    		
-        		}
-        		Constants.rightTurn++;
-        		System.out.println("rightTurn = " + Constants.rightTurn);   	
-        	}else{
-        		moveRobot(Constants.MOVEMENT.R);
-        		moveRobot(Constants.MOVEMENT.R);
-        		Constants.rightTurn = 0;
-        		System.out.println("rightTurn = " + Constants.rightTurn);
-        	}
-    	}else{
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn = 0;
-    	}
-    	}
-    	
-    
-    	/*
-    	if(robot.getRobotPosX()==1){
-    		switch(robot.getRobotDir()){
-    		case N:
-    			if(frontFree2()&& frontFree3()){
-     			moveRobot(Constants.MOVEMENT.F);
-    			}break;
-    		case E:
-    			if(leftFree2() && leftFree3()){
-        			moveRobot(Constants.MOVEMENT.L);
-        			if(frontFree2()&& frontFree3()){
-             			moveRobot(Constants.MOVEMENT.F);
-            			}
-        		}break;
-    		case W:
-    			if(rightFree2() && rightFree3()){
-        			moveRobot(Constants.MOVEMENT.R);
-        			if(frontFree2() && frontFree3()){
-        				moveRobot(Constants.MOVEMENT.F);
-        			}
-    			}break;
-    		case S:
-    			moveRobot(Constants.MOVEMENT.R);
-    			moveRobot(Constants.MOVEMENT.R);
-    		}
-    	}
-    	if(rightFree() || rightFree2()){
-    		if(rightFree()&& rightFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-    			if(frontFree() && frontFree3()){
-    				moveRobot(Constants.MOVEMENT.F);
-    			}
-    		}else if(rightFree2() && rightFree3()){
-    			moveRobot(Constants.MOVEMENT.R);
-    			if(frontFree2() && frontFree3()){
-    				moveRobot(Constants.MOVEMENT.F);
-    			}
-    		}
-    	}else if(frontFree() || frontFree2()){
-    		 if(frontFree()&& frontFree3()){
-     			moveRobot(Constants.MOVEMENT.F);
-     		}
-    		 else if(frontFree2() && frontFree3()){
-    			moveRobot(Constants.MOVEMENT.F);
-    		}
-    		
-    	}else if(leftFree() || leftFree2()){
-    		if(leftFree()){
-    			moveRobot(Constants.MOVEMENT.L);
-    		}else if(leftFree2() && leftFree3()){
-    			moveRobot(Constants.MOVEMENT.L);
-    		}
-    	}else{
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    	}*/
-    	/*
-    	if(blindSpotsL()){
-    		System.out.println("blindspotL entered");
-    		switch(robot.getRobotDir()){
-    		case N:
-    			moveRobot(Constants.MOVEMENT.R);
-    			moveRobot(Constants.MOVEMENT.R);
-    			break;
-    		case E:
-    			moveRobot(Constants.MOVEMENT.R);
-    			moveRobot(Constants.MOVEMENT.R);
-    			break;
-    		case S:
-    			moveRobot(Constants.MOVEMENT.R);
-    			moveRobot(Constants.MOVEMENT.R);
-    			break;
-    		case W:
-    		}
-    		moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	
-    	}else if(blindSpotsR()){
-    		System.out.println("blindspotR entered");
-    		switch(robot.getRobotDir()){
-    		case N:
-    		case E:
-    		case S:
-    		case W:
-    		}
-    		moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	
-    	}else if(blindSpotsN()){
-    		System.out.println("blindspotN entered");
-    		switch(robot.getRobotDir()){
-    		case N:
-    		case E:
-    		case S:
-    		case W:
-    		}
-    		moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	
-    	}else if(blindSpotsS()){
-    		System.out.println("blindspotS entered");
-    		switch(robot.getRobotDir()){
-    		case N:
-    		case E:
-    		case S:
-    		case W:
-    		}
-    		moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	moveRobot(Constants.MOVEMENT.L);
-        	
-    	}
-    	*/
-    	/*
-    	if(blindSpotsL()||blindSpotsR()||blindSpotsS()||blindSpotsN()){
-    		moveRobot(Constants.MOVEMENT.R);
-			moveRobot(Constants.MOVEMENT.R);
-			moveRobot(Constants.MOVEMENT.R);
-			moveRobot(Constants.MOVEMENT.R);
-    	}
-    	*/
-    	
-    	
-    	
-    	//2X2
-    	/*
-    	if(rightFree() && Constants.rightTurn <2){
-    		System.out.println("Right Turn : " + Constants.rightTurn);
-    		System.out.println("rightfree = " + rightFree());
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn++;
-    		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);   		    		
-    		}
-    		
-    	}else if(frontFree()){
-    		moveRobot(Constants.MOVEMENT.F);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    	}else if(leftFree()){
-    		moveRobot(Constants.MOVEMENT.L);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    	}  
-    	else if(rightFree() && Constants.rightTurn2<2){
-    		System.out.println("rightfree = " + rightFree());
-    		moveRobot(Constants.MOVEMENT.R);
 
-    		if(frontFree()){
-    			moveRobot(Constants.MOVEMENT.F);   		    		
-    		}
-    		Constants.rightTurn2++;
-    		Constants.rightTurn++;
-    	}
-    	else{
-    		moveRobot(Constants.MOVEMENT.R);
-    		moveRobot(Constants.MOVEMENT.R);
-    		Constants.rightTurn=0;
-    		Constants.rightTurn2=0;
-    		}
-		*/
-    	/*
-    	if(calibrate < steps){
-    		//move
-    		
-    	}else{
-    		//send calibration command
-    		//CommunicationMgr commMgr = CommunicationMgr.getCommMgr();
-            //commMgr.recvMsg();
-    		moveRobot(Constants.MOVEMENT.CALIBRATE);
-    		calibrate = 0;
-    	}
-    	*/ 
-    	
-    	//auto calibration on arduino side 
-    	
-    	//3X3 i think need to change sensor alr 
-    	
-    	
-    	/*
-    	if(frontFreeC()){
-		moveRobot(Constants.MOVEMENT.R);
-		moveRobot(Constants.MOVEMENT.R);
-		Constants.rightTurn=0;
-		Constants.rightTurn2=0;
-
-    	}*/
     	//clearBox();
     	
-    	if(corner() && calCount == 0 && Constants.front < 4 ){
+    	System.out.println("calCount = " + Constants.count2);
+    	/*
+    	if(corner() && calCount == 0){
     		Constants.rightTurn = 0;
     		moveRobot(Constants.MOVEMENT.CALIBRATE);
+    		System.out.println("calibrating......................................");
     		calCount++;
+    		Constants.front = 0;
     		
     	}else{
-    		
-    		if(Constants.front >= 4 && gotWallonRight() && calCount == 0){
+    	*/
+    		if(Constants.front >= 4 && gotWallonRight() /*&& !corner()*/ && Constants.count2 == 0){
     			
     			moveRobot(Constants.MOVEMENT.CALIBRATE);
-    			calCount=0;
+    			System.out.println("calibrating......................................");
+    			++Constants.count2;
+    			
     			Constants.front = 0;
     			
     		}else
     		
+    		/*
     		if(frontFreeD()){
         		Constants.rightTurn = 0;
         		moveRobot(Constants.MOVEMENT.L);
         		Constants.front = 0;
         		calCount=0;
-        	}else
+        	}else*/
         	if(rightFree() && Constants.rightTurn <2){
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.rightTurn++;
-        		Constants.front = 0;
+        		Constants.front++;
         		if(frontFree()){
         			moveRobot(Constants.MOVEMENT.F);
         			Constants.front++;
         		}
-        		calCount=0;
+        		
 
         	}/*else if(frontFreeC()){
         		moveRobot(Constants.MOVEMENT.R);
@@ -595,20 +283,20 @@ public class Exploration {
         		Constants.rightTurn=0;
         		Constants.rightTurn2=0;
         		Constants.front++;
-        		calCount = 0;
+        		Constants.count2 = 0;
         	}    	
         	else if(leftFree()){
         		moveRobot(Constants.MOVEMENT.L);
         		Constants.rightTurn=0;
         		Constants.rightTurn2=0;
-        		Constants.front = 0;
+        		Constants.front++;
 
         	} 
         	
         	else if(rightFree() && Constants.rightTurn2<2){
         		//System.out.println("rightfree = " + rightFree());
         		moveRobot(Constants.MOVEMENT.R);
-        		Constants.front = 0;
+        		Constants.front++;
 
 
 
@@ -616,7 +304,7 @@ public class Exploration {
         			moveRobot(Constants.MOVEMENT.F);
         			Constants.front++;
         		}
-        		calCount=0;
+        		
         		Constants.rightTurn2++;
         		Constants.rightTurn++;
         	}
@@ -625,18 +313,18 @@ public class Exploration {
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.rightTurn=0;
         		Constants.rightTurn2=0;
-        		Constants.front = 0;
-        		calCount=0;
+        		Constants.front++;
+        		
 
     	
-        	}
+        	}}
     		
-    	} 
+    	 
     	
     	
     	
     	
-    }
+
 
     	
     
@@ -922,17 +610,23 @@ public class Exploration {
 	    	
 	    	if((robot.getRobotPosX() == 13 && robot.getRobotPosY() == 1) || (robot.getRobotPosX() == 13 && robot.getRobotPosY() == 18) || (robot.getRobotPosX() == 1 && robot.getRobotPosY()==18)){
 	    		return true;
-	    	}
-	    	
+	    	}/*
 	    	else if(robot.getRobotPosX()!= 1 && robot.getRobotPosY()!= 1){
+	    		System.out.println("robot pos entered" );
+	    		
 	    		switch(robot.getRobotDir()){
-		    	case N: return !(isEastFreeE() || isNorthFreeE());
-		    	case E: return !(isEastFreeE() || isSouthFreeE());
-		    	case S: return !(isSouthFreeE() || isWestFreeE());
-		    	case W: return !(isWestFreeE() || isNorthFreeE());
+		    	case N: System.out.println("north: " + notNorthFree() + ", east: " + notEastFree() );
+		    		return notEastFree() && notNorthFree();
+		    		
+		    	case E: System.out.println("east: " + notEastFree() + ", south: " + notSouthFree() );
+		    		return notEastFree() && notSouthFree();
+		    	case S: System.out.println("south: " + notSouthFree() + ", west: " + notWestFree() );
+		    		return notSouthFree() && notWestFree();
+		    	case W: System.out.println("west: " + notWestFree() + ", north: " + notNorthFree() );
+		    		return notWestFree() && notNorthFree();
 		    	default: return false;
 		    	}
-	    	}else{
+	    	}*/else{
 	    		return false;
 	    	}
 	    	
@@ -947,10 +641,10 @@ public class Exploration {
 	   
 	    public boolean gotWallonRight(){
 	    	switch(robot.getRobotDir()){
-	    	case N: return !isEastFreeE();
-	    	case E: return !isSouthFreeE();
-	    	case S: return !isWestFreeE();
-	    	case W: return !isNorthFreeE();
+	    	case N: return notEastFree();
+	    	case E: return notSouthFree();
+	    	case S: return notWestFree();
+	    	case W: return notNorthFree();
 	    	default: return false;
 	    	}
 	    }
@@ -1133,33 +827,34 @@ public class Exploration {
 	    	
 	    }
 	    
-	    private boolean isNorthFreeE(){
+	    private boolean notNorthFree(){
+	    	//returns true if not free 
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (notObstacleVirtualWall(x-1,y+2) && notObstacleVirtualWall(x,y+2));
+	    	return (isCorner(x-1,y+2) && isCorner(x,y+2) && isCorner(x+1, y+2))  ;
 
 	    }
 	    
-	    private boolean isEastFreeE(){
+	    private boolean notEastFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y));
+	    	return (isCorner(x+2,y+1) && isCorner(x+2,y) && isCorner(x+2, y-1)) ;
 	    	
 	    }
 	    
 	    
-	    private boolean isSouthFreeE(){
+	    private boolean notSouthFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (notObstacleVirtualWall(x,y-2) && notObstacleVirtualWall(x+1, y-2));
+	    	return (isCorner(x,y-2) && isCorner(x+1, y-2) && isCorner(x-1, y-2));
 	    	
 	    	
 	    }
 	    
-	    private boolean isWestFreeE(){
+	    private boolean notWestFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (notObstacleVirtualWall(x-2,y-1) && notObstacleVirtualWall(x-2,y) );
+	    	return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1) );
 	    	
 	    }
 	    
@@ -1362,7 +1057,18 @@ private boolean isEastFree2(){	//for 2x2, outside
 		return false;
     }
     
-    
+    private boolean isCorner(int x, int y){
+    	//returns true if its a wall     	
+    	if(!map.checkWithinRange(x, y)){
+    		System.out.println("not within range true");
+    		return true;
+    	}else if(!notObstacleVirtualWall(x,y) ){
+    		System.out.println("is obstacle");
+    		return true;
+    	}
+    	
+    	return false;
+    }
     
     
     private boolean blindSpotsL(){
