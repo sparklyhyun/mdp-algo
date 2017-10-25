@@ -135,6 +135,7 @@ public class Map extends JPanel{
 	
 	
 	public boolean isObstacle(int x, int y){
+		//System.out.println("weird");
 		return (coordinates[y][x].getIsObstacle());
 
 	}

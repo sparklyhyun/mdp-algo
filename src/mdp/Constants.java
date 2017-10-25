@@ -8,6 +8,7 @@ public class Constants {
 	public static int rightTurn2 = 0;
 	public static int front = 0;
 	public static int front2 = 0;
+	public static int count2 = 0;
 	
 	//map related constants
 	public static final int MAX_X = 15;

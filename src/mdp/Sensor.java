@@ -160,7 +160,7 @@ public class Sensor {
 					
 					
 					//exploredMap.getCoordinate(x, y).removeObstacle();
-					//System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+					System.out.println("coordinate: " + x + "," + y + " removed by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 				}
 				
 			}
