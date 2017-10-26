@@ -179,7 +179,9 @@ public class Simulator {
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
 	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
 	                
+	                
                         // HC
+	                /*
                         String finalPath = "";
                         int frontCount = 0;
                         String[] codes = new String[] {"0", "Z", "X", "V"};
@@ -215,7 +217,7 @@ public class Simulator {
                         frontCount = 0;
 	               
 	                CommunicationMgr.getCommMgr().testPrint2(finalPath);
-
+					*/
 	                return 222;
 	            }
 	        }
