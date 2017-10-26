@@ -18,7 +18,7 @@ public class Constants {
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
-	public static final int GOAL_X = 13; //13;
+	public static final int GOAL_X = 8; //13;
 	public static final int GOAL_Y = 1;//18;
 	
 	public static String fp = "";
