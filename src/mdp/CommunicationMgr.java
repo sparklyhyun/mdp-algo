@@ -98,7 +98,7 @@ public class CommunicationMgr {
     }
     
     public void testPrint2(String m){
-    	System.out.println("test print: " + m);
+    	System.out.println("This test print: " + m);
     	try {
             writer.write("FP;" + m );
             writer.flush();

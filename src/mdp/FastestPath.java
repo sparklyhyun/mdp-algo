@@ -200,7 +200,6 @@ public class FastestPath {
 
             // Get coordinates with minimum cost from nextVisit and assign it to current.
             current = checkAndUpdateMinCost(goalY, goalX);
-           //System.out.println("check update min cost");
             
             System.out.println("current x y : " + current.getX() + ", " + current.getY());
             
@@ -208,69 +207,46 @@ public class FastestPath {
             if (parents.containsKey(current)) {
                 curDir = getTargetDir(parents.get(current).getY(), parents.get(current).getX(), curDir, current);
                 System.out.println("curDir = " + curDir);
-                //System.out.println("if statement entered1");
             }
-            //System.out.println("if statement exited1");
+            
             visited.add(current);       // add current to visited
-            //System.out.println("addcurrent done");
             nextVisit.remove(current);    // remove current from nextVisit
-            //System.out.println("removecurrent done");
-            
-            //Coordinates coord = map.getCoordinate(goalX, goalY);
-            
-            //trapped here 
-            //boolean bool = visited.contains(map.getCoordinate(goalX, goalY));
-            //System.out.println("if condition: "+ bool);
             
             
             if (visited.contains(map.getCoordinate(goalX, goalY))) {
             	System.out.println("Goal visited. Path found!");
             	System.out.println("goal x, y : "+goalX+ ", "+goalY);
                 path = getPath(goalY, goalX);
-               // System.out.println("get path done" );
                 printFastestPath(path);
-               // System.out.println("printfastestpath done");
                 return executeFastestPath(path, goalY, goalX);
             }
-        	//System.out.println("if statement exit 0");
-
+        
             // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
             if (map.checkWithinRange(current.getX(), current.getY()+1)) {	//top
-            	//System.out.println("if statement entered2");
                 neighbors[0] = map.getCoordinate(current.getX(), current.getY()+1);
-                //System.out.println("neighbour :" + neighbors[0].getX() + ", " + neighbors[0].getY());
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
-                    //System.out.println("neighbour null");
                 }
             }
-            //System.out.println("if statement exit 1");
             
             if (map.checkWithinRange(current.getX(), current.getY()-1)) {	//bottom
-            	//System.out.println("if statement entered3");
-
                 neighbors[1] = map.getCoordinate(current.getX(), current.getY()-1);
                 //System.out.println("neighbour :" + neighbors[1].getX() + ", " + neighbors[1].getY());
                 if (!canBeVisited(neighbors[1])) {
                     neighbors[1] = null;
                 }
             }
-           // System.out.println("if statement exit 2");
-            if (map.checkWithinRange(current.getX()-1, current.getY())) {	//left
-            	//System.out.println("if statement entered4");
 
+            if (map.checkWithinRange(current.getX()-1, current.getY())) {	//left
                 neighbors[2] = map.getCoordinate(current.getX()-1, current.getY());
-                //System.out.println("neighbour :" + neighbors[2].getX() + ", " + neighbors[2].getY());
+
                 if (!canBeVisited(neighbors[2])) {
                     neighbors[2] = null;
                 }
             }
-           // System.out.println("if statement exit 3");
-            if (map.checkWithinRange(current.getX() +1, current.getY())) {	//right
-            	//System.out.println("if statement entered5");
 
+            if (map.checkWithinRange(current.getX() +1, current.getY())) {	//right
                 neighbors[3] = map.getCoordinate(current.getX()+1, current.getY());
-                //System.out.println("neighbour :" + neighbors[3].getX() + ", " + neighbors[3].getY());
                 if (!canBeVisited(neighbors[3])) {
                     neighbors[3] = null;
                 }
@@ -279,7 +255,7 @@ public class FastestPath {
         	
 
             // Iterate through neighbors and update the g(n) values of each.
-            
+           
             for (int i = 0; i < 4; i++) {
             	//System.out.println("for loop entered");
                 if (neighbors[i] != null) {
@@ -347,15 +323,10 @@ public class FastestPath {
     private String executeFastestPath(Stack<Coordinates> path, int goalY, int goalX) {
     	
         StringBuilder outputString = new StringBuilder();
-        
-       // System.out.println("string builder built");
-        
+                
         Coordinates temp = path.pop();
-        //System.out.println("path inside temp");
-       
         
         DIRECTION targetDir;
-
         ArrayList<MOVEMENT> movements = new ArrayList<>();
 
         System.out.println("movement array list built");
@@ -373,28 +344,14 @@ public class FastestPath {
         
         tempRobot.setSpeed(100);
         
-        //System.out.println("temprobot set speed");
-        //System.out.println("temproboty: " + tempRobot.getRobotPosY() );
-        //System.out.println("goalY: " + goalY);
-        //System.out.println("temprobotx: " +tempRobot.getRobotPosX() );
-        //System.out.println("goalX: " +goalX);
-        //System.out.println("while loop condition:" +(tempRobot.getRobotPosY() != goalY) + (tempRobot.getRobotPosX() != goalX) );
         while ((tempRobot.getRobotPosY() != goalY) || (tempRobot.getRobotPosX() != goalX)) {
-        	
-        	//System.out.println("while loop entered");
-        	//System.out.println("temp x, y : " + temp.getX() + ", " + temp.getY());
             if (tempRobot.getRobotPosY() == temp.getY() && tempRobot.getRobotPosX() == temp.getX()) {
-            	//System.out.println("if temp 1");
                 temp = path.pop();
             }
 
             targetDir = getTargetDir(tempRobot.getRobotPosY(), tempRobot.getRobotPosX(), tempRobot.getRobotDir(), temp);
             
-           // System.out.println("target direction obtained");
-            
             MOVEMENT m;
-            
-           // System.out.println("movement m created");
             
             if (tempRobot.getRobotDir() != targetDir) {
                 m = getTargetMovement(tempRobot.getRobotDir(), targetDir);
@@ -412,14 +369,8 @@ public class FastestPath {
         }
         
         
-       // System.out.println("while loop exited");
-       // CommunicationMgr comm = CommunicationMgr.getCommMgr();
         if (!robot.getRealRobot() || explorationMode) {
-        	//System.out.println("if statement entered");
-        	
-            for (MOVEMENT x : movements) {
-            	//System.out.println("for loop entered: " + x);
-            	
+            for (MOVEMENT x : movements) {            	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
                         System.out.println("Early termination of fastest path execution.");
@@ -427,123 +378,57 @@ public class FastestPath {
                     }
                    }
                 robot.move(x, 1, robot.getRealRobot());
-                this.map.repaint();
-                
-            	System.out.println("fp lol");
-            	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-            	
-            	MOVEMENT prevMovement = null;
-            	String finalPath = "";
-            	int frontCount = 0;
-            	String[] codes = new String[] {"0", "Z", "X", "V"};
-            	for(MOVEMENT x1: movements) {
-            		if(x1 == MOVEMENT.L) {
-            			if(frontCount >= 10)
-            				finalPath += codes[frontCount-10];
-            			else if(frontCount != 0)
-            				finalPath += frontCount + "";
-            			
-            			frontCount = 0;
-            			finalPath += "A";
-            		}
-            		else if(x1 == MOVEMENT.R) {
-            			if(frontCount >= 10) 
-            				finalPath += codes[frontCount-10];
-            			else if(frontCount != 0)
-            				finalPath += frontCount + "";
-            			
-            			frontCount = 0;
-            			finalPath += "D";
-            		}
-            		else if(x1 == MOVEMENT.F)
-            			frontCount += 1;
-            	}
-            	
-            	// Handle left overs
-    			if(frontCount >= 10) 
-    				finalPath += codes[frontCount-10];
-    			else if(frontCount != 0)
-    				finalPath += frontCount + "";
-    			
-    			frontCount = 0;
-    		
-    			System.out.println("HC: " + finalPath);
-    			Constants.fp += finalPath;
-    			//comm.testPrint2(finalPath);
-    			finalPath = "";
+                this.map.repaint();                
             }
-			
-        } else {	//real execution here
-        	//move one by one
-        	System.out.println("fp lol");
-        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	
-        	MOVEMENT prevMovement = null;
-        	String finalPath = "";
-        	int frontCount = 0;
-        	String[] codes = new String[] {"0", "Z", "X", "V"};
-        	for(MOVEMENT x: movements) {
-        		if(x == MOVEMENT.L) {
-        			if(frontCount >= 10)
-        				finalPath += codes[frontCount-10];
-        			else if(frontCount != 0)
-        				finalPath += frontCount + "";
-        			
-        			frontCount = 0;
-        			finalPath += "A";
-        		}
-        		else if(x == MOVEMENT.R) {
-        			if(frontCount >= 10) 
-        				finalPath += codes[frontCount-10];
-        			else if(frontCount != 0)
-        				finalPath += frontCount + "";
-        			
-        			frontCount = 0;
-        			finalPath += "D";
-        		}
-        		else if(x == MOVEMENT.F)
-        			frontCount += 1;
-        	}
-        	
-        	// Handle left overs
-			if(frontCount >= 10) 
-				finalPath += codes[frontCount-10];
-			else if(frontCount != 0)
-				finalPath += frontCount + "";
-			
-			frontCount = 0;
-		
-			System.out.println("HC: " + finalPath);
-			comm.testPrint();
-			comm.testPrint2(finalPath);
-			
-			
-        	// hc edit
-        	//for(MOVEMENT x: movements){
-        		//robot.move(x, 1, robot.getRealRobot());
-        		//comm.fastestSendMap(/*robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(),*/ robot.sendData(x)/*, 1*/);
-        	//
-        	
+
+            Constants.combinedFP.addAll(movements);
+        } 
+        else {
+            System.out.println("2nd part execution");
+            CommunicationMgr comm = CommunicationMgr.getCommMgr();
+
+            String finalPath = "";
+            int frontCount = 0;
+            String[] codes = new String[] {"0", "Z", "X", "V"};
+            for(MOVEMENT x: movements) {
+                if(x == MOVEMENT.L) {
+                    if(frontCount >= 10)
+                            finalPath += codes[frontCount-10];
+                    else if(frontCount != 0)
+                            finalPath += frontCount + "";
+
+                    frontCount = 0;
+                    finalPath += "A";
+                }
+                else if(x == MOVEMENT.R) {
+                    if(frontCount >= 10) 
+                            finalPath += codes[frontCount-10];
+                    else if(frontCount != 0)
+                            finalPath += frontCount + "";
+
+                    frontCount = 0;
+                    finalPath += "D";
+                }
+                else if(x == MOVEMENT.F)
+                        frontCount += 1;
+            }
+
+            // Handle left overs
+            if(frontCount >= 10) 
+                    finalPath += codes[frontCount-10];
+            else if(frontCount != 0)
+                    finalPath += frontCount + "";
+
+            frontCount = 0;
+
+            System.out.println("HC2: " + finalPath);
+            //comm.testPrint();
+            comm.testPrint2(Constants.fp + finalPath);
+
         }
         
-       // CommunicationMgr comm1 = CommunicationMgr.getCommMgr();
-		
- 
-        
         System.out.println("\nMovements: " + outputString.toString());
-       //System.out.println("robot x: "+ robot.getRobotPosX());
-       //System.out.println("robot y: "+ robot.getRobotPosY());
-       /* if(robot.getRealRobot()){
-        	for(int i = 0; i <= outputString.length()-1; i++){
-        		char c = outputString.charAt(i);
-        		char c2 = outputString.charAt(i+1);
-        		
-        	}
-        	
-        	
-        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	comm.fastestSendMap(outputString.toString());
-        }*/
+       
         return outputString.toString();
         
     }

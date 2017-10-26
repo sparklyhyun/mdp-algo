@@ -53,6 +53,7 @@ public class Simulator {
 		}
 		exploredMap = new Map(robot);
 		viewFullMap();
+                              
 	}	
 	
 	
@@ -170,14 +171,7 @@ public class Simulator {
 	               
 
 	                FastestPath fastestPath;
-	                fastestPath = new FastestPath(exploredMap, robot, realMap);
-	                
-	                
-
-	                //fastestPath.runFastestPath(Constants.GOAL_Y, Constants.GOAL_X);
-	                
-	                //testing out waypoint
-	                
+	                fastestPath = new FastestPath(exploredMap, robot, realMap);               
 	                fastestPath.runFastestPath(waypointY,waypointX);
 	                System.out.println("robot x simulator: " + robot.getRobotPosX());
 	                
@@ -185,8 +179,42 @@ public class Simulator {
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
 	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
 	                
+                        // HC
+                        String finalPath = "";
+                        int frontCount = 0;
+                        String[] codes = new String[] {"0", "Z", "X", "V"};
+                        for(MOVEMENT x: Constants.combinedFP) {
+                            if(x == MOVEMENT.L) {
+                                if(frontCount >= 10)
+                                        finalPath += codes[frontCount-10];
+                                else if(frontCount != 0)
+                                        finalPath += frontCount + "";
+
+                                frontCount = 0;
+                                finalPath += "A";
+                            }
+                            else if(x == MOVEMENT.R) {
+                                if(frontCount >= 10) 
+                                        finalPath += codes[frontCount-10];
+                                else if(frontCount != 0)
+                                        finalPath += frontCount + "";
+
+                                frontCount = 0;
+                                finalPath += "D";
+                            }
+                            else if(x == MOVEMENT.F)
+                                    frontCount += 1;
+                        }
+
+                        // Handle left overs
+                        if(frontCount >= 10) 
+                                finalPath += codes[frontCount-10];
+                        else if(frontCount != 0)
+                                finalPath += frontCount + "";
+
+                        frontCount = 0;
 	               
-	                CommunicationMgr.getCommMgr().testPrint2(Constants.fp);
+	                CommunicationMgr.getCommMgr().testPrint2(finalPath);
 
 	                return 222;
 	            }

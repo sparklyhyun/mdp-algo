@@ -1,6 +1,7 @@
 package mdp;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Constants {
 	
@@ -21,7 +22,7 @@ public class Constants {
 	public static final int GOAL_Y = 1;//18;
 	
 	public static String fp = "";
-	
+	public static ArrayList<MOVEMENT> combinedFP;
 	
 	
 	//robot related constants
