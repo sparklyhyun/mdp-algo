@@ -1,6 +1,7 @@
 package mdp;
 
 import javax.swing.*;
+import mdp.Exploration;
 
 import mdp.Constants.MOVEMENT;
 
@@ -178,6 +179,7 @@ public class Simulator {
 	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
 	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
+	                
 	                
 	                
                         // HC

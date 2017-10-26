@@ -198,7 +198,7 @@ public class Exploration {
     		
     	}else{
     	*/
-    		if(Constants.front >= 5 /*&& !corner()*/ && Constants.count2 == 0){
+    		if(Constants.front > 3 /*&& !corner()*/ /*&& Constants.count2 == 0*/){
     			
     			if(gotWallonRight()){
     				System.out.println("calibrating......................................");
@@ -1033,9 +1033,13 @@ private boolean isEastFree2(){	//for 2x2, outside
     	if(!map.checkWithinRange(x, y)){
     		System.out.println("not within range true");
     		return true;
-    	}else if(!notObstacleVirtualWall(x,y) ){
+    	}/*else if(!notObstacleVirtualWall(x,y) ){
     		System.out.println("is obstacle");
     		return true;
+    	}*/else
+    		if(map.checkWithinRange(x, y) && map.getCoordinate(x, y).getIsExplored() && map.getCoordinate(x, y).getIsObstacle()){
+    			return true;
+    		
     	}
     	
     	return false;
@@ -1177,7 +1181,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	map.repaint();
     }
     
-    private void moveRobot(MOVEMENT m){
+    public void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
     	
     	/*
