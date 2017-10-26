@@ -3,6 +3,8 @@ package mdp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.String;
 
 import mdp.Constants.*;
@@ -20,7 +22,9 @@ public class FastestPath {
     private Robot robot;                    //robot object
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode    
-
+    private boolean fp; 
+    private String finalSend;
+    
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
         this.realMap = realMap;
@@ -425,81 +429,105 @@ public class FastestPath {
                 robot.move(x, 1, robot.getRealRobot());
                 this.map.repaint();
                 
-
-                // During exploration, use sensor data to update map.
-                
-                if (explorationMode) {
-                    robot.setSentors();
-                    robot.senseDist(this.map, this.realMap);
-                    this.map.repaint();
-                }
-              //  System.out.println("for loop exited");
+            	System.out.println("fp lol");
+            	CommunicationMgr comm = CommunicationMgr.getCommMgr();
+            	
+            	MOVEMENT prevMovement = null;
+            	String finalPath = "";
+            	int frontCount = 0;
+            	String[] codes = new String[] {"0", "Z", "X", "V"};
+            	for(MOVEMENT x1: movements) {
+            		if(x1 == MOVEMENT.L) {
+            			if(frontCount >= 10)
+            				finalPath += codes[frontCount-10];
+            			else if(frontCount != 0)
+            				finalPath += frontCount + "";
+            			
+            			frontCount = 0;
+            			finalPath += "A";
+            		}
+            		else if(x1 == MOVEMENT.R) {
+            			if(frontCount >= 10) 
+            				finalPath += codes[frontCount-10];
+            			else if(frontCount != 0)
+            				finalPath += frontCount + "";
+            			
+            			frontCount = 0;
+            			finalPath += "D";
+            		}
+            		else if(x1 == MOVEMENT.F)
+            			frontCount += 1;
+            	}
+            	
+            	// Handle left overs
+    			if(frontCount >= 10) 
+    				finalPath += codes[frontCount-10];
+    			else if(frontCount != 0)
+    				finalPath += frontCount + "";
+    			
+    			frontCount = 0;
+    		
+    			System.out.println("HC: " + finalPath);
+    			Constants.fp += finalPath;
+    			//comm.testPrint2(finalPath);
+    			finalPath = "";
             }
+			
         } else {	//real execution here
-        	
-        	
-        	/*
-            int fCount = 0;
-            int sCount = 0;
-            for (MOVEMENT x : movements) {
-            	//can i send 17 at a time?? 
-                if (x == MOVEMENT.F) {
-                    fCount++;
-                    if (fCount == 10) {
-                    	
-                        robot.move(x, fCount, robot.getRealRobot());
-                        
-                      //insert the new send map here
-                        //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), fCount);
-                        
-                    	fCount = 0;
-                        
-                        map.repaint();
-                    }
-                    
-                } else if (x == MOVEMENT.R || x == MOVEMENT.L) {
-                    if (fCount > 0) {
-                        robot.move(x, fCount, robot.getRealRobot());
-                        
-                        //insert new send map here
-                        //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                    	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(),  robot.getRobotDir(), robot.sendData(x), fCount);
-                        
-                        fCount = 0;
-                        map.repaint();
-                    }
-
-                    robot.move(x, 1, robot.getRealRobot());	//need to change here?
-                    
-                    //insert new send map here
-                    //String descriptor = String.join(";", Map.generateMapDescriptor(map));
-                	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(x), 1);
-                    map.repaint();
-                }
-            }
-            
-            //SEE IF NEED ANY CHANGES
-            if (fCount > 0) {
-                robot.move(MOVEMENT.F, fCount, robot.getRealRobot());
-                //insert new send map here
-                String descriptor = String.join(";", Map.generateMapDescriptor(map));
-            	//comm.fastestSendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(), robot.sendData(MOVEMENT.F), fCount);
-                
-                
-                map.repaint();
-            }
-        	*/
         	//move one by one
+        	System.out.println("fp lol");
         	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-
-        	for(MOVEMENT x: movements){
-        		robot.move(x, 1, robot.getRealRobot());
-        		comm.fastestSendMap(/*robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(),*/ robot.sendData(x)/*, 1*/);
+        	
+        	MOVEMENT prevMovement = null;
+        	String finalPath = "";
+        	int frontCount = 0;
+        	String[] codes = new String[] {"0", "Z", "X", "V"};
+        	for(MOVEMENT x: movements) {
+        		if(x == MOVEMENT.L) {
+        			if(frontCount >= 10)
+        				finalPath += codes[frontCount-10];
+        			else if(frontCount != 0)
+        				finalPath += frontCount + "";
+        			
+        			frontCount = 0;
+        			finalPath += "A";
+        		}
+        		else if(x == MOVEMENT.R) {
+        			if(frontCount >= 10) 
+        				finalPath += codes[frontCount-10];
+        			else if(frontCount != 0)
+        				finalPath += frontCount + "";
+        			
+        			frontCount = 0;
+        			finalPath += "D";
+        		}
+        		else if(x == MOVEMENT.F)
+        			frontCount += 1;
         	}
+        	
+        	// Handle left overs
+			if(frontCount >= 10) 
+				finalPath += codes[frontCount-10];
+			else if(frontCount != 0)
+				finalPath += frontCount + "";
+			
+			frontCount = 0;
+		
+			System.out.println("HC: " + finalPath);
+			comm.testPrint();
+			comm.testPrint2(finalPath);
+			
+			
+        	// hc edit
+        	//for(MOVEMENT x: movements){
+        		//robot.move(x, 1, robot.getRealRobot());
+        		//comm.fastestSendMap(/*robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(),*/ robot.sendData(x)/*, 1*/);
+        	//
+        	
         }
         
-        
+       // CommunicationMgr comm1 = CommunicationMgr.getCommMgr();
+		
  
         
         System.out.println("\nMovements: " + outputString.toString());
