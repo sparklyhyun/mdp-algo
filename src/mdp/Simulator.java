@@ -31,6 +31,7 @@ public class Simulator {
 	private static int waypointX = 0;	//for now
 	private static int waypointY = 0; 	//for now
 	
+	
 	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -149,12 +150,11 @@ public class Simulator {
 	            	System.out.println("fastest path executed");
 	                exploredMap.repaint();
 	                String msg1[] = new String[2];
+	                System.out.println("Waiting for FP_START...");
 	                if (realExecution) {
 	                    while (true) {
-	                        System.out.println("Waiting for FP_START...");
-	                        String msg = comm.recvMsg();
+	                        String msg = CommunicationMgr.getCommMgr().recvMsg();
 	                        msg1 = msg.split(";");
-	                        
 	                        if (msg1[0].equals(CommunicationMgr.FP_START)) break;	//can change accordingly 
 	                    }
 	                }
@@ -184,6 +184,9 @@ public class Simulator {
 	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
 	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
+	                
+	               
+	                CommunicationMgr.getCommMgr().testPrint2(Constants.fp);
 
 	                return 222;
 	            }
@@ -207,7 +210,7 @@ public class Simulator {
 
                 x = robot.robotPos_X;
                 y = robot.robotPos_Y;
-
+                
                 //robot.setRobotPos(x, y);
                 exploredMap.repaint();
 
@@ -236,7 +239,7 @@ public class Simulator {
                     
                     System.out.println("here lol");
                     //end of exploration, start exploration
-                    comm.sendMsg("END_E", "endE"); 	//send end exploration msg 
+                    //comm.sendMsg("END_E", "endE"); 	//send end exploration msg 
                     new FastestPathAlgo().execute();
                 }
                  System.out.println("exploration exit");

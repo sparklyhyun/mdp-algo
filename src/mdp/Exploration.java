@@ -58,62 +58,13 @@ public class Exploration {
     		*/
             paintAfterSense();	//to sense before exploration 
             
-            //Auto calibration on the robot side 
-            /*
-    		if(robot.getRealRobot()){
-    			 robot.move(MOVEMENT.L,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.L,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.CALIBRATE,1, robot.getRealRobot());
-                 CommunicationMgr.getCommMgr().recvMsg();
-                 robot.move(MOVEMENT.R,1, robot.getRealRobot());
-                 
-    		}
-    		*/
-    		
-    		/*
-    		while(true){
-        		//print out communication message
-    			 System.out.println("Waiting for EX_START");
-                 String msg1 = CommunicationMgr.getCommMgr().recvMsg();
-                 System.out.println(msg1);
-                 String[] msgArr = msg1.split(";");
-                 if (msgArr[0].equals(CommunicationMgr.EX_START)) break;
-    		}*/    		
+             		
     	}
     	 System.out.println("Starting exploration...");
 
          startTime = System.currentTimeMillis();
          endTime = startTime + (timeLimit * 1000);
     	
-         //start, rotate the robot FOR SIMULATOR ONLY**************************
-    	
-         /*
-         if(!robot.getRealRobot()){
-    		if(!expStarted){
-        		moveRobot(Constants.MOVEMENT.R);
-            	moveRobot(Constants.MOVEMENT.R);
-            	moveRobot(Constants.MOVEMENT.R);
-            	moveRobot(Constants.MOVEMENT.R);
-            	map.readMapDesc();
-            	expStarted = false;
-        	}
-    	}*/
-    	
-    	
-    	
-    	//map.readMapDesc();
- 
-         //possible dummy
-        //CommunicationMgr comm = CommunicationMgr.getCommMgr();
-     	//comm.sendMsg(MOVEMENT.F + "", CommunicationMgr.BOT_INSTR);
     	
     	if(explorationMode == 0){
     		
@@ -167,7 +118,7 @@ public class Exploration {
     	
     	while(true /*getAreaExplored() != 300 && System.currentTimeMillis() <= endTime*/ ){
     		moveNext(1, robot.getRealRobot());
-    		if(/*robot.getReachedGoal() &&*/ robot.isInStartZone()){
+    		if(robot.getReachedGoal() && robot.isInStartZone()){
     			System.out.println("exploration done");
     			break;
     		}
@@ -178,8 +129,12 @@ public class Exploration {
 		long time = System.currentTimeMillis() - startTime;
     	System.out.println(time);
        	if(!robot.isInStartZone() || robot.getRobotDir() != DIRECTION.N){
-        	returnToStartPos();
+        	//returnToStartPos();
        	}
+       	rotateRobot(DIRECTION.N);
+       	
+       	//calibrate at the end 
+       	moveRobot(MOVEMENT.CALIBRATES);
        	System.out.println(time);
        	System.out.println("return to start position");
     	
@@ -243,10 +198,17 @@ public class Exploration {
     		
     	}else{
     	*/
-    		if(Constants.front >= 4 && gotWallonRight() /*&& !corner()*/ && Constants.count2 == 0){
+    		if(Constants.front >= 5 /*&& !corner()*/ && Constants.count2 == 0){
     			
-    			moveRobot(Constants.MOVEMENT.CALIBRATE);
-    			System.out.println("calibrating......................................");
+    			if(gotWallonRight()){
+    				System.out.println("calibrating......................................");
+    				moveRobot(Constants.MOVEMENT.CALIBRATE);
+        			
+    			}else if(gotWallonLeft()){
+    				System.out.println("calibrating LEFT......................................");
+    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
+    			}
+    			
     			++Constants.count2;
     			
     			Constants.front = 0;
@@ -645,6 +607,15 @@ public class Exploration {
 	    	case E: return notSouthFree();
 	    	case S: return notWestFree();
 	    	case W: return notNorthFree();
+	    	default: return false;
+	    	}
+	    }
+	    public boolean gotWallonLeft(){
+	    	switch(robot.getRobotDir()){
+	    	case N: return notWestFree();
+	    	case E: return notNorthFree();
+	    	case S: return notEastFree();
+	    	case W: return notSouthFree();
 	    	default: return false;
 	    	}
 	    }
@@ -1246,7 +1217,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     		
     		paintAfterSense();
     		//System.out.println("testing");
-    	}else{
+    	}else if (m == MOVEMENT.CALIBRATE){
     		//calibration command 
     		
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -1254,6 +1225,14 @@ private boolean isEastFree2(){	//for 2x2, outside
         	paintAfterSense();
     		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
     		//comm.recvMsg(); 		//wait for ack 
+    	}else if(m == MOVEMENT.CALIBRATEL){
+    		CommunicationMgr comm = CommunicationMgr.getCommMgr();
+        	comm.sendMsg("J", CommunicationMgr.BOT_INSTR);
+        	paintAfterSense();
+    	}else if (m == MOVEMENT.CALIBRATES){
+    		CommunicationMgr comm = CommunicationMgr.getCommMgr();
+        	comm.sendMsg("S", CommunicationMgr.BOT_INSTR);
+        	paintAfterSense();
     	}
     	
     	/*

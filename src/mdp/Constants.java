@@ -8,7 +8,7 @@ public class Constants {
 	public static int rightTurn2 = 0;
 	public static int front = 0;
 	public static int front2 = 0;
-	public static int count2 = 0;
+	public static int count2 = 1;
 	
 	//map related constants
 	public static final int MAX_X = 15;
@@ -17,8 +17,11 @@ public class Constants {
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
-	public static final int GOAL_X = 13;
-	public static final int GOAL_Y = 18;
+	public static final int GOAL_X = 13; //13;
+	public static final int GOAL_Y = 1;//18;
+	
+	public static String fp = "";
+	
 	
 	
 	//robot related constants
@@ -74,7 +77,7 @@ public class Constants {
 		
 	};	
     public enum MOVEMENT {
-        F, B, R, L, CALIBRATE, ERROR;
+        F, B, R, L, CALIBRATE, CALIBRATEL, CALIBRATES , ERROR;
 
         public static char print(MOVEMENT m) {
             switch (m) {
@@ -88,6 +91,10 @@ public class Constants {
                     return 'L';
                 case CALIBRATE:
                     return 'C';
+                case CALIBRATEL: 
+                	return 'J';
+                case CALIBRATES: 
+                	return 'S';
                 case ERROR:
                 default:
                     return 'E';
