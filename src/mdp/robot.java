@@ -291,7 +291,6 @@ public class Robot {
     public void move(MOVEMENT m, int count, boolean toAndroid){		//add boolean send to android
     	//count >= 1, move multiple steps forward
     	if(!realRobot){
-    		 // Emulate real movement by pausing execution.
             try {
                 TimeUnit.MILLISECONDS.sleep(speed);
             } catch (InterruptedException e) {

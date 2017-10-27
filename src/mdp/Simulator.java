@@ -150,6 +150,7 @@ public class Simulator {
 	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
 	            	System.out.println("fastest path executed");
 	                exploredMap.repaint();
+                        //CommunicationMgr.getCommMgr().sendMsg("S\n", null);
 	                String msg1[] = new String[2];
 	                System.out.println("Waiting for FP_START...");
 	                if (realExecution) {
@@ -264,12 +265,9 @@ public class Simulator {
                 	
                 
                 if (realExecution) {
-                	//comm.sendMsg("BOT_START", null);
                     Map.generateMapDescriptor(exploredMap);
                     
                     System.out.println("here lol");
-                    //end of exploration, start exploration
-                    //comm.sendMsg("END_E", "endE"); 	//send end exploration msg 
                     new FastestPathAlgo().execute();
                 }
                  System.out.println("exploration exit");

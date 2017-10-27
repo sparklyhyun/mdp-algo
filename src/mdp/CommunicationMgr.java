@@ -83,7 +83,7 @@ public class CommunicationMgr {
 
     public void sendMap(String position, String map, DIRECTION a, String movement) {
         try {
-            writer.write(movement + ";POS_" + position +"," + a + ";" + map );
+            writer.write(movement + ";POS_" + position +"," + a + ";" + map + "\n");
             writer.flush();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

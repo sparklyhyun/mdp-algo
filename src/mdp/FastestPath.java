@@ -434,10 +434,9 @@ public class FastestPath {
             	
             }
             
-            System.out.println("fp lol");
+             System.out.println("fp lol");
         	CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	
-        	MOVEMENT prevMovement = null;
         	String finalPath = "";
         	int frontCount = 0;
         	String[] codes = new String[] {"0", "Z", "X", "V"};

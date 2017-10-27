@@ -18,8 +18,8 @@ public class Constants {
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
-	public static final int GOAL_X = 13; //13;
-	public static final int GOAL_Y = 18;//18;
+	public static final int GOAL_X = 4; //13;
+	public static final int GOAL_Y = 4;//18;
 	
 	public static String fp = "";
 	public static ArrayList<MOVEMENT> combinedFP;
@@ -78,7 +78,7 @@ public class Constants {
 		
 	};	
     public enum MOVEMENT {
-        F, B, R, L, CALIBRATE, CALIBRATEL, CALIBRATES , ERROR;
+        F, B, R, L, CALIBRATE, CALIBRATEL, CALIBRATES , ERROR, U;
 
         public static char print(MOVEMENT m) {
             switch (m) {
@@ -90,6 +90,8 @@ public class Constants {
                     return 'R';
                 case L:
                     return 'L';
+                case U:
+                    return 'U';
                 case CALIBRATE:
                     return 'C';
                 case CALIBRATEL: 
