@@ -1181,7 +1181,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	map.repaint();
     }
     
-    public void moveRobot(MOVEMENT m){
+    private void moveRobot(MOVEMENT m){
     	//MOVEMENT.F
     	
     	/*

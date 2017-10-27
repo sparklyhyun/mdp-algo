@@ -475,9 +475,11 @@ public class FastestPath {
 			System.out.println("HC: " + finalPath);
 			sendpath = finalPath;
 			
+			if(robot.getRealRobot()){
+				comm.testPrint2(finalPath + "\n");
+				finalPath = "";
+			}
 			
-			comm.testPrint2(finalPath + "\n");
-			finalPath = "";
            // Constants.fp += sendpath;
 			
         } else {	//real execution here
