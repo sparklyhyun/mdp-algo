@@ -2,11 +2,14 @@ package mdp;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import mdp.Constants.*;
 
 
 public class Exploration {
+    private boolean shouldSetObstacles = true;
 	public final Map map;	// for exploration
 	private final Map realMap;	//real map 
 	private final Robot robot;
@@ -97,13 +100,13 @@ public class Exploration {
     	}
     	
     	System.out.println("explore function exited");
-    	
-
         areaExplored = getAreaExplored();
         System.out.println("Explored Area: " + areaExplored);
     	
     	Map.generateMapDescriptor(map);
         System.out.println("map desc generated");
+        
+        
     }
     
     private void explore(int x, int y){
@@ -131,9 +134,16 @@ public class Exploration {
        	if(!robot.isInStartZone() || robot.getRobotDir() != DIRECTION.N){
         	//returnToStartPos();
        	}
+        
        	rotateRobot(DIRECTION.N);
        	
-       	//calibrate at the end 
+        try {
+            Thread.sleep(1000);
+            //calibrate at the end
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Exploration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
        	moveRobot(MOVEMENT.CALIBRATES);
        	System.out.println(time);
        	System.out.println("return to start position");
@@ -293,40 +303,14 @@ public class Exploration {
     private void robotMove(MOVEMENT m, int count, boolean toAndroid){
     	robot.move(m, count, toAndroid);
     	map.repaint();
-    	
-    	/*
-    	if(m != MOVEMENT.CALIBRATE){
-    		paintAfterSense();
-    	}else{
-    		CommunicationMgr commMgr = CommunicationMgr.getCommMgr();
-            commMgr.recvMsg();
-    	}*/
-    	
+    
     	if(robot.getRealRobot()){
-    		CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+            CommunicationMgr comm = CommunicationMgr.getCommMgr();
+            String descriptor = String.join(";", Map.generateMapDescriptor(map));
             comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
     	}
     	
     	
-    	/*
-    	if(robot.getRealRobot() && !calibrationMode){
-    		calibrationMode = true;
-    		if(canCalibrate(robot.getRobotDir())){
-    			lastCalibrate = 0;
-    			robotMove(MOVEMENT.CALIBRATE,count, toAndroid);		//count doesn't matter here
-    		}else{
-    			lastCalibrate++;
-                if (lastCalibrate >= 5) {
-                    DIRECTION targetDir = calibrateTargetDirection();
-                    if (targetDir != null) {
-                        lastCalibrate = 0;
-                        calibrateBot(targetDir);
-                    	}
-                }
-    		}
-    		calibrationMode = false; //calibrated
-    	}*/
     }
     
     private void calibrateBot(DIRECTION targetDir) {
@@ -342,10 +326,6 @@ public class Exploration {
 		if(turns>2){	//if multiple turns, decide whether to rotate left or right 
 			turns = turns %2;
 		}
-		/*else if(turns == 2){	//rotate right twice (direction in clockwise)
-			robotMove(MOVEMENT.R, 1, false);
-			robotMove(MOVEMENT.R, 1, false);
-		}*/
 		
 		if(turns == 1){	//after modulus
 			if(DIRECTION.next(robot.getRobotDir()) == targetDir){	//if clockwise
@@ -354,8 +334,10 @@ public class Exploration {
 				robotMove(MOVEMENT.L, 1, robot.getRealRobot());
 			}
 		}else if(turns == 2){	//if turns 2, left 2 turns and right 2 turns are the same
-			robotMove(MOVEMENT.R, 1, robot.getRealRobot());
-			robotMove(MOVEMENT.R, 1, robot.getRealRobot());
+			//robotMove(MOVEMENT.U, 1, robot.getRealRobot());
+                    shouldSetObstacles = false;
+                    robotMove(MOVEMENT.R, 1, robot.getRealRobot());
+                    robotMove(MOVEMENT.R, 1, robot.getRealRobot());
 		}
 	
 		
@@ -1124,8 +1106,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	}
     	return total;
     }
-    
-    
+
     
     private void returnToStartPos(){
     	System.out.println("return to start entered");
@@ -1173,54 +1154,34 @@ private boolean isEastFree2(){	//for 2x2, outside
     	robot.setSentors();
     	
     	//System.out.println("setSensors exited");
-    	
-    	robot.senseDist(map, realMap);
+    	if(shouldSetObstacles == true) 
+            robot.senseDist(map, realMap);
     	
     	//System.out.println("sensedist exited");
     	
     	map.repaint();
     }
     
-    private void moveRobot(MOVEMENT m){
-    	//MOVEMENT.F
-    	
-    	/*
-    	try {
-			TimeUnit.MILLISECONDS.sleep(500); //5 seconds delay for the testing 
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-    	
+    public void moveRobot(MOVEMENT m){
     	if(robot.getRealRobot()){
-    		/*
-    		CommunicationMgr comm1 = CommunicationMgr.getCommMgr(); 	//recieve ack before moving 
-    		comm1.recvMsg();*/
     		
     	}
     	
-    	//for testing 
-    	//map.clearObs();
-    	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	if(robot.getRealRobot() && m != MOVEMENT.CALIBRATE){
-    		CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	String descriptor = String.join(";", Map.generateMapDescriptor(map));
+            CommunicationMgr comm = CommunicationMgr.getCommMgr();
+            
+            String descriptor = String.join(";", Map.generateMapDescriptor(map));
             comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(), robot.sendData(m));
         	
     	}
     	
     	
-    	//String descriptor = String.join(";", Map.generateMapDescriptor(map));
-        //CommunicationMgr.getCommMgr().sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir());
     	
     	map.repaint();
     	
     	if(m!= MOVEMENT.CALIBRATE){
-    		
     		paintAfterSense();
-    		//System.out.println("testing");
     	}else if (m == MOVEMENT.CALIBRATE){
     		//calibration command 
     		
@@ -1239,26 +1200,6 @@ private boolean isEastFree2(){	//for 2x2, outside
         	paintAfterSense();
     	}
     	
-    	/*
-    	if(robot.getRealRobot() && !calibrationMode){
-    		calibrationMode = true;
-    		
-    		if(canCalibrate(robot.getRobotDir())){
-    			lastCalibrate = 0;
-    			moveRobot(MOVEMENT.CALIBRATE);    		
-    		}else{
-    			lastCalibrate++;
-    			if(lastCalibrate>=5){
-    				DIRECTION target = calibrateTargetDirection();
-    				if(target != null){
-    					lastCalibrate = 0;
-    					calibrateBot(target);
-    				}
-    				
-    			}
-    		}
-    		calibrationMode = false;
-    	}*/
     	
     }
 
