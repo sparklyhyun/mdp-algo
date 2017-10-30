@@ -29,7 +29,10 @@ public class Coordinates {
 	public void removeObstacle(){
 		isObstacle = false;
 	}
-	
+
+	public void removeVirtualWall(){
+		isVirtualWall = false; 
+	}
 	public void setExplored(){
 		isExplored = true;
 	}

@@ -20,14 +20,14 @@ public class Map extends JPanel{
 			}
 		}
 		
-		//coordinates[0][14].setExplored();
-		//set the starting position as explored (for testing)
 		
 		for(int i=1; i<=2 ; i++){
 			for(int j=1; j<=2; j++){
 				coordinates[j][i].setExplored();
 			}
 		}
+		
+		
 		setBoundary();
 		if(!robot.getRealRobot()){
 			//for testing simulator only 
@@ -61,15 +61,10 @@ public class Map extends JPanel{
 		}
 	}
 	
-	public void setObstacles(int x, int y){
-		//set obstacle
-		//System.out.print("Obstacle at y " + y + "\n");
-		//System.out.print("Obstacle at x " + x + "\n");
-		coordinates[y][x].setObstacle();
-		
-		//check if within range
-		boolean withinX = false;
-		boolean withinY = false;
+	public void setVirtualWall(int x, int y){
+		System.out.println("inside map fn");
+		boolean withinX;
+		boolean withinY;
 		
 		if(x>=0 && x<Constants.MAX_X){
 			withinX = true;
@@ -119,6 +114,17 @@ public class Map extends JPanel{
 				coordinates[y-1][x+1].setIsVirtualWall();
 			}
 		}
+		
+	}
+	
+	public void setObstacles(int x, int y){
+		//set obstacle
+		//System.out.print("Obstacle at y " + y + "\n");
+		//System.out.print("Obstacle at x " + x + "\n");
+		coordinates[y][x].setObstacle();
+		
+		//check if within range
+		
 	}
 	
 	public void setBoundary(){
@@ -438,7 +444,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("SampleArena4.txt");
+			File file = new File("SampleArena2.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();

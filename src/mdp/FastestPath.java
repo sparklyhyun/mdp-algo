@@ -48,19 +48,29 @@ public class FastestPath {
         this.robot = robot;
         System.out.println("init initialized");
         
+        
+        //set virtual wall 
+        /*
+        for(int i = 0; i< Constants.MAX_Y; i++){
+        	for(int j = 0; j< Constants.MAX_X; i++){
+        		Coordinates coordinates = map.getCoordinate(j, i);
+        		if(coordinates.getIsExplored() && coordinates.getIsObstacle()){
+        			map.setVirtualWall(j, i);
+        		}
+        	}
+        }*/
 
         // Initialize gCost array
         for (int i = 0; i < Constants.MAX_Y; i++) {
             for (int j = 0; j < Constants.MAX_X; j++) {
                 Coordinates coordinates = map.getCoordinate(j, i);
                 if (!canBeVisited(coordinates)) {
+                	map.setVirtualWall(j, i);
                 	//System.out.println("init can be visited?: " + canBeVisited(coordinates) );
                     gCost[i][j] = robot.INFINITE_COST;
                     //System.out.println(gCost[i][j]);
                 }
-                else if(virtualWallCost(coordinates)){
-                	gCost[i][j] = robot.VIRTUAL_COST;
-                }
+                
                 else {
                     gCost[i][j] = -1;
                     
@@ -68,8 +78,17 @@ public class FastestPath {
                 }
                 //System.out.println("x: "+ i+ "y: " +j);
             }//System.out.println("Gcostarray almost done");
-            //printGCost();
-            
+            //printGCost();  
+        }
+        
+        //set virtual cost here
+        for(int i = 0; i<Constants.MAX_Y; i++){
+        	for(int j = 0; j<Constants.MAX_X; j++){
+        		Coordinates coordinates = map.getCoordinate(j, i);
+        		if(virtualWallCost(coordinates)){
+                	gCost[i][j] = robot.VIRTUAL_COST;
+                }
+        	}
         }
         
         System.out.println("Gcostarray done");
@@ -474,9 +493,11 @@ public class FastestPath {
 			System.out.println("HC: " + finalPath);
 			sendpath = finalPath;
 			
+			if(robot.getRealRobot()){
+				comm.testPrint2(finalPath + "\n");
+				finalPath = "";
+			}
 			
-			comm.testPrint2(finalPath + "\n");
-			finalPath = "";
            // Constants.fp += sendpath;
 			
         } else {	//real execution here

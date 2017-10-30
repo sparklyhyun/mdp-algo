@@ -100,13 +100,13 @@ public class Exploration {
     	}
     	
     	System.out.println("explore function exited");
-    	
-
         areaExplored = getAreaExplored();
         System.out.println("Explored Area: " + areaExplored);
     	
     	Map.generateMapDescriptor(map);
         System.out.println("map desc generated");
+        
+        
     }
     
     private void explore(int x, int y){
@@ -1106,8 +1106,7 @@ private boolean isEastFree2(){	//for 2x2, outside
     	}
     	return total;
     }
-    
-    
+
     
     private void returnToStartPos(){
     	System.out.println("return to start entered");

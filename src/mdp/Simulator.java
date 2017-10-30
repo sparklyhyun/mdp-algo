@@ -1,7 +1,6 @@
 package mdp;
 
 import javax.swing.*;
-import mdp.Exploration;
 
 import mdp.Constants.MOVEMENT;
 
@@ -29,15 +28,15 @@ public class Simulator {
 	private static int explorationMode;
 	private static int robotDelay = 100;
 	
-	private static int waypointX = 0;	//for now
-	private static int waypointY = 0; 	//for now
+	private static int waypointX = 1;	//for now
+	private static int waypointY = 11; 	//for now
 	
 	
 	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = true; //for now, not real map
+	private static final boolean realExecution = false; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
@@ -180,7 +179,6 @@ public class Simulator {
 	                FastestPath wayptFP = new FastestPath(exploredMap, robot, realMap);
 	                System.out.println("robot y simulator: " + robot.getRobotPosY() );
 	                wayptFP.runFastestPath(Constants.GOAL_Y,Constants.GOAL_X); 	
-	                
 	                
 	                
                         // HC

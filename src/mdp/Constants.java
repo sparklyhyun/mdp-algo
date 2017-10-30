@@ -18,8 +18,8 @@ public class Constants {
 	
 	public static final int START_X = 1; 
 	public static final int START_Y = 1;
-	public static final int GOAL_X = 4; //13;
-	public static final int GOAL_Y = 4;//18;
+	public static final int GOAL_X = 13; //13;
+	public static final int GOAL_Y = 18;//18;
 	
 	public static String fp = "";
 	public static ArrayList<MOVEMENT> combinedFP;
