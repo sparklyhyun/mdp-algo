@@ -130,11 +130,14 @@ public class FastestPath {
         for (int i = size - 1; i >= 0; i--) {
         	//System.out.println("gCost test: " + gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())]);
         	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
-            //System.out.println("cost test: " + cost);
+            System.out.println("cost test: " + cost);
         	if (cost < minCost) {
-                minCost = cost;
-                //System.out.println("minCost: " + minCost);
-                result = nextVisit.get(i);
+        		if(cost < 9999){
+        			minCost = cost;
+                    System.out.println("minCost: " + minCost);
+                    result = nextVisit.get(i);
+        		}
+                
             }
         }
         
@@ -147,7 +150,7 @@ public class FastestPath {
     
     private double costH(Coordinates c, int goalY, int goalX) {
         // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
-        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * robot.MOVE_COST;
+        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * Robot.MOVE_COST;
 
         if (movementCost == 0) return 0;
 
@@ -155,6 +158,8 @@ public class FastestPath {
         double turnCost = 0;
         if (goalX - c.getX() != 0 && goalY - c.getY() != 0) {
             turnCost = robot.TURN_COST;
+            //turnCost = Robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
+            
         }
 
         return movementCost + turnCost;

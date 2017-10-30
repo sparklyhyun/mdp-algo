@@ -121,7 +121,7 @@ public class Exploration {
     	
     	while(true /*getAreaExplored() != 300 && System.currentTimeMillis() <= endTime*/ ){
     		moveNext(1, robot.getRealRobot());
-    		if(robot.getReachedGoal() && robot.isInStartZone()){
+    		if(robot.getReachedGoal() && robot.isInStartZone() /*|| getAreaExplored() == 300)*/){
     			System.out.println("exploration done");
     			break;
     		}
@@ -810,193 +810,7 @@ public class Exploration {
 	    	return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1) );
 	    	
 	    }
-	    
-	    
-	/*
-    private boolean rightFree(){	//look right
-    	switch(robot.getRobotDir()){
-    	case N: 
-    		return isEastFree(); 
-    	case E: 
-    		//System.out.print("South Free\n");
-    		return isSouthFree(); 
-    	
-    	case S: 
-    		//System.out.print("West Free\n");
-    		return isWestFree(); 
-    	case W: 
-    		//System.out.print("North Free\n");
-    		return isNorthFree(); 
-    	default: return false;
-    	}
-    }
-    
-    private boolean leftFree(){		//look left
-    	switch(robot.getRobotDir()){
-    	case N:	return isWestFree();
-    	case E:
-    		//System.out.println("northFree" + isNorthFree());
-    		return isNorthFree();
-    	case S:	return isEastFree();
-    	case W: return isSouthFree();
-    	default: return false;
-    	}
-    }
-    
-    public boolean frontFree(){// look in front
-    	//System.out.print("Currently checking : Frontfree\n");
-    	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
-    	switch(robot.getRobotDir()){
-    	case N:	return isNorthFree();
-    	case E: return isEastFree();
-    	case S:	return isSouthFree();
-    	case W: return isWestFree();
-    	default: return false;
-    	}
-    }
-    
-    private boolean rightFree2(){	//for 2x2 outiside
-    	switch(robot.getRobotDir()){
-    	case N: return isEastFree2(); 
-    	case E: return isSouthFree2(); 
-    	case S: return isWestFree2(); 
-    	case W: return isNorthFree2(); 
-    	default: return false;
-    	}
-    }
-    
-    private boolean leftFree2(){		//for 2x2 outiside
-    	switch(robot.getRobotDir()){
-    	case N:	return isWestFree2();
-    	case E: return isNorthFree2();
-    	case S:	return isEastFree2();
-    	case W: return isSouthFree2();
-    	default: return false;
-    	}
-    }
-    
-    public boolean frontFree2(){	//for 2x2 outiside
-    	switch(robot.getRobotDir()){
-    	case N:	return isNorthFree2();
-    	case E: return isEastFree2();
-    	case S:	return isSouthFree3();
-    	case W: return isWestFree3();
-    	default: return false;
-    	}
-    }
-    
-    private boolean rightFree3(){	//for 2x2 inside
-    	switch(robot.getRobotDir()){
-    	case N: return isEastFree2(); 
-    	case E: return isSouthFree3(); 
-    	case S: return isWestFree3(); 
-    	case W: return isNorthFree2(); 
-    	default: return false;
-    	}
-    }
-    
-    private boolean leftFree3(){		//for 2x2 inside
-    	switch(robot.getRobotDir()){
-    	case N:	return isWestFree3();
-    	case E: return isNorthFree2();
-    	case S:	return isEastFree2();
-    	case W: return isSouthFree3();
-    	default: return false;
-    	}
-    }
-    
-    public boolean frontFree3(){	//for 2x2 inside
-    	switch(robot.getRobotDir()){
-    	case N:	return isNorthFree2();
-    	case E: return isEastFree2();
-    	case S:	return isSouthFree3();
-    	case W: return isWestFree3();
-    	default: return false;
-    	}
-    }
-    
-*/
-    /*
-    private boolean isEastFree(){	//true if can move to east
-    	
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	System.out.println("Is x+2 y+1 free : " + notObstacleVirtualWall(x+2,y+1));
-    	System.out.println("Is x+2 y free : " + notObstacleVirtualWall(x+2,y));
-    	System.out.println("Is x+2 y-1 free : " + notObstacleVirtualWall(x+2,y-1));
-    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y) && notObstacleVirtualWall(x+2,y-1));
-    }
-    
-    private boolean isWestFree(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	System.out.println("x-1 y+1 free = " + notObstacleVirtualWall(x-1,y+1));
-    	System.out.println("x-1 y free = " + notObstacleVirtualWall(x-1, y));
-    	return(notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2, y) && notObstacleVirtualWall(x-2,y-1));
-    	
-    }
-    
-    private boolean isSouthFree(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x, y-2) && notObstacleVirtualWall(x+1, y-2) && notObstacleVirtualWall(x-1, y-2));
-    	//return (notObstacleVirtualWall(x,y-1) && notObstacleVirtualWall(x-1,y-1));
-    }
-    
-    private boolean isNorthFree(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	//System.out.println("Current Robot x position : " + x);
-    	//System.out.println("Current Robot y position : " + y);
-    	//System.out.println("Is x+1 y+2 true : " + notObstacleVirtualWall(x+1, y+2));
-    	//System.out.println("Is x+0 y+2 true : " + notObstacleVirtualWall(x, y+2));
-    	//System.out.println("Is x-1 y+2 true : " + notObstacleVirtualWall(x-1, y+2));
-    	return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2) && notObstacleVirtualWall(x-1, y+2));
-    	//return(notObstacleVirtualWall(x,y+2) && notObstacleVirtualWall(x-1, y+2));
-    }
-    
-private boolean isEastFree2(){	//for 2x2, outside
-    	
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return (notObstacleVirtualWall(x+2,y+1) && notObstacleVirtualWall(x+2,y) );
-    }
-    
-    private boolean isWestFree2(){	//for 2x2, outside
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x-2,y+1) && notObstacleVirtualWall(x-2, y));
-    	
-    }
-    
-    private boolean isSouthFree2(){	//for 2x2, outside
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x, y-2) && notObstacleVirtualWall(x+1, y-2) );
-    }
-    
-    private boolean isNorthFree2(){	//for 2x2, outside
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x+1, y+2) && notObstacleVirtualWall(x, y+2));
-    }
-    
-    
-    private boolean isWestFree3(){	//for 2x2, inside
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x-1,y+1) && notObstacleVirtualWall(x-1, y));
-    	
-    }
-    
-    private boolean isSouthFree3(){	//for 2x2, inside
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	return(notObstacleVirtualWall(x, y-1) && notObstacleVirtualWall(x+1, y-1));
-    }
-    */
- 
-    
+	        
     private boolean notObstacleVirtualWall(int x, int y){
     	
     	if(map.checkWithinRange(x, y)){
@@ -1141,7 +955,7 @@ private boolean isEastFree2(){	//for 2x2, outside
             robotMove(MOVEMENT.CALIBRATE,1,true);
         }*/
         
-        rotateRobot(DIRECTION.N);
+        //rotateRobot(DIRECTION.N);
         
         
         

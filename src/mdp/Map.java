@@ -62,7 +62,6 @@ public class Map extends JPanel{
 	}
 	
 	public void setVirtualWall(int x, int y){
-		System.out.println("inside map fn");
 		boolean withinX;
 		boolean withinY;
 		
@@ -444,7 +443,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("SampleArena2.txt");
+			File file = new File("SampleArena6.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();
