@@ -150,14 +150,14 @@ public class FastestPath {
     
     private double costH(Coordinates c, int goalY, int goalX) {
         // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
-        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * Robot.MOVE_COST;
+        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * robot.MOVE_COST;
 
         if (movementCost == 0) return 0;
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
         double turnCost = 0;
-        if (goalX - c.getX() != 0 && goalY - c.getY() != 0) {
-            turnCost = robot.TURN_COST;
+        if (goalX - c.getX() != 0 || goalY - c.getY() != 0) {
+            turnCost = robot.TURN_COST;	
             //turnCost = Robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
             
         }
@@ -505,81 +505,16 @@ public class FastestPath {
 			
            // Constants.fp += sendpath;
 			
-        } else {	//real execution here
-        	//move one by one
-        	/*
-        	System.out.println("fp lol");
-        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	
-        	MOVEMENT prevMovement = null;
-        	String finalPath = "";
-        	int frontCount = 0;
-        	String[] codes = new String[] {"0", "Z", "X", "V"};
-        	for(MOVEMENT x: movements) {
-        		if(x == MOVEMENT.L) {
-        			if(frontCount >= 10)
-        				finalPath += codes[frontCount-10];
-        			else if(frontCount != 0)
-        				finalPath += frontCount + "";
-        			
-        			frontCount = 0;
-        			finalPath += "A";
-        		}
-        		else if(x == MOVEMENT.R) {
-        			if(frontCount >= 10) 
-        				finalPath += codes[frontCount-10];
-        			else if(frontCount != 0)
-        				finalPath += frontCount + "";
-        			
-        			frontCount = 0;
-        			finalPath += "D";
-        		}
-        		else if(x == MOVEMENT.F)
-        			frontCount += 1;
-        	}
-        	
-        	// Handle left overs
-			if(frontCount >= 10) 
-				finalPath += codes[frontCount-10];
-			else if(frontCount != 0)
-				finalPath += frontCount + "";
-			
-			frontCount = 0;
-		
-			System.out.println("HC: " + finalPath);
-			comm.testPrint();
-			comm.testPrint2(finalPath);
-			*/
-			
-        	// hc edit
-        	//for(MOVEMENT x: movements){
-        		//robot.move(x, 1, robot.getRealRobot());
-        		//comm.fastestSendMap(/*robot.getRobotPosX() + "," + robot.getRobotPosY(), robot.getRobotDir(),*/ robot.sendData(x)/*, 1*/);
-        	//
-        	
         }
+        	
+       
         
        // CommunicationMgr comm1 = CommunicationMgr.getCommMgr();
 		
  
         
         System.out.println("\nMovements: " + outputString.toString());
-       //System.out.println("robot x: "+ robot.getRobotPosX());
-       //System.out.println("robot y: "+ robot.getRobotPosY());
-       /* if(robot.getRealRobot()){
-        	for(int i = 0; i <= outputString.length()-1; i++){
-        		char c = outputString.charAt(i);
-        		char c2 = outputString.charAt(i+1);
-        		
-        	}
-        	
-        	
-        	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-        	comm.fastestSendMap(outputString.toString());
-        }*/
-        
-       // CommunicationMgr.getCommMgr().testPrint2(Constants.fp);
-      // Constants.fp = "";
+     
         return outputString.toString();
         
     }
@@ -724,7 +659,6 @@ public class FastestPath {
 
     
     // Prints each coordinates' gcost
-    
     public void printGCost() {
         for (int i = 0; i < Constants.MAX_Y; i++) {
             for (int j = 0; j < Constants.MAX_X; j++) {
@@ -734,16 +668,5 @@ public class FastestPath {
             System.out.println("\n");
         }
     }
-    /*
-    public void printCost() {
-        for (int i = 0; i < Constants.MAX_Y; i++) {
-            for (int j = 0; j < Constants.MAX_X; j++) {
-                System.out.print(gCost[Constants.MAX_Y - 1 - i][j]);
-                System.out.print(";");
-            }
-            System.out.println("\n");
-        }
-    }
-    */
-
+   
 }
