@@ -28,8 +28,8 @@ public class Simulator {
 	private static int explorationMode;
 	private static int robotDelay = 100;
 	
-	private static int waypointX = 1;	//for now
-	private static int waypointY = 11; 	//for now
+	private static int waypointX = 13;	//for now
+	private static int waypointY = 10; 	//for now
 	
 	
 	private static boolean started = false;
