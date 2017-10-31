@@ -167,33 +167,7 @@ public class Sensor {
 			
 		}
 		
-		
-		//update map according to sensor value 
-		/*
-		for(int i=this.minRange; i<=this.maxRange; i++){
-			int x = this.x + (xInc * i);
-			int y = this.y + (yInc * i);
-			//System.out.println("testing3");
-			if(!exploredMap.checkWithinRange(x, y)){ 
-				System.out.println("testing outside maze");
-				continue;	//seeing outside maze
-			}
-			exploredMap.getCoordinate(x, y).setExplored();		//now seen by the sensor		
-			
-			if(sensorVal == i){		//obstacle detected by the real sensor
-				exploredMap.setObstacles(x, y);
-				break;
-			}			
-		}*/
-			
-			// Override previous obstacle value if front sensors detect no obstacle.
-			/*
-			if(exploredMap.getCoordinate(x, y).getIsObstacle()){
-				if (id.equals("topLF_S") || id.equals("topMF_S") || id.equals("topRF_S")) {
-                    exploredMap.setObstacleCell(row, col, false);
-                } else {
-                    break;
-			}*/
+
 			
 		
 

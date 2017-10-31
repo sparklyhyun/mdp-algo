@@ -48,18 +48,6 @@ public class FastestPath {
         this.robot = robot;
         System.out.println("init initialized");
         
-        
-        //set virtual wall 
-        /*
-        for(int i = 0; i< Constants.MAX_Y; i++){
-        	for(int j = 0; j< Constants.MAX_X; i++){
-        		Coordinates coordinates = map.getCoordinate(j, i);
-        		if(coordinates.getIsExplored() && coordinates.getIsObstacle()){
-        			map.setVirtualWall(j, i);
-        		}
-        	}
-        }*/
-
         // Initialize gCost array
         for (int i = 0; i < Constants.MAX_Y; i++) {
             for (int j = 0; j < Constants.MAX_X; j++) {
@@ -151,14 +139,16 @@ public class FastestPath {
     private double costH(Coordinates c, int goalY, int goalX) {
         // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
         double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * robot.MOVE_COST;
-
+    	//double movementCost = Math.abs(goalX - c.getX())* robot.MOVE_COST + Math.abs(goalY - c.getY()) * robot.MOVE_COSTV;
+    	
+    	
         if (movementCost == 0) return 0;
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
         double turnCost = 0;
         if (goalX - c.getX() != 0 || goalY - c.getY() != 0) {
             turnCost = robot.TURN_COST;	
-            //turnCost = Robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
+            //turnCost = robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
             
         }
 
