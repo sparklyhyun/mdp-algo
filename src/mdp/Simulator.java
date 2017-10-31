@@ -25,7 +25,7 @@ public class Simulator {
 
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
-	private static int explorationMode;
+	//private static int explorationMode;
 	private static int robotDelay = 100;
 	
 	private static int waypointX = 13;	//for now

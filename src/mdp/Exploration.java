@@ -343,45 +343,7 @@ public class Exploration {
 		
 	}
 
-	private DIRECTION calibrateTargetDirection() {	//generate target direction
-		DIRECTION dir = robot.getRobotDir();
-		DIRECTION newDir;
-		
-		newDir = DIRECTION.next(dir);
-		if(canCalibrate(dir)){	//turn clockwise
-			return newDir;
-		}
-		
-		newDir = DIRECTION.prev(dir);
-		if(canCalibrate(dir)){	//turn anticlockwise
-			return newDir;
-		}
-		
-		newDir = DIRECTION.next(newDir);
-		if(canCalibrate(dir)){ //turn behind 180 degrees
-			return newDir;
-		}
-		
-		
-		
-		
-		return null;
-	}
 
-	private boolean canCalibrate(DIRECTION robotDir){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-    	
-    	switch(robotDir){ //need to change, depend on the sensor direction
-    	case N: return notObstacleVirtualWall(x,y); // add more later
-    	case E: return notObstacleVirtualWall(x,y);
-    	case S: return notObstacleVirtualWall(x,y);
-    	case W: return notObstacleVirtualWall(x,y);
-    	}
-    	
-    	return false;
-    	
-    }
 	 private boolean rightFree(){	//look right
 	    	switch(robot.getRobotDir()){
 	    	case N: 
@@ -463,36 +425,7 @@ public class Exploration {
 	    	}
 	    }
 	    
-	    private boolean leftFreeB(){		//look left
-	    	switch(robot.getRobotDir()){
-	    	case N:	return isWestFreeB();
-	    	case E:
-	    		//System.out.println("northFree" + isNorthFree());
-	    		return isNorthFreeB();
-	    	case S:	return isEastFreeB();
-	    	case W: return isSouthFreeB();
-	    	default: return false;
-	    	}
-	    }
-	    
-	    private boolean rightFreeB(){	//look right
-	    	switch(robot.getRobotDir()){
-	    	case N: 
-	    		return isEastFreeB(); 
-	    	case E: 
-	    		//System.out.print("South Free\n");
-	    		return isSouthFreeB(); 
-	    	
-	    	case S: 
-	    		//System.out.print("West Free\n");
-	    		return isWestFreeB(); 
-	    	case W: 
-	    		//System.out.print("North Free\n");
-	    		return isNorthFreeB(); 
-	    	default: return false;
-	    	}
-	    }
-	    
+	  
 	    public boolean frontFreeC(){// look in front
 	    	//System.out.print("Currently checking : Frontfree\n");
 	    	//System.out.print("Current Direction : " + robot.getRobotDir()+"\n");
@@ -505,36 +438,7 @@ public class Exploration {
 	    	}
 	    }
 	    
-	    private boolean leftFreeC(){		//look left
-	    	switch(robot.getRobotDir()){
-	    	case N:	return isWestFreeC();
-	    	case E:
-	    		//System.out.println("northFree" + isNorthFree());
-	    		return isNorthFreeC();
-	    	case S:	return isEastFreeC();
-	    	case W: return isSouthFreeC();
-	    	default: return false;
-	    	}
-	    }
-	    
-	    private boolean rightFreeC(){	//look right
-	    	switch(robot.getRobotDir()){
-	    	case N: 
-	    		return isEastFreeC(); 
-	    	case E: 
-	    		//System.out.print("South Free\n");
-	    		return isSouthFreeC(); 
-	    	
-	    	case S: 
-	    		//System.out.print("West Free\n");
-	    		return isWestFreeC(); 
-	    	case W: 
-	    		//System.out.print("North Free\n");
-	    		return isNorthFreeC(); 
-	    	default: return false;
-	    	}
-	    }
-	    
+	 
 	    
 	    public boolean frontFreeD(){// look in front
 	    	//System.out.print("Currently checking : Frontfree\n");
@@ -841,44 +745,7 @@ public class Exploration {
     	return false;
     }
     
-    
-    private boolean blindSpotsL(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
 
-    		if(unexp(x-2, y+1)){
-    			return true;
-    		}
-    	return false;
-    }
-    
-    private boolean blindSpotsR(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-
-    		if(unexp(x+2, y+1)){
-    			return true;
-    		}
-    	return false;
-    }
-    private boolean blindSpotsN(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-
-    		if(unexp(x+1, y+2)){
-    			return true;
-    		}
-    	return false;
-    }
-    private boolean blindSpotsS(){
-    	int x = robot.getRobotPosX();
-    	int y = robot.getRobotPosY();
-
-    		if(unexp(x-1, y-2) ){
-    			return true;
-    		}
-    	return false;
-    }
     
     private boolean unexp(int x, int y){
     	if(map.checkWithinRange(x, y)){
@@ -891,23 +758,7 @@ public class Exploration {
     
     
     
-    private boolean blocked(int x, int y){ // for checkpoint
-    	if(map.checkWithinRange(x, y)){
-    	if((map.isObstacle(x, y) && map.isExplored(x, y)) /*|| isUnExp(x,y)*/){
-    		return true;
-    	}
-    	}
-    	return false;
-    }
-    
-    private boolean virtualWalls(int x, int y){
-    	if(map.checkWithinRange(x, y)){
-    		if(map.isVirtualWall(x, y) && map.isExplored(x, y)){
-    			return true;
-    		}
-    	}
-    	return false;
-    }
+   
     
     private int getAreaExplored(){
     	int total = 0;
@@ -977,9 +828,6 @@ public class Exploration {
     }
     
     public void moveRobot(MOVEMENT m){
-    	if(robot.getRealRobot()){
-    		
-    	}
     	
     	robot.move(m, 1, robot.getRealRobot()); 		//for the time being
     	if(robot.getRealRobot() && m != MOVEMENT.CALIBRATE){
@@ -1002,8 +850,6 @@ public class Exploration {
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	comm.sendMsg("K", CommunicationMgr.BOT_INSTR);
         	paintAfterSense();
-    		//CommunicationMgr comm = CommunicationMgr.getCommMgr();
-    		//comm.recvMsg(); 		//wait for ack 
     	}else if(m == MOVEMENT.CALIBRATEL){
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
         	comm.sendMsg("J", CommunicationMgr.BOT_INSTR);

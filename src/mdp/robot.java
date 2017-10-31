@@ -7,12 +7,12 @@ import java.lang.*;
 import mdp.Constants.*;
 
 public class Robot {
-	private int size = Constants.ROBOT_SIZE;	
-	private int width = Constants.ROBOT_WIDTH;
-	private int startPos_X = Constants.START_X;
-	private int startPos_Y = Constants.START_Y;
-	private int goalPos_X = Constants.GOAL_X;
-	private int goalPos_Y = Constants.GOAL_Y;
+	//private int size = Constants.ROBOT_SIZE;	
+	//private int width = Constants.ROBOT_WIDTH;
+	//private int startPos_X = Constants.START_X;
+	//private int startPos_Y = Constants.START_Y;
+	//private int goalPos_X = Constants.GOAL_X;
+	//private int goalPos_Y = Constants.GOAL_Y;
 	public int robotPos_X;
 	public int robotPos_Y; 
 	private int speed;
@@ -25,11 +25,7 @@ public class Robot {
 	private final Sensor f;
 	 
 	private DIRECTION robotDir = DIRECTION.N;	// can change later
-	public static final int INFINITE_COST = 9999;
-	public static final int VIRTUAL_COST = 9999;
-	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
-	public static final int TURN_COST = 0;                        // cost of RIGHT, LEFT movement
-	public static final int MOVE_COSTV = 20;
+	
 	
 	private boolean reachedGoal;	
 	private final boolean realRobot;  //use when connected to the robot
@@ -144,7 +140,7 @@ public class Robot {
                 System.out.println("Something went wrong in Robot.move()!");
             }
     	}
-    	
+    	/*
     	if(count > 1){ //move multiple steps 
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();// <--set communication manager
     		if (count == 10) {
@@ -155,7 +151,7 @@ public class Robot {
    		 	//add in comm manager part or ignore 
     		
         }
-    	
+    	*/
     	//System.out.print("Current robot direction : " + robotDir + "\n");
     	//System.out.println("Current robot position: " + robotPos_X + ", " + robotPos_Y);
     	switch(m){
@@ -210,7 +206,7 @@ public class Robot {
     	}
     }
     
-    
+    /*
     private void sendMovement(MOVEMENT m, boolean toAndroid){
     	//fill in after commMgr 
     	CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -222,7 +218,7 @@ public class Robot {
         }
 
     }
-    
+    */
     public String sendData(MOVEMENT m){
     	//fill in after commMgr 
     	CommunicationMgr comm = CommunicationMgr.getCommMgr();
@@ -246,8 +242,6 @@ public class Robot {
     		distance[5] = f.distanceToObstacle(expMap, realMap);
     		
     	}else{
-    		//comm mgr part
-    		//need to send request? 
     		
     		CommunicationMgr comm = CommunicationMgr.getCommMgr();
             String msg = comm.recvMsg();	//sensor data
