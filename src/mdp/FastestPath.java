@@ -24,7 +24,7 @@ public class FastestPath {
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode    
     private boolean fp; 
-    private String finalSend;
+    //private String finalSend;
     
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
@@ -48,18 +48,6 @@ public class FastestPath {
         this.robot = robot;
         System.out.println("init initialized");
         
-        
-        //set virtual wall 
-        /*
-        for(int i = 0; i< Constants.MAX_Y; i++){
-        	for(int j = 0; j< Constants.MAX_X; i++){
-        		Coordinates coordinates = map.getCoordinate(j, i);
-        		if(coordinates.getIsExplored() && coordinates.getIsObstacle()){
-        			map.setVirtualWall(j, i);
-        		}
-        	}
-        }*/
-
         // Initialize gCost array
         for (int i = 0; i < Constants.MAX_Y; i++) {
             for (int j = 0; j < Constants.MAX_X; j++) {
@@ -67,7 +55,7 @@ public class FastestPath {
                 if (!canBeVisited(coordinates)) {
                 	map.setVirtualWall(j, i);
                 	//System.out.println("init can be visited?: " + canBeVisited(coordinates) );
-                    gCost[i][j] = robot.INFINITE_COST;
+                    gCost[i][j] = Constants.INFINITE_COST;
                     //System.out.println(gCost[i][j]);
                 }
                 
@@ -86,7 +74,7 @@ public class FastestPath {
         	for(int j = 0; j<Constants.MAX_X; j++){
         		Coordinates coordinates = map.getCoordinate(j, i);
         		if(virtualWallCost(coordinates)){
-                	gCost[i][j] = robot.VIRTUAL_COST;
+                	gCost[i][j] = Constants.VIRTUAL_COST;
                 }
         	}
         }
@@ -118,13 +106,15 @@ public class FastestPath {
     private boolean virtualWallCost(Coordinates c){
     	return c.getIsVirtualWall();
     }
+    
+    int andreainteger[] = new int[6];
 
     
     //Returns the Coordinates inside nextVisit with the minimum gcost + hcost.
     
     private Coordinates checkAndUpdateMinCost(int goalY, int goalX) {
         int size = nextVisit.size();
-        double minCost = robot.INFINITE_COST;
+        double minCost = Constants.INFINITE_COST;
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
@@ -150,15 +140,20 @@ public class FastestPath {
     
     private double costH(Coordinates c, int goalY, int goalX) {
         // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
-        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * robot.MOVE_COST;
-
+        double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * Constants.MOVE_COST;
+    	//double movementCost = Math.abs(goalX - c.getX())* robot.MOVE_COST + Math.abs(goalY - c.getY()) * robot.MOVE_COSTV;
+    	
+        /*
+        double mc1 = Math.abs(goalX-c.getX())*Math.abs(goalX-c.getX())*Constants.MOVE_COST + Math.abs(goalY-c.getY())*Math.abs(goalY-c.getY())*Constants.MOVE_COSTV;
+        double movementCost = Math.sqrt(mc1);
+    	*/
         if (movementCost == 0) return 0;
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
         double turnCost = 0;
         if (goalX - c.getX() != 0 || goalY - c.getY() != 0) {
-            turnCost = robot.TURN_COST;	
-            //turnCost = Robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
+            turnCost = Constants.TURN_COST;	
+            //turnCost = robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
             
         }
 
@@ -193,14 +188,14 @@ public class FastestPath {
         if (numOfTurn > 2) {
             numOfTurn = numOfTurn % 2;
         }
-        return (numOfTurn * robot.TURN_COST);
+        return (numOfTurn * Constants.TURN_COST);
     }
 
     
     //Calculate the actual cost of moving from Coordinates a to Coordinates b (assuming both are neighbors).
     
     private double costG(Coordinates a, Coordinates b, DIRECTION aDir) {
-        double moveCost = robot.MOVE_COST; // one movement to neighbor
+        double moveCost = Constants.MOVE_COST; // one movement to neighbor
 
         double turnCost;
         DIRECTION targetDir = getTargetDir(a.getY(), a.getX(), aDir, b);

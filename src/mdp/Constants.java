@@ -24,6 +24,11 @@ public class Constants {
 	public static String fp = "";
 	public static ArrayList<MOVEMENT> combinedFP;
 	
+	public static final int INFINITE_COST = 9999;
+	public static final int VIRTUAL_COST = 9999;
+	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
+	public static final int TURN_COST = 20;                        // cost of RIGHT, LEFT movement
+	public static final int MOVE_COSTV = 20;
 	
 	//robot related constants
 	public static final int ROBOT_WIDTH = 3;
@@ -35,7 +40,7 @@ public class Constants {
 	public static final int RANGE_SHORT_MIN = 1;
 	public static final int RANGE_SHORT_MAX = 3;
 	
-	public static final int RANGE_B_MAX = 7;
+	//public static final int RANGE_B_MAX = 7;
 	public static final int RANGE_D_MAX = 4; 
 
 	
