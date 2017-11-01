@@ -27,7 +27,7 @@ public class Constants {
 	public static final int INFINITE_COST = 9999;
 	public static final int VIRTUAL_COST = 9999;
 	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
-	public static final int TURN_COST = 0;                        // cost of RIGHT, LEFT movement
+	public static final int TURN_COST = 20;                        // cost of RIGHT, LEFT movement
 	public static final int MOVE_COSTV = 20;
 	
 	//robot related constants

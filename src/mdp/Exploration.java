@@ -208,7 +208,7 @@ public class Exploration {
     		
     	}else{
     	*/
-    		if(Constants.front > 3 /*&& !corner()*/ /*&& Constants.count2 == 0*/){
+    		if(Constants.front > 4 /*&& !corner()*/ /*&& Constants.count2 == 0*/){
     			
     			if(gotWallonRight()){
     				System.out.println("calibrating......................................");
@@ -233,6 +233,10 @@ public class Exploration {
         		calCount=0;
         	}else*/
         	if(rightFree() && Constants.rightTurn <2){
+        		if(gotWallonLeft()){
+    				System.out.println("calibrating LEFT......................................");
+    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
+    			}
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.rightTurn++;
         		Constants.front++;
@@ -267,6 +271,10 @@ public class Exploration {
         	
         	else if(rightFree() && Constants.rightTurn2<2){
         		//System.out.println("rightfree = " + rightFree());
+        		if(gotWallonLeft()){
+    				System.out.println("calibrating LEFT......................................");
+    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
+    			}
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.front++;
 
@@ -688,14 +696,14 @@ public class Exploration {
 	    	//returns true if not free 
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x-1,y+2) && isCorner(x,y+2) && isCorner(x+1, y+2))  ;
+	    	return (isCorner(x-1,y+2) && isCorner(x,y+2) && isCorner(x+1, y+2)) || (isCorner(x-1,y+3) && isCorner(x,y+3) && isCorner(x+1, y+3)) || (isCorner(x-1,y+4) && isCorner(x,y+4) && isCorner(x+1, y+4)) ;
 
 	    }
 	    
 	    private boolean notEastFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x+2,y+1) && isCorner(x+2,y) && isCorner(x+2, y-1)) ;
+	    	return (isCorner(x+2,y+1) && isCorner(x+2,y) && isCorner(x+2, y-1)) || (isCorner(x+3,y+1) && isCorner(x+3,y) && isCorner(x+3, y-1)) ||  (isCorner(x+4,y+1) && isCorner(x+4,y) && isCorner(x+4, y-1));
 	    	
 	    }
 	    
@@ -703,7 +711,7 @@ public class Exploration {
 	    private boolean notSouthFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x,y-2) && isCorner(x+1, y-2) && isCorner(x-1, y-2));
+	    	return (isCorner(x,y-2) && isCorner(x+1, y-2) && isCorner(x-1, y-2)) || (isCorner(x,y-3) && isCorner(x+1, y-3) && isCorner(x-1, y-3)) || (isCorner(x,y-4) && isCorner(x+1, y-4) && isCorner(x-1, y-4));
 	    	
 	    	
 	    }
@@ -711,7 +719,7 @@ public class Exploration {
 	    private boolean notWestFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1) );
+	    	return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1)) || (isCorner(x-3,y-1) && isCorner(x-3,y) && isCorner(x-3, y+1))|| (isCorner(x-4,y-1) && isCorner(x-4,y) && isCorner(x-4, y+1));
 	    	
 	    }
 	        

@@ -24,7 +24,7 @@ public class FastestPath {
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode    
     private boolean fp; 
-    private String finalSend;
+    //private String finalSend;
     
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
@@ -106,6 +106,8 @@ public class FastestPath {
     private boolean virtualWallCost(Coordinates c){
     	return c.getIsVirtualWall();
     }
+    
+    int andreainteger[] = new int[6];
 
     
     //Returns the Coordinates inside nextVisit with the minimum gcost + hcost.
@@ -141,7 +143,10 @@ public class FastestPath {
         double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * Constants.MOVE_COST;
     	//double movementCost = Math.abs(goalX - c.getX())* robot.MOVE_COST + Math.abs(goalY - c.getY()) * robot.MOVE_COSTV;
     	
-    	
+        /*
+        double mc1 = Math.abs(goalX-c.getX())*Math.abs(goalX-c.getX())*Constants.MOVE_COST + Math.abs(goalY-c.getY())*Math.abs(goalY-c.getY())*Constants.MOVE_COSTV;
+        double movementCost = Math.sqrt(mc1);
+    	*/
         if (movementCost == 0) return 0;
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
