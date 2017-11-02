@@ -4,6 +4,7 @@ public class Coordinates {
 	private final int x;
 	private final int y;
 	private boolean isObstacle = false;
+	private boolean isObs2 = false; 
 	private boolean isExplored = false;
 	private boolean isVirtualWall = false;
 	private boolean isWayPoint = false;
@@ -24,6 +25,7 @@ public class Coordinates {
 	
 	public void setObstacle(){
 		isObstacle = true;
+		isObs2 = true;
 	}
 	
 	public void removeObstacle(){
@@ -34,7 +36,7 @@ public class Coordinates {
 		isVirtualWall = false; 
 	}
 	public void setExplored(){
-		isExplored = true;
+		isExplored = true; 
 	}
 	public void setUnExplored(){
 		isExplored = false;
@@ -52,6 +54,12 @@ public class Coordinates {
 		//System.out.println("so weird: " + isObstacle);
 		return isObstacle;
 	}
+	
+	
+	/*
+	public boolean getIsObstacle(){
+		return isObs2;
+	}*/
 	
 	public boolean getIsExplored(){
 		return isExplored;

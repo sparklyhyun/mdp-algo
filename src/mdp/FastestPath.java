@@ -120,7 +120,7 @@ public class FastestPath {
         for (int i = size - 1; i >= 0; i--) {
         	//System.out.println("gCost test: " + gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())]);
         	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
-            System.out.println("cost test: " + cost);
+            //System.out.println("cost test: " + cost);
         	if (cost < minCost) {
         		if(cost < 9999){
         			minCost = cost;
@@ -147,6 +147,7 @@ public class FastestPath {
         double mc1 = Math.abs(goalX-c.getX())*Math.abs(goalX-c.getX())*Constants.MOVE_COST + Math.abs(goalY-c.getY())*Math.abs(goalY-c.getY())*Constants.MOVE_COSTV;
         double movementCost = Math.sqrt(mc1);
     	*/
+        
         if (movementCost == 0) return 0;
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.

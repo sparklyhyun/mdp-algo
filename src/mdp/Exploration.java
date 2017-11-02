@@ -192,12 +192,19 @@ public class Exploration {
     
     //THE MAIN PART****************************************************************************
     private void moveNext(int count, boolean toAndroid){	//determine next move for the robot
-
     	
-
+    	/*
+    	try {
+            TimeUnit.MILLISECONDS.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+        }*/
+	
+    	
+    	
     	//clearBox();
     	
-    	System.out.println("calCount = " + Constants.count2);
+    	System.out.println("front count = " + Constants.front);
     	/*
     	if(corner() && calCount == 0){
     		Constants.rightTurn = 0;
@@ -208,51 +215,43 @@ public class Exploration {
     		
     	}else{
     	*/
-    		if(Constants.front > 4 /*&& !corner()*/ /*&& Constants.count2 == 0*/){
-    			
-    			if(gotWallonRight()){
-    				System.out.println("calibrating......................................");
-    				moveRobot(Constants.MOVEMENT.CALIBRATE);
+    		if(Constants.front > 3 /*&& !corner()*/ && Constants.count2 == 0){
+    			if(robot.getRealRobot()){
+    				System.out.println("right, left" + gotWallonRight() + gotWallonLeft());
+        			if(gotWallonRight()){
+        				System.out.println("calibrating......................................");
+        				moveRobot(Constants.MOVEMENT.CALIBRATE);
+        				Constants.front = 0;
+        				//Constants.count2 = 0;
+            			
+        			}else if(gotWallonLeft()){
+        				System.out.println("calibrating LEFT......................................");
+        				moveRobot(Constants.MOVEMENT.CALIBRATEL);
+        				Constants.front = 0;
+        				//Constants.count2 = 0;
+        			}else{
+        				Constants.front ++;
+        			}
+        			++Constants.count2;
         			
-    			}else if(gotWallonLeft()){
-    				System.out.println("calibrating LEFT......................................");
-    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
-    			}
-    			
-    			++Constants.count2;
-    			
-    			Constants.front = 0;
+        			//Constants.front = 0;
+    			}		
     			
     		}else
     		
-    		/*
-    		if(frontFreeD()){
-        		Constants.rightTurn = 0;
-        		moveRobot(Constants.MOVEMENT.L);
-        		Constants.front = 0;
-        		calCount=0;
-        	}else*/
+    		
         	if(rightFree() && Constants.rightTurn <2){
-        		if(gotWallonLeft()){
-    				System.out.println("calibrating LEFT......................................");
-    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
-    			}
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.rightTurn++;
         		Constants.front++;
         		if(frontFree()){
         			moveRobot(Constants.MOVEMENT.F);
         			Constants.front++;
+        			Constants.count2 = 0;
         		}
         		
 
-        	}/*else if(frontFreeC()){
-        		moveRobot(Constants.MOVEMENT.R);
-        		moveRobot(Constants.MOVEMENT.R);
-        		Constants.rightTurn=0;
-        		Constants.rightTurn2=0;
-
-        	}*/
+        	}
         	
         	else if(frontFree() /*&& Constants.front < 3*/){
         		moveRobot(Constants.MOVEMENT.F);
@@ -271,10 +270,6 @@ public class Exploration {
         	
         	else if(rightFree() && Constants.rightTurn2<2){
         		//System.out.println("rightfree = " + rightFree());
-        		if(gotWallonLeft()){
-    				System.out.println("calibrating LEFT......................................");
-    				moveRobot(Constants.MOVEMENT.CALIBRATEL);
-    			}
         		moveRobot(Constants.MOVEMENT.R);
         		Constants.front++;
 
@@ -321,13 +316,6 @@ public class Exploration {
     	
     }
     
-    private void calibrateBot(DIRECTION targetDir) {
-		DIRECTION dir = robot.getRobotDir();
-		rotateRobot(targetDir);
-		robotMove(MOVEMENT.CALIBRATE, 1, robot.getRealRobot());		//see if i need to change boolean
-		rotateRobot(dir); 
-		
-	}
 
 	private void rotateRobot(DIRECTION targetDir) {
 		int turns = Math.abs(robot.getRobotDir().ordinal()-targetDir.ordinal());
@@ -696,14 +684,15 @@ public class Exploration {
 	    	//returns true if not free 
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x-1,y+2) && isCorner(x,y+2) && isCorner(x+1, y+2)) || (isCorner(x-1,y+3) && isCorner(x,y+3) && isCorner(x+1, y+3)) || (isCorner(x-1,y+4) && isCorner(x,y+4) && isCorner(x+1, y+4)) ;
-
+	    	//return (isCorner(x-1,y+2) && isCorner(x,y+2) && isCorner(x+1, y+2))  ;
+	    	return (gotWall(x-1,y+2) && gotWall(x,y+2) && gotWall(x+1, y+2))  ;
 	    }
 	    
 	    private boolean notEastFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x+2,y+1) && isCorner(x+2,y) && isCorner(x+2, y-1)) || (isCorner(x+3,y+1) && isCorner(x+3,y) && isCorner(x+3, y-1)) ||  (isCorner(x+4,y+1) && isCorner(x+4,y) && isCorner(x+4, y-1));
+	    	//return (isCorner(x+2,y+1) && isCorner(x+2,y) && isCorner(x+2, y-1)) ;
+	    	return (gotWall(x+2,y+1) && gotWall(x+2,y) && gotWall(x+2, y-1)) ;
 	    	
 	    }
 	    
@@ -711,15 +700,16 @@ public class Exploration {
 	    private boolean notSouthFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x,y-2) && isCorner(x+1, y-2) && isCorner(x-1, y-2)) || (isCorner(x,y-3) && isCorner(x+1, y-3) && isCorner(x-1, y-3)) || (isCorner(x,y-4) && isCorner(x+1, y-4) && isCorner(x-1, y-4));
-	    	
+	    	// (isCorner(x,y-2) && isCorner(x+1, y-2) && isCorner(x-1, y-2));
+	    	return (gotWall(x,y-2) && gotWall(x+1, y-2) && gotWall(x-1, y-2));
 	    	
 	    }
 	    
 	    private boolean notWestFree(){
 	    	int x = robot.getRobotPosX();
 	    	int y = robot.getRobotPosY();
-	    	return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1)) || (isCorner(x-3,y-1) && isCorner(x-3,y) && isCorner(x-3, y+1))|| (isCorner(x-4,y-1) && isCorner(x-4,y) && isCorner(x-4, y+1));
+	    	//return (isCorner(x-2,y-1) && isCorner(x-2,y) && isCorner(x-2, y+1) );
+	    	return (gotWall(x-2,y-1) && gotWall(x-2,y) && gotWall(x-2, y+1) );
 	    	
 	    }
 	        
@@ -753,7 +743,16 @@ public class Exploration {
     	return false;
     }
     
-
+    private boolean gotWall(int x, int y){
+    	if(!map.checkWithinRange(x, y)){
+    		return true;
+    	}else{
+    		if(map.checkWithinRange(x, y) && map.getCoordinate(x, y).getIsExplored() && map.getCoordinate(x, y).getIsObstacle()){
+    			return true;
+    		}
+    	}
+    	return false; 
+    }
     
     private boolean unexp(int x, int y){
     	if(map.checkWithinRange(x, y)){
@@ -804,15 +803,6 @@ public class Exploration {
         System.out.println(", " + areaExplored + " Cells");
         System.out.println((System.currentTimeMillis() - startTime) / 1000 + " Seconds");
 
-        /* calibration done on the robot side 
-        if (robot.getRealRobot()) {
-        	rotateRobot(DIRECTION.W);
-        	robotMove(MOVEMENT.CALIBRATE,1,true);
-            rotateRobot(DIRECTION.S);
-            robotMove(MOVEMENT.CALIBRATE,1,true);
-            rotateRobot(DIRECTION.W);
-            robotMove(MOVEMENT.CALIBRATE,1,true);
-        }*/
         
         //rotateRobot(DIRECTION.N);
         

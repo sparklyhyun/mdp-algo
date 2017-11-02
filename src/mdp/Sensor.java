@@ -121,10 +121,11 @@ public class Sensor {
 					exploredMap.setObstacles(x, y);
 					//System.out.println("sensor " + this.id + "position: " + this.x + ", " + this.y);
 					//System.out.println("senfor " + this.id + "direction: " + this.dir);
-					//System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
+					System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 				}else{
 					if(this.id == "a" || this.id == "b" || this.id == "c"){
 						exploredMap.setObstacles(x, y);
+						System.out.println("coordinate: " + x + "," + y + " triggered by sensor: " + this.id + ", " + "sensor value: " + sensorValue);
 					}
 				}				
 				
