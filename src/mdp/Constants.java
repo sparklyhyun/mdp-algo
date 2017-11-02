@@ -41,14 +41,14 @@ public class Constants {
 	public static final int RANGE_SHORT_MAX = 3;
 	
 	//public static final int RANGE_B_MAX = 7;
-	public static final int RANGE_D_MAX = 4; 
+	public static final int RANGE_D_MAX = 3; 
 
 	
 	public static final int PAD_A = 10;
 	public static final int PAD_B = 10;
 	public static final int PAD_C = 10;
 	public static final int PAD_D = 10;
-	public static final int PAD_E = 20;
+	public static final int PAD_E = 20; //30
 	public static final int PAD_F = 30;
 	
 	public static boolean DONE = false;
