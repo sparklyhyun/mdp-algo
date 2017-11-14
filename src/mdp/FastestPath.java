@@ -23,8 +23,6 @@ public class FastestPath {
     private Robot robot;                    //robot object
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode    
-    private boolean fp; 
-    //private String finalSend;
     
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
@@ -54,19 +52,12 @@ public class FastestPath {
                 Coordinates coordinates = map.getCoordinate(j, i);
                 if (!canBeVisited(coordinates)) {
                 	map.setVirtualWall(j, i);
-                	//System.out.println("init can be visited?: " + canBeVisited(coordinates) );
                     gCost[i][j] = Constants.INFINITE_COST;
-                    //System.out.println(gCost[i][j]);
                 }
-                
                 else {
                     gCost[i][j] = -1;
-                    
-                    //System.out.println(gCost[i][j]);
                 }
-                //System.out.println("x: "+ i+ "y: " +j);
-            }//System.out.println("Gcostarray almost done");
-            //printGCost();  
+            } 
         }
         
         //set virtual cost here
@@ -79,14 +70,8 @@ public class FastestPath {
         	}
         }
         
-        System.out.println("Gcostarray done");
         printGCost();
         nextVisit.add(current);
-        
-        System.out.println("nextvisit added");
-        
-        // Initialize starting point
-        //gCost[robot.getRobotPosY()][robot.getRobotPosX()] = 0; 
         this.loopCount = 0;
     }  
     
@@ -95,11 +80,8 @@ public class FastestPath {
     private boolean canBeVisited(Coordinates c) {
         boolean checkIsExplored = c.getIsExplored();
         boolean checkIsObstacle = c.getIsObstacle();
-        //boolean checkIsVirtualWall = c.getIsVirtualWall();
-        boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle /*&& !checkIsVirtualWall*/;
-        //System.out.println("checkisexplored: " + checkIsExplored);
-        //System.out.println("checkisobstacle: " + checkIsObstacle);
-        //System.out.println("canbevisitedcheck: " + canBeVisitedCheck);
+        boolean canBeVisitedCheck = checkIsExplored && !checkIsObstacle;
+
         return canBeVisitedCheck;
     }
     
@@ -108,9 +90,6 @@ public class FastestPath {
     }
     
     int andreainteger[] = new int[6];
-
-    
-    //Returns the Coordinates inside nextVisit with the minimum gcost + hcost.
     
     private Coordinates checkAndUpdateMinCost(int goalY, int goalX) {
         int size = nextVisit.size();
@@ -118,44 +97,30 @@ public class FastestPath {
         Coordinates result = null;
 
         for (int i = size - 1; i >= 0; i--) {
-        	//System.out.println("gCost test: " + gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())]);
         	double cost = gCost[(nextVisit.get(i).getY())][(nextVisit.get(i).getX())] + costH(nextVisit.get(i), goalY, goalX);
-            //System.out.println("cost test: " + cost);
         	if (cost < minCost) {
         		if(cost < 9999){
         			minCost = cost;
                     System.out.println("minCost: " + minCost);
                     result = nextVisit.get(i);
         		}
-                
             }
         }
-        
         return result;
     }
-    
-    
-    
-    //Returns the heuristic cost i.e. h(n) from a given Coordinates to a given [goalY, goalX] in the maze.
     
     private double costH(Coordinates c, int goalY, int goalX) {
         // Heuristic: The no. of moves will be equal to the difference in the y coordinate and x coordinate values.
         double movementCost = (Math.abs(goalX - c.getX()) + Math.abs(goalY - c.getY())) * Constants.MOVE_COST;
-    	//double movementCost = Math.abs(goalX - c.getX())* robot.MOVE_COST + Math.abs(goalY - c.getY()) * robot.MOVE_COSTV;
-    	
-        /*
-        double mc1 = Math.abs(goalX-c.getX())*Math.abs(goalX-c.getX())*Constants.MOVE_COST + Math.abs(goalY-c.getY())*Math.abs(goalY-c.getY())*Constants.MOVE_COSTV;
-        double movementCost = Math.sqrt(mc1);
-    	*/
-        
-        if (movementCost == 0) return 0;
+
+        if (movementCost == 0){
+        	return 0;
+        } 
 
         // Heuristic: If c is not in the same Y coordinate and X coordinate, one turn will be needed.
         double turnCost = 0;
         if (goalX - c.getX() != 0 || goalY - c.getY() != 0) {
-            turnCost = Constants.TURN_COST;	
-            //turnCost = robot.TURN_COST*(goalX-c.getX() + goalY-c.getY());
-            
+            turnCost = Constants.TURN_COST;            
         }
 
         return movementCost + turnCost;
@@ -165,7 +130,6 @@ public class FastestPath {
     //Returns the target direction of the robot from [robotR, robotC] to target Coordinates.
     
     private DIRECTION getTargetDir(int robotR, int robotC, DIRECTION robotDir, Coordinates target) {
-    	//need to change 
         if (robotC - target.getX() > 0) {
             return DIRECTION.W;
         } else if (target.getX() - robotC > 0) {
@@ -210,8 +174,6 @@ public class FastestPath {
     public String runFastestPath(int goalY, int goalX)  {
         System.out.println("Calculating fastest path from (" + current.getY() + ", " + current.getX() + ") to goal (" + goalY + ", " + goalX + ")...");
         
-        //System.out.println("start coord: " + robot.getRobotPosX() + ", " + robot.getRobotPosY());
-        
         System.out.println("start coord: " + current.getX() + ", " + current.getY());
 
         
@@ -221,114 +183,65 @@ public class FastestPath {
 
             // Get coordinates with minimum cost from nextVisit and assign it to current.
             current = checkAndUpdateMinCost(goalY, goalX);
-           //System.out.println("check update min cost");
-            
-            System.out.println("current x y : " + current.getX() + ", " + current.getY());
-            
-            // Point the robot in the direction of current from the previous coordinates.
+
             if (parents.containsKey(current)) {
                 curDir = getTargetDir(parents.get(current).getY(), parents.get(current).getX(), curDir, current);
                 System.out.println("curDir = " + curDir);
-                //System.out.println("if statement entered1");
             }
-            //System.out.println("if statement exited1");
             visited.add(current);       // add current to visited
-            //System.out.println("addcurrent done");
             nextVisit.remove(current);    // remove current from nextVisit
-            //System.out.println("removecurrent done");
-            
-            //Coordinates coord = map.getCoordinate(goalX, goalY);
-            
-            //trapped here 
-            //boolean bool = visited.contains(map.getCoordinate(goalX, goalY));
-            //System.out.println("if condition: "+ bool);
-            
             
             if (visited.contains(map.getCoordinate(goalX, goalY))) {
             	System.out.println("Goal visited. Path found!");
             	System.out.println("goal x, y : "+goalX+ ", "+goalY);
                 path = getPath(goalY, goalX);
-               // System.out.println("get path done" );
                 printFastestPath(path);
-               // System.out.println("printfastestpath done");
                 return executeFastestPath(path, goalY, goalX);
             }
-        	//System.out.println("if statement exit 0");
 
-            // Setup neighbors of current coordinate. [Top, Bottom, Left, Right].
             if (map.checkWithinRange(current.getX(), current.getY()+1)) {	//top
-            	//System.out.println("if statement entered2");
                 neighbors[0] = map.getCoordinate(current.getX(), current.getY()+1);
-                //System.out.println("neighbour :" + neighbors[0].getX() + ", " + neighbors[0].getY());
                 if (!canBeVisited(neighbors[0])) {
                     neighbors[0] = null;
-                    //System.out.println("neighbour null");
                 }
             }
-            //System.out.println("if statement exit 1");
             
             if (map.checkWithinRange(current.getX(), current.getY()-1)) {	//bottom
-            	//System.out.println("if statement entered3");
-
                 neighbors[1] = map.getCoordinate(current.getX(), current.getY()-1);
-                //System.out.println("neighbour :" + neighbors[1].getX() + ", " + neighbors[1].getY());
                 if (!canBeVisited(neighbors[1])) {
                     neighbors[1] = null;
                 }
             }
-           // System.out.println("if statement exit 2");
             if (map.checkWithinRange(current.getX()-1, current.getY())) {	//left
-            	//System.out.println("if statement entered4");
-
                 neighbors[2] = map.getCoordinate(current.getX()-1, current.getY());
-                //System.out.println("neighbour :" + neighbors[2].getX() + ", " + neighbors[2].getY());
                 if (!canBeVisited(neighbors[2])) {
                     neighbors[2] = null;
                 }
             }
-           // System.out.println("if statement exit 3");
             if (map.checkWithinRange(current.getX() +1, current.getY())) {	//right
-            	//System.out.println("if statement entered5");
-
                 neighbors[3] = map.getCoordinate(current.getX()+1, current.getY());
-                //System.out.println("neighbour :" + neighbors[3].getX() + ", " + neighbors[3].getY());
                 if (!canBeVisited(neighbors[3])) {
                     neighbors[3] = null;
                 }
             }
         	System.out.println("if statement all done");
         	
-
-            // Iterate through neighbors and update the g(n) values of each.
-            
             for (int i = 0; i < 4; i++) {
-            	//System.out.println("for loop entered");
                 if (neighbors[i] != null) {
                     if (visited.contains(neighbors[i])) {
-                    	//System.out.println("contains neighbour[i]");
-
                         continue;
                     }
 
                     if (!(nextVisit.contains(neighbors[i]))) {
                         parents.put(neighbors[i], current);      
-                        //System.out.println("gCost[neighbors[i].getY(][neighbors[i].getX()]: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
                         gCost[neighbors[i].getY()][neighbors[i].getX()] = gCost[neighbors[i].getY()][neighbors[i].getX()] + costG(current, neighbors[i], curDir);
-                        //System.out.println("Gcost after: " + gCost[neighbors[i].getY()][neighbors[i].getX()]);
-                       
                         nextVisit.add(neighbors[i]);
-                       // System.out.println("put neighbours");
                     } else {
                         double currentGScore = gCost[neighbors[i].getY()][neighbors[i].getX()];
                         double newGScore = gCost[current.getY()][current.getX()] + costG(current, neighbors[i], curDir);
-                        //System.out.println("current gsocre: " + currentGScore);
-                        //System.out.println("newGScore: " + newGScore);
                         if (newGScore < currentGScore) {
-                        	//System.out.println("new gcosre< current gscore");
                             gCost[neighbors[i].getY()][neighbors[i].getX()] = newGScore;
-                           // System.out.println("gcost: " + gCost[neighbors[i].getY()][neighbors[i].getX()] );
                             parents.put(neighbors[i], current);
-                           // System.out.println("add neighbours ");
                         }
                     }
                 }
@@ -345,7 +258,6 @@ public class FastestPath {
     
     private Stack<Coordinates> getPath(int goalY, int goalX) {
         Stack<Coordinates> actualPath = new Stack<>();
-        //here is the problem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Coordinates temp = map.getCoordinate(goalX, goalY);
         System.out.println("temp goal x ,y : " +temp.getX() + ", " +temp.getX());
         
@@ -356,9 +268,6 @@ public class FastestPath {
                 break;
             }
         }
-        //System.out.println("get path while loop exited");
-        
-        //printGCost();
         return actualPath;
     }
 
@@ -370,11 +279,8 @@ public class FastestPath {
         StringBuilder outputString = new StringBuilder();
         
         String sendpath = "";
-       // System.out.println("string builder built");
         
-        Coordinates temp = path.pop();
-        //System.out.println("path inside temp");
-       
+        Coordinates temp = path.pop();       
         
         DIRECTION targetDir;
 
@@ -389,34 +295,16 @@ public class FastestPath {
         System.out.println("temp robot position x, y : " + tempRobot.getRobotPosX() + ", " + tempRobot.getRobotPosY());
         
         tempRobot.setDirection(robot.getRobotDir());
-        //Robot tempRobot = robot;
-        
-        //System.out.println("temprobot built");
-        
         tempRobot.setSpeed(100);
-        
-        //System.out.println("temprobot set speed");
-        //System.out.println("temproboty: " + tempRobot.getRobotPosY() );
-        //System.out.println("goalY: " + goalY);
-        //System.out.println("temprobotx: " +tempRobot.getRobotPosX() );
-        //System.out.println("goalX: " +goalX);
-        //System.out.println("while loop condition:" +(tempRobot.getRobotPosY() != goalY) + (tempRobot.getRobotPosX() != goalX) );
+       
         while ((tempRobot.getRobotPosY() != goalY) || (tempRobot.getRobotPosX() != goalX)) {
-        	
-        	//System.out.println("while loop entered");
-        	//System.out.println("temp x, y : " + temp.getX() + ", " + temp.getY());
             if (tempRobot.getRobotPosY() == temp.getY() && tempRobot.getRobotPosX() == temp.getX()) {
-            	//System.out.println("if temp 1");
                 temp = path.pop();
             }
 
             targetDir = getTargetDir(tempRobot.getRobotPosY(), tempRobot.getRobotPosX(), tempRobot.getRobotDir(), temp);
             
-           // System.out.println("target direction obtained");
-            
             MOVEMENT m;
-            
-           // System.out.println("movement m created");
             
             if (tempRobot.getRobotDir() != targetDir) {
                 m = getTargetMovement(tempRobot.getRobotDir(), targetDir);
@@ -433,14 +321,9 @@ public class FastestPath {
             System.out.println(outputString);
         }
         
-        
-       // System.out.println("while loop exited");
-       // CommunicationMgr comm = CommunicationMgr.getCommMgr();
         if (!robot.getRealRobot() || explorationMode) {
-        	//System.out.println("if statement entered");
         	
             for (MOVEMENT x : movements) {
-            	//System.out.println("for loop entered: " + x);
             	
                 if (x == MOVEMENT.F) {
                     if (!canRobotMoveForward()) {
@@ -491,24 +374,16 @@ public class FastestPath {
 			
 			frontCount = 0;
 		
-			System.out.println("HC: " + finalPath);
+			System.out.println("path send: " + finalPath);
 			sendpath = finalPath;
 			
 			if(robot.getRealRobot()){
-				comm.testPrint2(finalPath + "\n");
+				comm.sendPath(finalPath + "\n");
 				finalPath = "";
 			}
 			
-           // Constants.fp += sendpath;
-			
         }
-        	
        
-        
-       // CommunicationMgr comm1 = CommunicationMgr.getCommMgr();
-		
- 
-        
         System.out.println("\nMovements: " + outputString.toString());
      
         return outputString.toString();
@@ -527,37 +402,21 @@ public class FastestPath {
             	if(notObstacle(x, y+2) && notObstacle(x+1, y+2)){
             		return true;
             	}
-            	/*
-            	if (!map.isObstacle(y + 2, x - 1) && !map.isObstacle(y + 2, x) && !map.isObstacle(y + 2, x + 1)) {
-                    return true;
-                }*/
                 break;
             case E:
             	if(notObstacle(x+2, y+1) && notObstacle(x+2, y)){
             		return true;
             	}
-            	/*
-                if (!map.isObstacle(y + 1, x + 2) && !map.isObstacle(y, x + 2) && !map.isObstacle(y - 1, x + 2)) {
-                    return true;
-                }*/
                 break;
             case S:
             	if(notObstacle(x, y-1) && notObstacle(x+1, y-1)){
             		return true;
             	}
-            	/*
-                if (!map.isObstacle(y - 2, x - 1) && !map.isObstacle(y - 2, x) && !map.isObstacle(y - 2, x + 1)) {
-                    return true;
-                }*/
                 break;
             case W:
             	if(notObstacle(x-1, y+1) && notObstacle(x-1, y)){
             		return true;
             	}
-            	/*
-                if (!map.isObstacle(y + 1, x - 2) && !map.isObstacle(y, x - 2) && !map.isObstacle(y - 1, x - 2)) {
-                    return true;
-                }*/
                 break;
         }
 

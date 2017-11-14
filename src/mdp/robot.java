@@ -7,12 +7,6 @@ import java.lang.*;
 import mdp.Constants.*;
 
 public class Robot {
-	//private int size = Constants.ROBOT_SIZE;	
-	//private int width = Constants.ROBOT_WIDTH;
-	//private int startPos_X = Constants.START_X;
-	//private int startPos_Y = Constants.START_Y;
-	//private int goalPos_X = Constants.GOAL_X;
-	//private int goalPos_Y = Constants.GOAL_Y;
 	public int robotPos_X;
 	public int robotPos_Y; 
 	private int speed;
@@ -64,7 +58,6 @@ public class Robot {
     	
     	switch(robotDir){
     	case N:
-    		//topLF_S.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
     		a.setSensor(this.robotPos_X-1, this.robotPos_Y+1, this.robotDir);
     		b.setSensor(this.robotPos_X, this.robotPos_Y+1, this.robotDir);
     		c.setSensor(this.robotPos_X+1, this.robotPos_Y+1, this.robotDir);
@@ -127,12 +120,10 @@ public class Robot {
     	int x = this.robotPos_X;
     	int y = this.robotPos_Y;
     	
-    	return (x<2 && x>=0 && y<2 && y>=0);
-    			//(((x == 0 || (x == 1) )&& y == Constants.START_Y));    	
+    	return (x<2 && x>=0 && y<2 && y>=0);    	
     }
     
     public void move(MOVEMENT m, int count, boolean toAndroid){		//add boolean send to android
-    	//count >= 1, move multiple steps forward
     	if(!realRobot){
             try {
                 TimeUnit.MILLISECONDS.sleep(speed);
@@ -140,20 +131,7 @@ public class Robot {
                 System.out.println("Something went wrong in Robot.move()!");
             }
     	}
-    	/*
-    	if(count > 1){ //move multiple steps 
-    		CommunicationMgr comm = CommunicationMgr.getCommMgr();// <--set communication manager
-    		if (count == 10) {
-                comm.sendMsg("0", CommunicationMgr.BOT_INSTR);
-            } else if (count < 10) {
-                comm.sendMsg(Integer.toString(count), CommunicationMgr.BOT_INSTR);
-            }
-   		 	//add in comm manager part or ignore 
-    		
-        }
-    	*/
-    	//System.out.print("Current robot direction : " + robotDir + "\n");
-    	//System.out.println("Current robot position: " + robotPos_X + ", " + robotPos_Y);
+
     	switch(m){
     	case F:
     		switch(robotDir){
@@ -172,27 +150,15 @@ public class Robot {
     		default: break;
     		}break;
     	case L: 
-    		
     		robotDir = dirToRotate(m); 
-    		//System.out.println("Robot direction updated to : " + robotDir);
     		break;
     	case R: 
     		robotDir = dirToRotate(m);
-    		//System.out.println("Robot direction updated to : " + robotDir);
     		break;
     	case CALIBRATE: break;
     	case ERROR: break;	//print error message? 
     	}
     	
-    	if(realRobot){
-    		//sendMovement(m, toAndroid);
-    		
-    	} 
-    	
-    	//else 
-    	//test
-    	//System.out.print("Updated robot direction : " + robotDir + "\n");
-    	//System.out.println("Updated robot position: " + robotPos_X + ", " + robotPos_Y);
     	
     	System.out.println("Move: " + m);
     	updateReachedGoal();
@@ -206,21 +172,8 @@ public class Robot {
     	}
     }
     
-    /*
-    private void sendMovement(MOVEMENT m, boolean toAndroid){
-    	//fill in after commMgr 
-    	CommunicationMgr comm = CommunicationMgr.getCommMgr();
-    	
-    	
-    	comm.sendMsg(MOVEMENT.print(m) + "", CommunicationMgr.BOT_INSTR);
-        if (m != MOVEMENT.CALIBRATE && toAndroid) {
-        	//comm.sendMsg(this.getRobotPosY() + "," + this.getRobotPosX() + "," + DIRECTION.print(this.getRobotDir()), CommunicationMgr.BOT_POS);
-        }
-
-    }
-    */
+   
     public String sendData(MOVEMENT m){
-    	//fill in after commMgr 
     	CommunicationMgr comm = CommunicationMgr.getCommMgr();
     	
     	String s = MOVEMENT.print(m)+"";
@@ -229,7 +182,6 @@ public class Robot {
     
     
     public int[] senseDist(Map expMap, Map realMap){
-    	//System.out.println("sensedist entered");
     	int[] distance = new int[6];	//stores dist. of obstacles from each sensor
     	
     	if(!realRobot){
@@ -255,14 +207,10 @@ public class Robot {
           
             
             String msg1[] = msg.split(";");
-           // System.out.println("msg split");
-            //printarr(msg1);
-            
             
             try{
            
         	for(int i = 0; i<msg1.length; i++){
-        		//distance[i] =(int) Math.round( Float.parseFloat(msg1[i]));
         		distance[i] = new Double(msg1[i]).intValue();
         	}
             	
@@ -282,8 +230,6 @@ public class Robot {
             d.findAndSetObstacleOnMap(expMap, distance[3]+Constants.PAD_D);
             e.findAndSetObstacleOnMap(expMap, distance[4]+Constants.PAD_E);
             f.findAndSetObstacleOnMap(expMap, distance[5]+Constants.PAD_F);
-            
-        	//send msg to commMgr
         	
         	String[] mapStrings = Map.generateMapDescriptor(expMap);
         	comm.sendMsg(mapStrings[0] + " " + mapStrings[1], CommunicationMgr.MAP_STRINGS);
@@ -293,12 +239,6 @@ public class Robot {
     	
     	return distance;
     }
-    
-    private void printarr(String[] s ){
-    	for(int i=0; i<s.length; i++){
-    		System.out.print("index " + i + ": " +s[i]);
-    	}
-    }
-    
+
     
     }

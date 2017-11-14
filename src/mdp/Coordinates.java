@@ -4,7 +4,7 @@ public class Coordinates {
 	private final int x;
 	private final int y;
 	private boolean isObstacle = false;
-	private boolean isObs2 = false; 
+	private boolean isObs2 = false; //back up when isObstacle fails
 	private boolean isExplored = false;
 	private boolean isVirtualWall = false;
 	private boolean isWayPoint = false;
@@ -51,11 +51,11 @@ public class Coordinates {
 	}
 	
 	public boolean getIsObstacle(){
-		//System.out.println("so weird: " + isObstacle);
 		return isObstacle;
 	}
 	
 	
+	//backup function for when getIsObstacle fails 
 	/*
 	public boolean getIsObstacle(){
 		return isObs2;

@@ -92,13 +92,8 @@ public class CommunicationMgr {
     }
     
     //for fastest path
-    public void testPrint(){
-    	System.out.println("testPrint lol");
-    	
-    }
     
-    public void testPrint2(String m){
-    	System.out.println("This test print: " + m);
+    public void sendPath(String m){
     	try {
             writer.write("FP;" + m );
             writer.flush();
@@ -127,17 +122,8 @@ public class CommunicationMgr {
         try {
             String outputMsg = "";
             System.out.println("msgType: " + msgType);
-            if (msg == null) {
-                //outputMsg = msgType + "\n";
-            } else if (msgType.equals(MAP_STRINGS) || msgType.equals(BOT_POS)) {
-            	
-                //outputMsg = msgType + " " + msg + "\n";
-            } else {
-            	
-                //outputMsg = msgType + "\n" + msg + "\n";
-            	outputMsg = msg + "\n";
-            }
-
+            outputMsg = msg + "\n";
+            
             System.out.println("Sending out message:\n" + outputMsg);
             writer.write(outputMsg);
             writer.flush();
