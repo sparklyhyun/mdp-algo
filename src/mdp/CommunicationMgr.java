@@ -127,17 +127,8 @@ public class CommunicationMgr {
         try {
             String outputMsg = "";
             System.out.println("msgType: " + msgType);
-            if (msg == null) {
-                //outputMsg = msgType + "\n";
-            } else if (msgType.equals(MAP_STRINGS) || msgType.equals(BOT_POS)) {
-            	
-                //outputMsg = msgType + " " + msg + "\n";
-            } else {
-            	
-                //outputMsg = msgType + "\n" + msg + "\n";
-            	outputMsg = msg + "\n";
-            }
-
+            outputMsg = msg + "\n";
+            
             System.out.println("Sending out message:\n" + outputMsg);
             writer.write(outputMsg);
             writer.flush();

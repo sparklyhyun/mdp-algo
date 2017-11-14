@@ -1,10 +1,12 @@
 package mdp;
 
-import java.awt.*;
+import java.awt.*; 
 import java.util.ArrayList;
 
 public class Constants {
+	/**/
 	
+	//contstants for exploration 
 	public static int rightTurn = 0;
 	public static int rightTurn2 = 0;
 	public static int front = 0;
@@ -21,6 +23,7 @@ public class Constants {
 	public static final int GOAL_X = 13; //13;
 	public static final int GOAL_Y = 18;//18;
 	
+	//for fastest path 
 	public static String fp = "";
 	public static ArrayList<MOVEMENT> combinedFP;
 	
@@ -28,12 +31,9 @@ public class Constants {
 	public static final int VIRTUAL_COST = 9999;
 	public static final int MOVE_COST = 10;                         // cost of FORWARD, BACKWARD movement
 	public static final int TURN_COST = 20;                        // cost of RIGHT, LEFT movement
-	public static final int MOVE_COSTV = 20;
-	
+
 	//robot related constants
-	public static final int ROBOT_WIDTH = 3;
-	public static final int ROBOT_SIZE = 9;
-	public static final int ROBOT_SPEED = 5; //need to change 
+	public static final int ROBOT_SPEED = 5; 
 	
 	public static final int RANGE_LONG_MIN = 1;
 	public static final int RANGE_LONG_MAX = 6;
@@ -43,19 +43,16 @@ public class Constants {
 	//public static final int RANGE_B_MAX = 7;
 	public static final int RANGE_D_MAX = 3; 
 
-	
+	//offsets applied to sensor data (for sensors a,b,c,e,d,f) to make it more accurate 
 	public static final int PAD_A = 10;
 	public static final int PAD_B = 10;
 	public static final int PAD_C = 10;
 	public static final int PAD_D = 10;
-	public static final int PAD_E = 20; //30
+	public static final int PAD_E = 20; 
 	public static final int PAD_F = 30;
 	
-	public static boolean DONE = false;
 	
-	//public static final int RANGE_SHORT_MIN_2 = 0;
-	
-	public enum DIRECTION{N,E,S,W;	//clockwise direction
+	public enum DIRECTION{N,E,S,W;	// absolute direction of the robot (in clockwise direction)
 		
 		public static DIRECTION next(DIRECTION currentDir){	//get next direction
 			return values()[(currentDir.ordinal()+1) % values().length];
@@ -82,7 +79,7 @@ public class Constants {
 		
 		
 	};	
-    public enum MOVEMENT {
+    public enum MOVEMENT {	//for movement of robot 
         F, B, R, L, CALIBRATE, CALIBRATEL, CALIBRATES , ERROR, U;
 
         public static char print(MOVEMENT m) {

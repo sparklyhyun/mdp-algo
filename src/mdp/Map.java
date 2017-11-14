@@ -14,8 +14,6 @@ public class Map extends JPanel{
 		for(int i = 0; i<Constants.MAX_Y; i++){
 			for(int j = 0; j<Constants.MAX_X; j++){
 				coordinates[i][j] = new Coordinates(i,j);
-				//for testing purpose
-				//coordinates[i][j].setExplored();
 				
 			}
 		}
@@ -39,18 +37,12 @@ public class Map extends JPanel{
 	public void setExploredAll(){
 		for(int i = 0; i<Constants.MAX_Y; i++){
 			for(int j = 0; j<Constants.MAX_X; j++){
-				//coordinates[i][j] = new Coordinates(i,j);
 				//for testing purpose
 				coordinates[i][j].setExplored();
 				
 			}
 		}
 	}
-	
-	/*
-	public void removeObstacle(int x, int y){
-		coordinates[y][x]
-	}*/
 	
 
 	public void clearObs(){
@@ -117,13 +109,7 @@ public class Map extends JPanel{
 	}
 	
 	public void setObstacles(int x, int y){
-		//set obstacle
-		//System.out.print("Obstacle at y " + y + "\n");
-		//System.out.print("Obstacle at x " + x + "\n");
 		coordinates[y][x].setObstacle();
-		
-		//check if within range
-		
 	}
 	
 	public void setBoundary(){
@@ -140,7 +126,6 @@ public class Map extends JPanel{
 	
 	
 	public boolean isObstacle(int x, int y){
-		//System.out.println("weird");
 		return (coordinates[y][x].getIsObstacle());
 
 	}
@@ -155,9 +140,6 @@ public class Map extends JPanel{
 	
 	
 	public boolean checkWithinRange(int x, int y){
-		//System.out.println("Checking if sensor is within boundary");
-		//System.out.println("Sensor X position : " + x);
-		//System.out.println("Sensor Y position : " + y);
 		return (x>=0 && x<Constants.MAX_X && y>= 0 && y<Constants.MAX_Y);
 	}
 	
@@ -170,13 +152,6 @@ public class Map extends JPanel{
 		return coordinates[y][x];
 	}
 	public Coordinates getCoordinate(int x, int y){
-		//System.out.println("hello");
-		//System.out.println(x + " , "+y );
-		/*
-		if(coordinates[y][x] == null){
-			System.out.println("coordinate null");
-		}
-		*/
 		return coordinates[y][x];
 		
 	}
@@ -199,29 +174,10 @@ public class Map extends JPanel{
 	}
 	
 	
-	/*
-	public void genMapDescBefore() throws IOException{	//map descriptor with all 0
-			File file = new File("beforeMap.txt");
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter bw = new BufferedWriter(fw);
-			if(!file.exists()){
-				file.createNewFile();
-			}
-			for(int i = 0; i<Constants.MAX_X; i++){
-				for(int j = 0; j<Constants.MAX_Y-1; i++){
-					bw.write("0");
-				}
-				bw.newLine();
-			}
-			bw.close();
-		}
-	*/
 	
 	public void genMapDescAfter() throws IOException{	//map descriptor after exploration
 		StringBuilder explored = new StringBuilder();
 		StringBuilder obstacle = new StringBuilder();
-		
-		//System.out.println("genmapdescAfter entered");
 		
 		for(int i = 0; i<Constants.MAX_Y ; i++){
 			for(int j =0; j<Constants.MAX_X; j++){
@@ -238,15 +194,9 @@ public class Map extends JPanel{
 			}
 		}
 		
-		//System.out.println("string buffer done");
-		//System.out.println(explored.toString());
-		//System.out.println(obstacle.toString());
-		
-		
 		String exploredMap = explored.toString();
 		genDescFile(exploredMap, true);
 		genHexFile(exploredMap, true);
-		//System.out.println("explored map complete");
 		
 		String obstacleMap = obstacle.toString();
 		genDescFile(obstacleMap, false);
@@ -254,7 +204,6 @@ public class Map extends JPanel{
 	}
 		
 	public void genDescFile(String s, boolean exp) throws IOException{
-		//System.out.println("gendescfile entered");
 	      File file;
 	      int count = 0;
 		
@@ -443,7 +392,7 @@ public class Map extends JPanel{
 		char c = ss.charAt(0);	//cast string to char
 		
 		try{			
-			File file = new File("SampleArena3.txt");
+			File file = new File("SampleArena4.txt");
 			FileReader fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			StringBuffer sb = new StringBuffer();

@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Simulator {
 	private static JFrame _mapFrame = null;          // JFrame to display Map
-
 	private static JPanel _mapTiles = null;           // JPanel for map Tiles
 	private static JPanel _mapButtons = null;        // JPanel for map buttons
 
@@ -25,7 +24,6 @@ public class Simulator {
 
 	private static int timeLimit = 3600;            // time limit
 	private static int coverageLimit = 300;         // coverage limit
-	//private static int explorationMode;
 	private static int robotDelay = 100;
 	
 	private static int waypointX = 13;	//for now
@@ -36,7 +34,7 @@ public class Simulator {
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = true; //for now, not real map
+	private static final boolean realExecution = false; //for now, not real map
 
 
 	public static void main(String[] args) throws IOException {
