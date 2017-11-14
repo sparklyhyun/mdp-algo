@@ -23,8 +23,6 @@ public class FastestPath {
     private Robot robot;                    //robot object
     private int loopCount;                  // loop count variable
     private boolean explorationMode;        //to indicate whether it is in exploration mode    
-    private boolean fp; 
-    //private String finalSend;
     
     public FastestPath(Map map, Robot robot, Map realMap) {
     	System.out.println("fastest path entered");
@@ -380,7 +378,7 @@ public class FastestPath {
 			sendpath = finalPath;
 			
 			if(robot.getRealRobot()){
-				comm.testPrint2(finalPath + "\n");
+				comm.sendPath(finalPath + "\n");
 				finalPath = "";
 			}
 			

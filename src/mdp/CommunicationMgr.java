@@ -92,13 +92,8 @@ public class CommunicationMgr {
     }
     
     //for fastest path
-    public void testPrint(){
-    	System.out.println("testPrint lol");
-    	
-    }
     
-    public void testPrint2(String m){
-    	System.out.println("This test print: " + m);
+    public void sendPath(String m){
     	try {
             writer.write("FP;" + m );
             writer.flush();

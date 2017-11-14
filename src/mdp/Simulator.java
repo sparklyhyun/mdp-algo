@@ -26,19 +26,19 @@ public class Simulator {
 	private static int coverageLimit = 300;         // coverage limit
 	private static int robotDelay = 100;
 	
-	private static int waypointX = 13;	//for now
-	private static int waypointY = 11; 	//for now
+	private static int waypointX = 13;	//random value put as default
+	private static int waypointY = 11; 	//random value put as default 
 	
 	
 	private static boolean started = false;
 	
 	private static final CommunicationMgr comm = CommunicationMgr.getCommMgr();
 
-	private static final boolean realExecution = false; //for now, not real map
+	private static final boolean realExecution = false; //false - for simulation, true - for real exploration 
 
 
 	public static void main(String[] args) throws IOException {
-		if (realExecution) comm.openConnection();   //connection function to be added!!!
+		if (realExecution) comm.openConnection();   //opening connection to rpi 
 		
 		robot = new Robot(Constants.START_X, Constants.START_Y, realExecution);  
 
@@ -101,7 +101,7 @@ public class Simulator {
 	
 	private static void initButtonsLayout() {
 		_mapButtons.setLayout(new GridLayout());
-		addLoadMapButton();
+		addMapButtons();
 	}
 	
 	private static void formatButton(JButton btn) {
@@ -109,53 +109,20 @@ public class Simulator {
 		btn.setFocusPainted(false);
 	}
 	
-	private static void addLoadMapButton() {
-		if (!realExecution){
-		    // Load Map Button
-		    JButton LoadMap_btn = new JButton("Load Map");
-		    formatButton(LoadMap_btn);
-		    LoadMap_btn.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-			    JDialog loadMapDialog = new JDialog(_mapFrame, "Load Map", true);
-			    loadMapDialog.setSize(200, 30);
-			    loadMapDialog.setLayout(new FlowLayout());
+	private static void addMapButtons() {
 
-			    final JTextField loadText = new JTextField(13);
-			    JButton loadMapButton = new JButton("Load");
-
-			    loadMapButton.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-				    loadMapDialog.setVisible(false);
-				    Map.loadMapFromDisk(realMap, loadText.getText());
-				    CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-				    cl.show(_mapTiles, "REAL_MAP");
-				    realMap.repaint();
-				}
-			    });
-
-			    loadMapDialog.add(new JLabel("File Name: "));
-			    loadMapDialog.add(loadText);
-			    loadMapDialog.add(loadMapButton);
-			    loadMapDialog.setVisible(true);
-			}
-		    });
-		    _mapButtons.add(LoadMap_btn);
-	}
         // FastestPath Class
-		
 		  class FastestPathAlgo extends SwingWorker<Integer, String> {
 	            protected Integer doInBackground() throws Exception {
-	                //robot.setRobotPos(Constants.START_X, Constants.START_Y);
 	            	System.out.println("fastest path executed");
 	                exploredMap.repaint();
-                        //CommunicationMgr.getCommMgr().sendMsg("S\n", null);
 	                String msg1[] = new String[2];
 	                System.out.println("Waiting for FP_START...");
 	                if (realExecution) {
 	                    while (true) {
 	                        String msg = CommunicationMgr.getCommMgr().recvMsg();
 	                        msg1 = msg.split(";");
-	                        if (msg1[0].equals(CommunicationMgr.FP_START)) break;	//can change accordingly 
+	                        if (msg1[0].equals(CommunicationMgr.FP_START)) break;
 	                    }
 	                }
 	                
@@ -195,64 +162,59 @@ public class Simulator {
 	        });
 	        _mapButtons.add(btn_FastestPath);
 	
-            
-        class Explore extends SwingWorker<Integer, String> {
-            protected Integer doInBackground() throws Exception {
-                int x, y;
+	        class Explore extends SwingWorker<Integer, String> {
+	            protected Integer doInBackground() throws Exception {
+	                int x, y;
 
-                x = robot.robotPos_X;
-                y = robot.robotPos_Y;
-                
-                //robot.setRobotPos(x, y);
-                exploredMap.repaint();
+	                x = robot.robotPos_X;
+	                y = robot.robotPos_Y;
+	                
+	                exploredMap.repaint();
 
-                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
-                
-                if (realExecution) {
-                	// send waypoint before               	
-                	 while(true) {
-                         System.out.println("Waiting for Android Explore");
-                         String msg = comm.recvMsg();
-                         if(msg.equals("E")) break;   	//change rcv msg if needed 
-                     }
-                	// String descriptor = String.join(";", Map.generateMapDescriptor(exploredMap));
-                    // comm.sendMap(robot.getRobotPosX() + "," + robot.getRobotPosY(), descriptor, robot.getRobotDir(),null);
-                
-                }
-                 
-                exploration.startExploration();
-                
-                
-                	
-                
-                if (realExecution) {
-                    Map.generateMapDescriptor(exploredMap);
-                    
-                    System.out.println("here lol");
-                    new FastestPathAlgo().execute();
-                }
-                 System.out.println("exploration exit");
+	                Exploration exploration = new Exploration(exploredMap, realMap, robot, coverageLimit, timeLimit, 0, robotDelay );
+	                
+	                if (realExecution) {
+	                	// send waypoint before               	
+	                	 while(true) {
+	                         System.out.println("Waiting for Android Explore");
+	                         String msg = comm.recvMsg();
+	                         if(msg.equals("E")) break;   	//change rcv msg if needed 
+	                     }
+	                
+	                }
+	                 
+	                exploration.startExploration();
+	                
+	                
+	                	
+	                
+	                if (realExecution) {
+	                    Map.generateMapDescriptor(exploredMap);
+	                    
+	                    System.out.println("here lol");
+	                    new FastestPathAlgo().execute();
+	                }
+	                 System.out.println("exploration exit");
 
-                return 111; //<-- need to change accordingly 
-            }
-        }
-		
-        // Exploration Button
-        JButton Exploration_btn = new JButton("Exploration");
-        formatButton(Exploration_btn);
-        
-        Exploration_btn.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
-                cl.show(_mapTiles, "EXPLORATION");
-                
-                new Explore().execute();
-                
-            }
-        });
-        _mapButtons.add(Exploration_btn);
-		
-        
+	                return 111; //<-- need to change accordingly 
+	            }
+	        }
+			
+	        // Exploration Button
+	        JButton Exploration_btn = new JButton("Exploration");
+	        formatButton(Exploration_btn);
+	        
+	        Exploration_btn.addMouseListener(new MouseAdapter() {
+	            public void mousePressed(MouseEvent e) {
+	                CardLayout cl = ((CardLayout) _mapTiles.getLayout());
+	                cl.show(_mapTiles, "EXPLORATION");
+	                
+	                new Explore().execute();
+	                
+	            }
+	        });
+	        _mapButtons.add(Exploration_btn);
+
         //coverage limited exploration class
         class ExploreCoverageLimited extends SwingWorker<Integer, String>{
         	protected Integer doInBackground() throws Exception{
@@ -343,8 +305,7 @@ public class Simulator {
         });
         
         _mapButtons.add(explorationTL_button);
-        
-        
+
         //to set speed
         class SetSpeed extends SwingWorker<Integer, String>{
         	protected Integer doInBackground() throws Exception{
